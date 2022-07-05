@@ -1,0 +1,16 @@
+.itrain-modal{
+    .modal-content{
+background-color: var(--modal-content);
+    }
+    .modal-header{
+        .modal-title{
+            font-size: 1.2rem;
+            color: var(--text-gray);
+        }
+        .btn-close{
+            color: var(--text-gray);
+        
+        }
+    }
+ 
+}

@@ -1,0 +1,42 @@
+@import "../../../assets/scss//abstracts/abstracts-dir.scss";
+
+.login-page {
+ 
+
+    h4 {
+        color: #3d4856;
+        font-weight: 500;
+        font-size: fontSize(28px);
+    }
+
+    .title {
+        margin-bottom: 3.125rem;
+    }
+
+    a {
+        font-size: fontSize(16px);
+        cursor: pointer;
+    }
+
+    .btn {
+        font-size: fontSize(16px);
+    }
+
+    .login-checkbox {
+        .custom-control {
+            font-size: fontSize(13px);
+
+            .custom-control-label {
+                &:before {
+                    width: fontSize(13px);
+                    height: fontSize(13px);
+                }
+
+                &:after {
+                    top: fontSize(2px);
+                    left: -1.6rem;
+                }
+            }
+        }
+    }
+}

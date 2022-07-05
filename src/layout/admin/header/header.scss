@@ -1,0 +1,26 @@
+@import "../../../assets/scss/abstracts/abstracts-dir.scss";
+.custom-header {
+    height: fontSize(64px);
+    background-color: var(--primary-bg);
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                color: var(--text-gray) !important;
+            }
+        }
+    }
+    .profile-icon {
+        position: relative;
+        display: block;
+        color: var(--text-gray) !important;
+        letter-spacing: 0.025em;
+        font-weight: 400 !important;
+        cursor: pointer;
+        text-decoration: unset;
+        img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+        }
+    }
+}

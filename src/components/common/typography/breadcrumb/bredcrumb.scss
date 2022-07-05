@@ -1,0 +1,28 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
+
+.app-breadcrumb{
+    margin: fontSize(-23px) fontSize(-12px) 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--text-gray);
+    background: var(--light-primary-bg);
+    .breadcrumb{
+     
+        height: 79px;
+     
+        padding: fontSize(12px)  fontSize(18px);
+        margin-bottom: 0;
+        li{
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: var(--text-gray);
+            font-weight: 500;
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+    }
+    .add-new-btn{
+        margin-top: fontSize(25px);
+        margin-right: fontSize(17px);
+    }
+}

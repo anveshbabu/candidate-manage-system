@@ -1,0 +1,7 @@
+@import "~bootstrap/scss/bootstrap";
+@import url('./assets/scss/index.scss');
+
+body{
+    overflow-x: hidden;
+    background-color: var(--background);
+}

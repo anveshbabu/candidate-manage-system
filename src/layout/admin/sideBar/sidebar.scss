@@ -1,0 +1,58 @@
+@import "../../../assets/scss/abstracts/abstracts-dir.scss";
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+    background-color: var(--primary-bg);
+    z-index: 9;
+    .sidebar-heading {
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
+        color: $gray;
+        letter-spacing: 0.035em;
+        pointer-events: none;
+        cursor: default;
+    }
+    .list-group {
+        &.main-menu {
+            width: 5.4375rem;
+        }
+        .sub-menu {
+            border-left: 1px solid rgba(0, 0, 0, 0.125);
+        }
+        .list-group-item {
+            background-color: var(--primary-bg);
+            a {
+                position: relative; 
+                display: block;
+                // padding: 12px 24px;
+                color: $gray;
+                letter-spacing: 0.025em;
+                font-weight: 400;
+                font-size: 1.8rem;
+                cursor: pointer;
+                text-decoration: unset;
+                .sub-menuDropIcon{
+                    transition: 0.3s ease-in-out;
+                }
+            }
+        }
+    }
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}

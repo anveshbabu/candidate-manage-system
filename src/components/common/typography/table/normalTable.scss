@@ -1,0 +1,39 @@
+.normalTable {
+    .normal-table-pagination {
+        .MuiPagination-ul {
+            float: right;
+        }
+    }
+
+    .normal-table-pagination-select {
+        fieldset {
+            border: none !important;
+            outline: none !important;
+        }
+    }
+
+    .table {
+        border: 1px solid var(--card-border);
+        thead {
+            tr {
+                th {
+                    font-weight: 600;
+                    font-size: 14px;
+                    background-color: var(--card-header);
+                }
+            }
+        }
+
+        tbody {
+            border: 1px solid var(--card-border);
+            tr {
+                td {
+                    font-weight: 400;
+                    font-size: 14px;
+                    border: 0;
+                }
+            }
+        }
+    }
+
+}
