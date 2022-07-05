@@ -32,6 +32,7 @@ export const createCandidate = (body) => {
 
 export const updateCandidate = (body, id) => {
     delete body.id
+    delete body.statusCount
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
@@ -75,7 +76,8 @@ export const getCandidate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("status", "==", body)));
+                
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("status", "array-contains", body)));
 
                 let data = []
                 querySnapshot.forEach((doc) => {

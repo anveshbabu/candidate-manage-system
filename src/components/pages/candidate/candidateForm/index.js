@@ -50,7 +50,10 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         if (formValid) {
             simpleValidator.current.hideMessages();
             setFormLoader(true)
-            let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(Object.assign({}, candidateObj), candidateObj.id) : createCandidate(candidateObj)
+            let reqBody = Object.assign({}, candidateObj)
+            reqBody.status = reqBody?.joinedCourses?.map(({ status }) => status);
+
+            let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(reqBody, candidateObj.id) : createCandidate(reqBody)
             apiCall.then((data) => {
                 setFormLoader(false);
 
@@ -76,7 +79,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     const handleJoinCourses = () => {
 
 
-        candidateObj.joinedCourses?.push({...joinedCoursesObj})
+        candidateObj.joinedCourses?.push({ ...joinedCoursesObj })
         SetCandidateObj({ ...candidateObj });
     }
     const handleJoinCoursesDelete = (i) => {

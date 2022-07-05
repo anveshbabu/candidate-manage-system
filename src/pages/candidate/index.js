@@ -41,12 +41,12 @@ export const Candidate = () => {
 
   const handleGetList = (body) => {
     getCandidate(body).then((data) => {
-      // var result = data.map(person => ({ ...person, joinedCourses: [{...person?.joinedCourses[0], trainer:'Anvesh babu',  classTime: moment().format('HH:MM'),instituteBranch:person?.InstituteBranch}] }));
-      // console.log('result--------------------->',result)
-      // // result.map((data)=>{
-      // //   updateCandidate(Object.assign({}, data), data.id)
+      // var result = data.map(person => ({ ...person, joinedCourses: [{ ...person?.joinedCourses[0] }], status: [person?.joinedCourses[0]?.status] }));
+      // console.log('result 222--------------------->', result)
+      // result.map((data)=>{
+      //   updateCandidate(Object.assign({}, data), data.id)
 
-      // // })
+      // })
 
 
       setCandidateList(data)
@@ -112,6 +112,11 @@ export const Candidate = () => {
 
       <NormalBreadcrumb className="mb-0" label={'Candidate'} rightSideBtn={true} buttonLabel="Add New" onBtnClick={() => setIsCandidateModal(true)} />
 
+      <div className="row mt-4">
+        <div className="col-md-6 col-sm-12">
+          <h4 className="sub-page-titel mb-4">{candidateFilterList.length} Total</h4>
+        </div>
+      </div>
 
       <div className="row mt-4">
         <div className="col-md-4 col-sm-12 mb-4">

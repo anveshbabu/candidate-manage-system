@@ -43,7 +43,9 @@ export const CandidateIndividualForm = ({ sucessSaved = '', onClose = '' }) => {
         if (formValid) {
             simpleValidator.current.hideMessages();
             setFormLoader(true)
-            createCandidateByCandidate({ ...candidateObj, createdBy: "Student" }).then((data) => {
+            let reqBody = Object.assign({}, candidateObj)
+            reqBody.status = reqBody?.joinedCourses?.map(({ status }) => status);
+            createCandidateByCandidate({ ...reqBody, createdBy: "Student" }).then((data) => {
                 setFormLoader(false);
                 // sucessSaved();
                 SetCandidateObj({ ...candidateFormObj });
