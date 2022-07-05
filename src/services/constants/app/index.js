@@ -29,6 +29,7 @@ export const CANDIDATE_COURSE_STATUS = [
 
 export const COURSE_TRAINER = [
     { value: 'Anvesh babu', label: 'Anvesh babu' },
+    { value: 'Arun', label: 'Arun' },
 ]
 
 export const COURSE_LIST = [
