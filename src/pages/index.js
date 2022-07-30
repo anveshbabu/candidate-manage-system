@@ -2,6 +2,7 @@ export {Dashboard} from './dashboard';
 export {Candidate} from './candidate';
 export {Login} from './Auth';
 export {CandidateIndividualForm} from './candidateIndividualForm';
+export {Course} from './courses';
 
 
 

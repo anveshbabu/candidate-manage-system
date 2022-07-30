@@ -13,7 +13,7 @@
   --accent: purple;
   --theme-text: #2D2F4E;
   --light-blue:#F2F6FC;
-  --green-bg:#65C900;
+  --green-bg:#099f4e;
   --progress-bar:#E2E2E2;
   --side-bar-active:#5f697d;
   --modal-content:var(--text-white);
@@ -32,7 +32,8 @@
   --primary-bg: #0a1929;
   --light-primary-bg:#001e3c;
   --secondary-bg: $secondary-bg;
-  --text-black: #5f697d;
+  --text-gray:rgb(178, 186, 194);
+  --text-black:var(--text-gray);
   --text-white: white;
   --text-gray:rgb(178, 186, 194);
   --text-primary: white;
@@ -40,7 +41,7 @@
   --accent: darkred;
   --theme-text: #ffff;
   --light-blue:rgb(19, 47, 76);
-  --green-bg:#65C900;
+  --green-bg:#099f4e;
   --progress-bar:#5f697d;
   --side-bar-active:rgb(102, 178, 255);
   --modal-content:var(--light-blue);

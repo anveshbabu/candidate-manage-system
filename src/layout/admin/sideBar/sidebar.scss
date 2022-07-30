@@ -1,7 +1,7 @@
 @import "../../../assets/scss/abstracts/abstracts-dir.scss";
 #sidebar-wrapper {
     min-height: 100vh;
-    margin-left: -15rem;
+    margin-left: -5.4375rem;
     -webkit-transition: margin 0.25s ease-out;
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
@@ -38,6 +38,9 @@
                 .sub-menuDropIcon{
                     transition: 0.3s ease-in-out;
                 }
+                &.active{
+                    color: var(--text-secondary);
+                }
             }
         }
     }
@@ -53,6 +56,6 @@
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        margin-left: -15rem;
+        margin-left: -5.4375rem;
     }
 }

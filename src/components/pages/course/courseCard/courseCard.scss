@@ -1,0 +1,38 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
+
+.course-card {
+    cursor: pointer;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.50rem rgba(0, 0, 0, .2);
+    &:hover {
+        text-decoration: none;
+        color: unset;
+        box-shadow: 0 0 0.75rem rgba(0, 0, 0, .5);
+    }
+
+    .card-img-top {
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+
+    }
+
+    .card-body {
+        border-radius: 0.5rem;
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        p {
+            font-size: .8rem;
+        }
+
+        .view-detail-text {
+            font-weight: 700;
+            font-size: fontSize(16px);
+            line-height: 24px;
+            color: var(--green-bg);
+
+        }
+    }
+}

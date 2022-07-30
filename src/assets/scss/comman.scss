@@ -10,15 +10,18 @@ html {
 .page-titel {
   color: var(--theme-text) !important;
 }
+
 .sub-page-titel {
   color: var(--text-gray) !important;
   font-size: fontSize(16px);
   font-weight: normal;
 }
+
 .table {
   color: var(--text-black) !important;
   // background: var(--table-bg) !important;
 }
+
 .card {
   background: var(--primary-bg) !important;
 }
@@ -32,18 +35,39 @@ html {
     top: 0;
     right: 0;
     max-width: 654px;
+
     .modal-content {
       min-height: 100vh;
     }
   }
 }
-.title-form{
+
+.title-form {
   color: var(--text-primary);
 }
 
-.small-search-input{
-    .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root,.css-rb5gc9-MuiFormLabel-root-MuiInputLabel-root{
-        font-size: .8rem;
-        line-height: 1em;
-    }
+.small-search-input {
+
+  .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root,
+  .css-rb5gc9-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: .8rem;
+    line-height: 1em;
+  }
+}
+
+.card {
+  background-color: var(--light-primary-bg) !important;
+
+  .card-header {
+    background-color: var(--light-primary-bg);
+    color: var(--text-black);
+
+  }
+
+  .card-body {
+    background-color: var(--light-primary-bg);
+    color: var(--text-black);
+
+  }
+
 }

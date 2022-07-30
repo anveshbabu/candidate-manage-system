@@ -29,6 +29,11 @@ export const MENU = [
                 icon: 'fa-solid fa-users',
                 text: 'candidate',
                 url:"/candidate"
+            },
+            {
+                icon: 'fa-solid fa-book-open-reader',
+                text: 'courses',
+                url:"/course"
             }
            
         ]
