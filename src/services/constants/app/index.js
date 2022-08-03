@@ -58,8 +58,8 @@ export const CLASS_TYPE = [
 export const INSTITUTE_BRANCH = [
     { value: 'Perumbakam', label: 'Perumbakam' },
     { value: 'Mugelavakam', label: 'Mugelavakam' },
-    { value: 'Tambaram', label: 'Tambaram' },
-    { value: 'Tambaram', label: 'Tambaram' },
+    // { value: 'Tambaram', label: 'Tambaram' },
+    // { value: 'Tambaram', label: 'Tambaram' },
     { value: 'Adyar', label: 'Adyar' },
     { value: 'Thoraipakkam', label: 'Thoraipakkam' },
     { value: 'Tambaram', label: 'Tambaram' },
