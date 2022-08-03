@@ -31,10 +31,10 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         key: "phone"
     }, 
     
-    // {
-    //     label: "Course",
-    //     key: "course"
-    // }, 
+    {
+        label: "Course",
+        key: "course"
+    }, 
     
     {
         label: "Status",
@@ -115,7 +115,9 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td> <a href='#'>{data.name}</a></td>
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
+                                <td>{data.course}</td>
                                 <td>{data.status}</td>
+                               
                                 {/* <td>{data.course}</td>
                               
                                 <td>{data.type}</td>
