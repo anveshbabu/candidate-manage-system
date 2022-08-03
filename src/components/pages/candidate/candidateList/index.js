@@ -35,6 +35,10 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         label: "Course",
         key: "course"
     }, 
+    {
+        label: "Branch",
+        key: "instituteBranch"
+    }, 
     
     {
         label: "Status",
@@ -116,6 +120,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>
+                                <td>{data.instituteBranch}</td>
                                 <td>{data.status}</td>
                                
                                 {/* <td>{data.course}</td>

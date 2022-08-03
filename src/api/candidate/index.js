@@ -83,8 +83,9 @@ export const getCandidate = (body) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     let avilStatus = doc.data().joinedCourses.find(({ status }) => status == body);
-                
-                    data.push({ ...doc.data(), id: doc.id,course: avilStatus?.course});
+                console.log(avilStatus)
+                console.log(avilStatus)
+                    data.push({ ...doc.data(), id: doc.id,course: avilStatus?.course,instituteBranch:avilStatus?.instituteBranch});
                 });
                 resolve(data)
             } else {

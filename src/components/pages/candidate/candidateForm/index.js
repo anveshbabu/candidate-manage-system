@@ -169,10 +169,10 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Institute Branch'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                        value={joinedCourses.InstituteBranch}
+                                        value={joinedCourses.instituteBranch}
                                         options={INSTITUTE_BRANCH}
-                                        name='InstituteBranch'
-                                        errorMessage={simpleValidator.current.message('Institute Branch', joinedCourses.InstituteBranch, 'required')} />
+                                        name='instituteBranch'
+                                        errorMessage={simpleValidator.current.message('Institute Branch', joinedCourses.instituteBranch, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
                                     <NormalInput label='Fees'
