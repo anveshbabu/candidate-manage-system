@@ -72,7 +72,12 @@ export const INSTITUTE_BRANCH = [
 
 
 export const DB_NAME = {
-    BATCH: 'batch'
+    BATCH: 'batch',
+    USER:'user'
 }
 
+export const USER_TYPE=[
+    { value: 1, label: 'Admin' },
+    { value: 2 , label: 'User' },
+]
 

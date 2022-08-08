@@ -1,0 +1,22 @@
+.user-card {
+
+    .card-body {
+        .user-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+        }
+
+        .user-detail-table {
+            tbody {
+                tr {
+                    td {
+                        color: var(--text-gray);
+                      max-width: 200px;
+                    }
+                }
+            }
+
+        }
+    }
+}

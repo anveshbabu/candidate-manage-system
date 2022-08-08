@@ -4,6 +4,7 @@ export {Login} from './Auth';
 export {CandidateIndividualForm} from './candidateIndividualForm';
 export {Course} from './courses';
 export {Batche} from './batch';
+export {Users} from './users';
 
 
 

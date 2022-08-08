@@ -65,6 +65,23 @@ const routers = [
 
   {
     component: "Adminlayout",
+    path: "/user",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Users",
+        path: "/",
+        auth: false,
+        exact: true
+      }
+
+    ]
+  },
+
+
+  {
+    component: "Adminlayout",
     path: "/candidate",
     auth: false,
     exact: false,
