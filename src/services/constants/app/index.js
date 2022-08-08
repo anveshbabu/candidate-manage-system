@@ -11,13 +11,13 @@ export const CONFIG = {
     API_URL: process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL,
 }
 
-export const STATUS={
+export const STATUS = {
     ACTIVE: 'active',
     IN_ACTIVE: 'inactive',
     DELETED: 'deleted'
 }
 
-export const CURRENT_USER='currentUserObj';
+export const CURRENT_USER = 'currentUserObj';
 
 export const CANDIDATE_COURSE_STATUS = [
     { value: 'Completed', label: 'Completed' },
@@ -46,15 +46,15 @@ export const COURSE_LIST = [
 export const CLASS_TYPE = [
     { value: 'Online', label: 'Online' },
     { value: 'Offline', label: 'Offline' },
-   ]
+]
 
-   export const YES_NO = [
+export const YES_NO = [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' },
-   ]
+]
 
 
-   
+
 export const INSTITUTE_BRANCH = [
     { value: 'Perumbakam', label: 'Perumbakam' },
     { value: 'Mugelavakam', label: 'Mugelavakam' },
@@ -68,5 +68,11 @@ export const INSTITUTE_BRANCH = [
     { value: 'Perumbakkam', label: 'Perumbakkam' },
     { value: 'Anna Nagar', label: 'Anna Nagar' },
     { value: 'West Tambaram', label: 'West Tambaramr' },
-   ]
+];
+
+
+export const DB_NAME = {
+    BATCH: 'batch'
+}
+
 

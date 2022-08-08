@@ -3,6 +3,7 @@ export {Candidate} from './candidate';
 export {Login} from './Auth';
 export {CandidateIndividualForm} from './candidateIndividualForm';
 export {Course} from './courses';
+export {Batche} from './batch';
 
 
 

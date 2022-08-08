@@ -1,4 +1,4 @@
-
+import moment from "moment";
 export var apiProgressBar = ''
 export const setapiProgressBar = per => {
   apiProgressBar = per
@@ -127,3 +127,32 @@ export const removeStorage = (name) => {
     localStorage.clear();
   }
 }
+
+
+const timelineLabels = (desiredStartTime, interval, period) => {
+  const periodsInADay = moment.duration(1, 'day').as(period);
+
+  const timeLabels = [];
+  const startTimeMoment = moment(desiredStartTime, 'hh:mm');
+  for (let i = 0; i <= periodsInADay; i += interval) {
+    startTimeMoment.add(i === 0 ? 0 : interval, period);
+    let obj = {
+      deActiveCount: 0,
+      activeCount: 0,
+      batchTiming: startTimeMoment.format('hh:mm A'),
+      batchDetails: [
+        {
+          trainerName: "",
+          trainerId: '',
+          presentCount: 0,
+          absentCount: 0,
+          todayLeave: false,
+        }
+      ]
+    }
+    // createBatch(obj)
+    timeLabels.push(obj);
+  }
+
+  return timeLabels;
+};
