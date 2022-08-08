@@ -42,6 +42,12 @@ const routers = [
         path: "/",
         auth: false,
         exact: true
+      },
+      {
+        component: "CourseDetail",
+        path: "/detail",
+        auth: false,
+        exact: true
       }
 
     ]

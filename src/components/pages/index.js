@@ -1,2 +1,2 @@
 export {CandidateList,CandidateFrom} from './candidate'
-export {CourseCard} from './course'
+export {CourseCard,CourseWhatYouLearn,CourseContent} from './course'

@@ -1,0 +1,25 @@
+.class-list {
+    li {
+        color: var(--text-black);
+        border-bottom: 1px solid var(--text-gray) !important;
+        background-color: transparent;
+
+        h5 {
+            font-size: 1rem;
+            font-weight: 500;
+            width: 50px;
+            // height: 30px;
+        }
+
+        .day-list {
+            background: #ffd43b;
+            padding: 6px;
+            border-radius: 11px;
+            color: black;
+        }
+    }
+}
+
+.css-1vnoats-MuiPaper-root-MuiAccordion-root{
+    background-color: var(--primary-bg) !important;
+}
