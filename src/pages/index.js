@@ -2,7 +2,7 @@ export {Dashboard} from './dashboard';
 export {Candidate} from './candidate';
 export {Login} from './Auth';
 export {CandidateIndividualForm} from './candidateIndividualForm';
-export {Course,CourseDetail} from './courses';
+export {Course} from './courses';
 
 
 

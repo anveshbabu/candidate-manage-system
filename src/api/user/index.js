@@ -3,19 +3,23 @@ import { getAuth, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { isAuthenticated, jwtDecodeDetails } from '../../services/utilities';
 import { STATUS } from '../../services/constants'
-import { CURRENT_USER } from '../../services/constants'
+import { CURRENT_USER,DB_NAME } from '../../services/constants'
 import { Toast } from '../../services/toast';
 
 
 export const createUser = (body) => {
+    console.log('password----------------->', jwtDecodeDetails())
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
-                body.createdBy.name = fName + " " + lName;
-                body.createdBy.userId = user_id;
-                const docRef = await setDoc(doc(getFirestore(), "user", body.userId), body);
-                resolve(docRef)
+                console.log('password----------------->', jwtDecodeDetails())
+                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+                body['createdBy']['name'] = first_name + " " + last_name;
+                body['createdBy']['userId'] = user_id;
+
+                const docRef = await setDoc(doc(getFirestore(), DB_NAME?.USER, body.userId), body);
+                Toast({ type: 'success', message: 'user created successfully', title: 'Error' })
+                resolve(docRef);
             } else {
 
             }
@@ -34,8 +38,8 @@ export const updateUser = (body, id) => {
         delete body.id;
         try {
             if (isAuthenticated()) {
-                let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
-                body.updatedBy.name = fName + " " + lName;
+                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+                body.updatedBy.name = first_name + " " + last_name;
                 body.updatedBy.date = new Date().toISOString();
                 body.updatedBy.userId = user_id;
                 const docRef = await updateDoc(doc(getFirestore(), "user", id), body);
@@ -91,7 +95,7 @@ export const getUserDetail = (body) => {
 
                 const docSnap = await getDoc(doc(getFirestore(), "user", body));
                 if (docSnap.exists()) {
-                    localStorage.setItem(CURRENT_USER, JSON.stringify({...docSnap.data(),id:docSnap.id}));
+                    localStorage.setItem(CURRENT_USER, JSON.stringify({ ...docSnap.data(), id: docSnap.id }));
                     resolve(docSnap.data())
                 } else {
                     Toast({ type: 'danger', message: "This Avatar garments account doesh't exist. Enter a different account", title: 'Error' })

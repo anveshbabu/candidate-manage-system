@@ -52,6 +52,40 @@ const routers = [
 
     ]
   },
+
+  {
+    component: "Adminlayout",
+    path: "/batche",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Batche",
+        path: "/",
+        auth: false,
+        exact: true
+      }
+
+    ]
+  },
+
+  {
+    component: "Adminlayout",
+    path: "/user",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Users",
+        path: "/",
+        auth: false,
+        exact: true
+      }
+
+    ]
+  },
+
+
   {
     component: "Adminlayout",
     path: "/candidate",

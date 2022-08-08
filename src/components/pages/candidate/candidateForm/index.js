@@ -5,7 +5,9 @@ import { NormalButton, NormalInput, Normalselect } from '../../../common';
 import { candidateFormObj, joinedCoursesObj } from '../../../../services/entity'
 import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, COURSE_TRAINER } from '../../../../services/constants'
 import SimpleReactValidator from 'simple-react-validator';
-import { createCandidate, updateCandidate } from '../../../../api/candidate'
+import { createCandidate, updateCandidate } from '../../../../api/candidate';
+import { getBatchList } from '../../../../api/masters';
+
 import { isEmpty } from '../../../../services/helperFunctions'
 import './candidateFrom.scss'
 
@@ -14,6 +16,13 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     const [, forceUpdate] = useState();
     const [candidateObj, SetCandidateObj] = useState({ ...candidateFormObj });
     const [isFormLoader, setFormLoader] = useState(false);
+    const [batchTimingList, setBatchTimingList] = useState([]);
+
+
+    //onlode call
+    useEffect(() => {
+        handleGetBatchList();
+    }, [])
 
 
 
@@ -88,6 +97,25 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
 
     }
 
+
+    const handleGetBatchList = () => {
+        try {
+            getBatchList().then((data) => {
+                let batchTimingList = data.map(({ batchTiming, id }) => ({ label: batchTiming, value: id }))
+                console.log('data------------>',)
+                setBatchTimingList(batchTimingList)
+
+            }).catch((error) => {
+                // setFormLoader(false);
+
+            });
+
+        } catch (e) {
+
+        }
+    }
+
+
     return (
 
         <div className="row mt-2">
@@ -151,10 +179,16 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
-                                    <NormalInput label='Class Time'
+                                    {/* <NormalInput label='Class Time'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
                                         value={joinedCourses.classTime}
                                         type="time"
+                                        name='classTime'
+                                        errorMessage={simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} /> */}
+                                    <Normalselect label='Class Time'
+                                        onChange={(e) => handleInputJoinedCoursesChange(e, i)}
+                                        value={batchTimingList?.find(({value})=> value === joinedCourses.classTime)}
+                                        options={batchTimingList}
                                         name='classTime'
                                         errorMessage={simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} />
                                 </div>

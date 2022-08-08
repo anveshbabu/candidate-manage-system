@@ -1,4 +1,4 @@
-
+import moment from "moment";
 export var apiProgressBar = ''
 export const setapiProgressBar = per => {
   apiProgressBar = per
@@ -50,7 +50,7 @@ export const letterAvatar = (name, size, colour) => {
 
   name = name || '';
   size = size || 60;
-  // colour = colour || true;
+  colour = colour || true;
 
   var colours = [
     "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50",
@@ -127,3 +127,32 @@ export const removeStorage = (name) => {
     localStorage.clear();
   }
 }
+
+
+const timelineLabels = (desiredStartTime, interval, period) => {
+  const periodsInADay = moment.duration(1, 'day').as(period);
+
+  const timeLabels = [];
+  const startTimeMoment = moment(desiredStartTime, 'hh:mm');
+  for (let i = 0; i <= periodsInADay; i += interval) {
+    startTimeMoment.add(i === 0 ? 0 : interval, period);
+    let obj = {
+      deActiveCount: 0,
+      activeCount: 0,
+      batchTiming: startTimeMoment.format('hh:mm A'),
+      batchDetails: [
+        {
+          trainerName: "",
+          trainerId: '',
+          presentCount: 0,
+          absentCount: 0,
+          todayLeave: false,
+        }
+      ]
+    }
+    // createBatch(obj)
+    timeLabels.push(obj);
+  }
+
+  return timeLabels;
+};

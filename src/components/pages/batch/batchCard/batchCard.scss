@@ -1,0 +1,26 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
+
+.batch-card {
+    cursor: pointer;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.50rem rgba(0, 0, 0, .2);
+
+    &:hover {
+        text-decoration: none;
+        color: unset;
+        box-shadow: 0 0 0.75rem rgba(0, 0, 0, .5);
+    }
+
+    .card-body {
+        border-radius: 0.5rem;
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .table {
+            // color: var(--);
+            font-size: .8rem;
+        }
+    }
+}

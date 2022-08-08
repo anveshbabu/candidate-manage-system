@@ -11,6 +11,7 @@ import { getModelList } from '../../redux/actions/model';
 import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH } from '../../services/constants'
 import { candidateFormObj } from '../../services/entity'
 import { getCandidate, searchCandidate, updateCandidate } from '../../api/candidate'
+import {createBatch } from '../../api/masters'
 export const Candidate = () => {
   const [isCandidateModal, setIsCandidateModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Processing');
@@ -35,9 +36,40 @@ export const Candidate = () => {
 
 
   useEffect(() => {
-
+    console.log(timelineLabels('24:00', 1, 'hours'))
     handleGetList(selectedTab)
   }, [selectedTab]);
+
+  const timelineLabels = (desiredStartTime, interval, period) => {
+    const periodsInADay = moment.duration(1, 'day').as(period);
+
+    const timeLabels = [];
+    const startTimeMoment = moment(desiredStartTime, 'hh:mm');
+    for (let i = 0; i <= periodsInADay; i += interval) {
+      startTimeMoment.add(i === 0 ? 0 : interval, period);
+      let obj = {
+        deActiveCount: 0,
+        activeCount: 0,
+        batchTiming: `${startTimeMoment.format('hh:mm A')} To  ${moment(startTimeMoment).add(1, 'hours').format('hh:mm A')}`,
+        batchDetails: [
+          {
+            trainerName: "",
+            trainerId: '',
+            presentCount: 0,
+            absentCount: 0,
+            todayLeave: false,
+          }
+        ],
+        order:i
+      }
+      // createBatch(obj)
+      timeLabels.push(obj);
+    }
+
+    return timeLabels;
+  };
+
+
 
   const handleGetList = (body) => {
     getCandidate(body).then((data) => {
