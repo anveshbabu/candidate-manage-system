@@ -65,7 +65,7 @@ export const getAllUser = (body) => {
             if (isAuthenticated()) {
                 // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
 
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "user"), where("status", "!=", STATUS.DELETED)));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "user")));
                 let data = []
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots

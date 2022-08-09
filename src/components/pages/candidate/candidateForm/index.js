@@ -7,6 +7,7 @@ import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRA
 import SimpleReactValidator from 'simple-react-validator';
 import { createCandidate, updateCandidate } from '../../../../api/candidate';
 import { getBatchList } from '../../../../api/masters';
+import { getAllUser } from '../../../../api/user';
 
 import { isEmpty } from '../../../../services/helperFunctions'
 import './candidateFrom.scss'
@@ -17,11 +18,14 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     const [candidateObj, SetCandidateObj] = useState({ ...candidateFormObj });
     const [isFormLoader, setFormLoader] = useState(false);
     const [batchTimingList, setBatchTimingList] = useState([]);
+    const [batchTimings, setBatchTiming] = useState([]);
+    const [curseTrainerList, setCurseTrainerList] = useState([]);
 
 
     //onlode call
     useEffect(() => {
         handleGetBatchList();
+        handleGetUserList();
     }, [])
 
 
@@ -41,12 +45,40 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         candidateObj.joinedCourses[i][name] = value
         SetCandidateObj({
             ...candidateObj
-        })
+        });
+        if (name === 'trainer') { }
+        if (name === 'trainer') {
+            let batchIndex = batchTimings.findIndex(({ id }) => id === candidateObj.joinedCourses[i]?.classTime)
+            // candidateObj.joinedCourses[i]?.classTime
+            if (batchIndex !== -1) {
+                let trainerDetailIndex = batchTimings[batchIndex]?.batchDetails?.findIndex(({ trainerId }) => trainerId === candidateObj.joinedCourses[i]?.trainer);
+                let detaiTrainer = {
+                    trainerName: curseTrainerList?.find(({ value }) => value == candidateObj.joinedCourses[i]?.trainer)?.label,
+                    trainerId: candidateObj.joinedCourses[i]?.trainer,
+                    presentCount: 0,
+                    absentCount: 0,
+                    todayLeave: false,
+                }
+                if (trainerDetailIndex != -1) {
+                    batchTimings[batchIndex].batchDetails[batchIndex] = detaiTrainer
+                } else {
+                    batchTimings[batchIndex].batchDetails.push(detaiTrainer)
+                }
+                let newArr = [...batchTimings];
+                setBatchTiming(newArr)
+                console.log('batchTimings[batchIndex]------------------->', batchTimings[batchIndex].batchDetails[batchIndex])
+
+
+            }
+            console.log('currentBatch---------', batchTimings[batchIndex])
+
+        }
 
     };
 
 
     useEffect(() => {
+        console.log('candidateEditObj--------------->', candidateEditObj)
         if (!isEmpty(candidateEditObj)) {
             SetCandidateObj(candidateEditObj)
         }
@@ -59,8 +91,19 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         if (formValid) {
             simpleValidator.current.hideMessages();
             setFormLoader(true)
-            let reqBody = Object.assign({}, candidateObj)
-            reqBody.status = reqBody?.joinedCourses?.map(({ status }) => status);
+            let reqBody = Object.assign({}, { candidateObj, batchTimings: [] })
+            reqBody.status = candidateObj?.joinedCourses?.map(({ status }) => status);
+            let selctedBatch = []
+            candidateObj?.joinedCourses?.map(({ classTime }) => {
+                console.log('0000000000=>', classTime)
+                let selctedBatchObj = batchTimings.find(({ id }) => id === classTime);
+                if (!isEmpty(selctedBatchObj)) {
+                    selctedBatch.push(selctedBatchObj)
+                }
+
+            });
+            reqBody.batchTimings = selctedBatch;
+            console.log('reqBody--------->', JSON.stringify(reqBody))
 
             let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(reqBody, candidateObj.id) : createCandidate(reqBody)
             apiCall.then((data) => {
@@ -101,10 +144,30 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     const handleGetBatchList = () => {
         try {
             getBatchList().then((data) => {
-                let batchTimingList = data.map(({ batchTiming, id }) => ({ label: batchTiming, value: id }))
+                let batchTimingList = data.map(({ batchTiming, id }) => ({ label: batchTiming, value: id }));
                 console.log('data------------>',)
-                setBatchTimingList(batchTimingList)
+                setBatchTimingList(batchTimingList);
+                setBatchTiming(data)
 
+            }).catch((error) => {
+                // setFormLoader(false);
+
+            });
+
+        } catch (e) {
+
+        }
+    };
+
+    const handleGetUserList = () => {
+        try {
+            getAllUser().then((data) => {
+
+
+                let userList = data.map(({ first_name, last_name, userId }) => ({ label: `${first_name} ${last_name}`, value: userId }))
+                console.log('data------------>',)
+
+                setCurseTrainerList(userList);
             }).catch((error) => {
                 // setFormLoader(false);
 
@@ -171,27 +234,24 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         errorMessage={simpleValidator.current.message('Status', joinedCourses.status, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
-                                    <Normalselect label='Trainer'
-                                        onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                        value={joinedCourses.trainer}
-                                        options={COURSE_TRAINER}
-                                        name='trainer'
-                                        errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
-                                </div>
-                                <div className='col-md-6 col-sm-12'>
-                                    {/* <NormalInput label='Class Time'
-                                        onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                        value={joinedCourses.classTime}
-                                        type="time"
-                                        name='classTime'
-                                        errorMessage={simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} /> */}
                                     <Normalselect label='Class Time'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                        value={batchTimingList?.find(({value})=> value === joinedCourses.classTime)}
+                                        value={joinedCourses.classTime}
                                         options={batchTimingList}
                                         name='classTime'
                                         errorMessage={simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} />
                                 </div>
+                                <div className='col-md-6 col-sm-12'>
+                                    {/* {joinedCourses.trainer} */}
+                                    <Normalselect label='Trainer'
+                                        onChange={(e) => handleInputJoinedCoursesChange(e, i)}
+                                        value={joinedCourses?.trainer}
+                                        options={curseTrainerList}
+                                        name='trainer'
+                                        disabled={!joinedCourses.classTime}
+                                        errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
+                                </div>
+                                
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Class Type'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
