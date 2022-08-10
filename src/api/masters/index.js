@@ -54,6 +54,31 @@ export const getBatchList = (body) => {
             console.error("Error adding document: ", e);
         }
     })
+};
+
+
+export const getBatchListWithCandidate = (body) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (isAuthenticated()) {
+
+                const querySnapshot = await getDocs(query(collection(getFirestore(), DB_NAME?.BATCH), orderBy("order", "asc")));
+
+                let data = []
+                querySnapshot.forEach((doc) => {
+                    data.push({ ...doc.data(), id: doc.id });
+                });
+                resolve(data)
+            } else {
+
+            }
+
+        } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            reject(e)
+            console.error("Error adding document: ", e);
+        }
+    })
 }
 
 

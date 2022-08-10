@@ -46,33 +46,6 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         SetCandidateObj({
             ...candidateObj
         });
-        if (name === 'trainer') { }
-        if (name === 'trainer') {
-            let batchIndex = batchTimings.findIndex(({ id }) => id === candidateObj.joinedCourses[i]?.classTime)
-            // candidateObj.joinedCourses[i]?.classTime
-            if (batchIndex !== -1) {
-                let trainerDetailIndex = batchTimings[batchIndex]?.batchDetails?.findIndex(({ trainerId }) => trainerId === candidateObj.joinedCourses[i]?.trainer);
-                let detaiTrainer = {
-                    trainerName: curseTrainerList?.find(({ value }) => value == candidateObj.joinedCourses[i]?.trainer)?.label,
-                    trainerId: candidateObj.joinedCourses[i]?.trainer,
-                    presentCount: 0,
-                    absentCount: 0,
-                    todayLeave: false,
-                }
-                if (trainerDetailIndex != -1) {
-                    batchTimings[batchIndex].batchDetails[batchIndex] = detaiTrainer
-                } else {
-                    batchTimings[batchIndex].batchDetails.push(detaiTrainer)
-                }
-                let newArr = [...batchTimings];
-                setBatchTiming(newArr)
-                console.log('batchTimings[batchIndex]------------------->', batchTimings[batchIndex].batchDetails[batchIndex])
-
-
-            }
-            console.log('currentBatch---------', batchTimings[batchIndex])
-
-        }
 
     };
 
@@ -91,20 +64,8 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         if (formValid) {
             simpleValidator.current.hideMessages();
             setFormLoader(true)
-            let reqBody = Object.assign({}, { candidateObj, batchTimings: [] })
+            let reqBody = Object.assign({}, candidateObj)
             reqBody.status = candidateObj?.joinedCourses?.map(({ status }) => status);
-            let selctedBatch = []
-            candidateObj?.joinedCourses?.map(({ classTime }) => {
-                console.log('0000000000=>', classTime)
-                let selctedBatchObj = batchTimings.find(({ id }) => id === classTime);
-                if (!isEmpty(selctedBatchObj)) {
-                    selctedBatch.push(selctedBatchObj)
-                }
-
-            });
-            reqBody.batchTimings = selctedBatch;
-            console.log('reqBody--------->', JSON.stringify(reqBody))
-
             let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(reqBody, candidateObj.id) : createCandidate(reqBody)
             apiCall.then((data) => {
                 setFormLoader(false);
@@ -251,7 +212,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         disabled={!joinedCourses.classTime}
                                         errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
                                 </div>
-                                
+
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Class Type'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
