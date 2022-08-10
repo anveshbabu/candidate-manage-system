@@ -1,5 +1,6 @@
 {
   "name": "i-train",
+  "homepage": "https://anveshbabu.github.io/candidate-manage-system/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
