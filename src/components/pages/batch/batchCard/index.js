@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './batchCard.scss'
-// import { NormalBreadcrumb } from '../../components/common'
-import { NormalButton } from '../../../common'
-import courseData from '../../../../assets/data/db.json'
+import {history} from '../../../../helpers'
+import {setStorage} from '../../../../services/helperFunctions'
+import {EXIST_LOCAL_STORAGE} from '../../../../services/constants'
 
 
 
@@ -27,13 +27,17 @@ export function BatchCard({ data = {} }) {
         let activeCount = 0, deActiveCount = 0;
         data?.batchData?.map(({ status }) => {
             if (status.includes("Processing")) {
+                console.log('status---------->',data?.batchTiming,status, data?.batchData)
                 activeCount = activeCount + 1;
 
             } else {
                 deActiveCount = deActiveCount + 1;
 
-            }
+            };
+            // console.log(activeCount, data?.batchData.length,status)
+            // console.log(deActiveCount, data?.batchData.length)
         });
+       
         setOverAllActiveCount(activeCount);
         setOverAllDeActiveCount(deActiveCount);
         setOverAllPresentCount(overAllPresentCount);
@@ -42,9 +46,14 @@ export function BatchCard({ data = {} }) {
     }, [data])
 
 
+const handleCardClick=()=>{
+    history.push(`/batche/${data?.id}/candidate`);
+    setStorage(EXIST_LOCAL_STORAGE?.BATCH_CANDIDATE_LIST, JSON.stringify(data?.batchData))
+}
+
     return (
 
-        <div className="card batch-card  mb-4">
+        <div className="card batch-card  mb-4" onClick={handleCardClick}>
             <div className="card-header">
                 {isBatchLeave && <div className="float-end"><div className="badge bg-danger">Leave</div></div>}
                 <h5 className="card-title mb-0">{data?.batchTiming}</h5>

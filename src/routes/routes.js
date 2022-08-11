@@ -64,6 +64,11 @@ const routers = [
         path: "/",
         auth: false,
         exact: true
+      }, {
+        component: "Candidate",
+        path: "/:batchId/candidate",
+        auth: false,
+        exact: true
       }
 
     ]

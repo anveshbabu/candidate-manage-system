@@ -74,12 +74,12 @@ export const createCandidateByCandidate = (body) => {
     })
 }
 
-export const getCandidate = (body) => {
+export const getCandidate = (body,isBatch=false) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
 
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("status", "array-contains", body)));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where(!isBatch?"status":"classTimeIDs", "array-contains", body)));
 
                 let data = []
                 querySnapshot.forEach((doc) => {

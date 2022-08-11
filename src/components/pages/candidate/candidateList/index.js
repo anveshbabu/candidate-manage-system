@@ -91,6 +91,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
 
     const handleOpenDeleteAlert = (obj) => {
+        console.log('obk---------->',obj)
         setIsDeleteAlert(true);
         setDeleteObj(obj)
     }

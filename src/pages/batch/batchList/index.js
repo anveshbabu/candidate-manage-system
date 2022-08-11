@@ -6,7 +6,7 @@ import { getBatchListWithCandidate } from '../../../api/masters';
 
 
 export function Batche() {
-    const [selectedTab, setSelectedTab] = useState('Course Library');
+    const [selectedTab, setSelectedTab] = useState('Active Batch');
     // const courseDataList = courseData.data;
     const tabData = ['Active Batch', 'In Active'];
     const [batchTimingList, setBatchTimingList] = useState([]);
@@ -25,8 +25,6 @@ export function Batche() {
     const handleGetBatchList = () => {
         try {
             getBatchListWithCandidate().then((data) => {
-               
-                // console.log('data------------>',JSON.stringify(data))
                 setBatchTimingList(data)
 
             }).catch((error) => {
@@ -51,10 +49,12 @@ export function Batche() {
 
             <div className="row">
                 {batchTimingList?.map((data) =>
-                data?.batchData?.length > 0 &&
-                    <div className="col-md-3 col-sm-6 col-12">
-                        <BatchCard data={data}/>
-                    </div>
+                    data?.batchData?.length > 0 && !!data?.batchData?.find(({ status }) => status.includes("Processing")) && selectedTab == 'Active Batch' ?
+                        <div className="col-md-3 col-sm-6 col-12">
+                            <BatchCard data={data} />
+                        </div> :  data?.batchData?.length > 0 && !data?.batchData?.find(({ status }) => status.includes("Processing")) &&  selectedTab !== 'Active Batch' && <div className="col-md-3 col-sm-6 col-12">
+                            <BatchCard data={data} />
+                        </div>
                 )}
 
 

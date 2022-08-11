@@ -38,7 +38,7 @@ export const MENU = [
             {
                 icon: 'fa-solid fa-chalkboard-user',
                 text: 'Batches',
-                url:"/Batche"
+                url:"/batche"
             },
             {
                 icon: 'fa-solid fa-user',

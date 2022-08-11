@@ -118,7 +118,7 @@ export const getCandidate = () => {
 
                 let data = []
                 querySnapshot.forEach((doc) => {
-                    data.push({ ...doc.data(), candId: doc.id });
+                    data.push({ ...doc.data(), id: doc.id });
                 });
                 resolve(data)
             } else {

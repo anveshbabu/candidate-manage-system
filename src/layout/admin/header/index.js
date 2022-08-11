@@ -1,14 +1,16 @@
-import React,{useContext} from "react";
+import React,{useContext, useState} from "react";
 import './header.scss'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
+import { jwtDecodeDetails } from '../../../services/utilities';
 import {ThemeMode} from '../../../components/common';
 
 export const Header = () => {
   
   const themeMode = useContext(ThemeMode);
+  const [userData,setUserDate]=useState(jwtDecodeDetails())
 
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -93,7 +95,7 @@ export const Header = () => {
               <a className="nav-link" href="#"><i className="fa-solid fa-bell mt-2" /></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link profile-icon" href="#">Anvesh Balaji <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
+              <a className="nav-link profile-icon" href="#">{userData?.userObj?.first_name} {userData?.userObj?.last_name} <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
             </li>
 
           </ul>

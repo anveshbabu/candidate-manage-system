@@ -7,11 +7,11 @@ import moment from "moment"
 
 import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect } from '../../components/common';
 import { CandidateList, CandidateFrom } from '../../components/pages';
-import { getModelList } from '../../redux/actions/model';
-import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH } from '../../services/constants'
+import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH,EXIST_LOCAL_STORAGE } from '../../services/constants'
 import { candidateFormObj } from '../../services/entity'
+import { getStorage } from '../../services/helperFunctions'
 import { getCandidate, searchCandidate, updateCandidate } from '../../api/candidate'
-import {createBatch } from '../../api/masters'
+// import { createBatch } from '../../api/masters'
 export const Candidate = () => {
   const [isCandidateModal, setIsCandidateModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Processing');
@@ -31,53 +31,39 @@ export const Candidate = () => {
 
 
   useEffect(() => {
-    handleGetList(selectedTab)
+    if (!params?.batchId) {
+      // handleGetList(params?.batchId)
+      handleGetList(selectedTab)
+    } else {
+      let batchCandidateList= JSON.parse(getStorage(EXIST_LOCAL_STORAGE.BATCH_CANDIDATE_LIST)) ;
+      setCandidateList(batchCandidateList?batchCandidateList:[])
+      setCandidateFilterList(batchCandidateList?JSON.spabatchCandidateList:[])
+    }
+
   }, []);
 
 
   useEffect(() => {
-    console.log(timelineLabels('24:00', 1, 'hours'))
-    handleGetList(selectedTab)
+    if (!params?.batchId) {
+      // handleGetList(params?.batchId)
+      handleGetList(selectedTab)
+    } else {
+      let batchCandidateList= JSON.parse(getStorage(EXIST_LOCAL_STORAGE.BATCH_CANDIDATE_LIST)) ;
+      setCandidateList(batchCandidateList?batchCandidateList:[])
+      setCandidateFilterList(batchCandidateList?batchCandidateList:[])
+    }
   }, [selectedTab]);
 
-  const timelineLabels = (desiredStartTime, interval, period) => {
-    const periodsInADay = moment.duration(1, 'day').as(period);
-
-    const timeLabels = [];
-    const startTimeMoment = moment(desiredStartTime, 'hh:mm');
-    for (let i = 0; i <= periodsInADay; i += interval) {
-      startTimeMoment.add(i === 0 ? 0 : interval, period);
-      let obj = {
-        deActiveCount: 0,
-        activeCount: 0,
-        batchTiming: `${startTimeMoment.format('hh:mm A')} To  ${moment(startTimeMoment).add(1, 'hours').format('hh:mm A')}`,
-        batchDetails: [
-          {
-            trainerName: "",
-            trainerId: '',
-            presentCount: 0,
-            absentCount: 0,
-            todayLeave: false,
-          }
-        ],
-        order:i
-      }
-      // createBatch(obj)
-      timeLabels.push(obj);
-    }
-
-    return timeLabels;
-  };
 
 
 
   const handleGetList = (body) => {
-    getCandidate(body).then((data) => {
-      var result = data.map(person => ({ ...person, joinedCourses: [{ ...person?.joinedCourses[0] }], status: [person?.joinedCourses[0]?.status]
-      ,trainerIDs:[person?.joinedCourses[0]?.trainer]
-      ,classTimeIDs:[person?.joinedCourses[0]?.classTime]
-      
-      }));
+    getCandidate(body, !!params?.batchId).then((data) => {
+      // var result = data.map(person => ({ ...person, joinedCourses: [{ ...person?.joinedCourses[0] }], status: [person?.joinedCourses[0]?.status]
+      // ,trainerIDs:[person?.joinedCourses[0]?.trainer]
+      // ,classTimeIDs:[person?.joinedCourses[0]?.classTime]
+
+      // }));
       // console.log('result 222--------------------->', result)
       // result.map((data)=>{
       //   updateCandidate(Object.assign({}, data), data.id)
@@ -154,7 +140,7 @@ export const Candidate = () => {
         </div>
       </div>
 
-      <div className="row mt-4">
+     {!params?.batchId &&<div className="row mt-4">
         <div className="col-md-4 col-sm-12 mb-4">
           <NormalSearch value={candidateFilter.searchText} name='searchText' label="Search Candidate name" className='w-100' size="small" onChange={handleCandidateFilter} />
         </div>
@@ -185,8 +171,12 @@ export const Candidate = () => {
             size="small"
           />
         </div>
+      </div>}
+      <div className="row mt-4">
+
+
         <div className="col-md-12 col-sm-12 mb-5 ">
-          <Normaltabs data={tabData} onChange={handleTabChange} />
+        {!params?.batchId &&  <Normaltabs data={tabData} onChange={handleTabChange} />}
           <CandidateList selectedTab={selectedTab} candidateList={candidateList} onGetEditData={handleEditCandidate} candidateDelete={handleCandidateDelete} />
         </div>
       </div>
