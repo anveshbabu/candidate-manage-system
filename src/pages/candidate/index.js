@@ -73,7 +73,11 @@ export const Candidate = () => {
 
   const handleGetList = (body) => {
     getCandidate(body).then((data) => {
-      // var result = data.map(person => ({ ...person, joinedCourses: [{ ...person?.joinedCourses[0] }], status: [person?.joinedCourses[0]?.status] }));
+      var result = data.map(person => ({ ...person, joinedCourses: [{ ...person?.joinedCourses[0] }], status: [person?.joinedCourses[0]?.status]
+      ,trainerIDs:[person?.joinedCourses[0]?.trainer]
+      ,classTimeIDs:[person?.joinedCourses[0]?.classTime]
+      
+      }));
       // console.log('result 222--------------------->', result)
       // result.map((data)=>{
       //   updateCandidate(Object.assign({}, data), data.id)

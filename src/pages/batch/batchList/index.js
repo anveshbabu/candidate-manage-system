@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { NormalBreadcrumb, Normaltabs } from '../../../components/common'
 import { BatchCard } from '../../../components/pages'
 
-import { getBatchList } from '../../../api/masters';
+import { getBatchListWithCandidate } from '../../../api/masters';
 
 
 export function Batche() {
@@ -24,9 +24,9 @@ export function Batche() {
 
     const handleGetBatchList = () => {
         try {
-            getBatchList().then((data) => {
+            getBatchListWithCandidate().then((data) => {
                
-                console.log('data------------>',)
+                // console.log('data------------>',JSON.stringify(data))
                 setBatchTimingList(data)
 
             }).catch((error) => {
@@ -51,6 +51,7 @@ export function Batche() {
 
             <div className="row">
                 {batchTimingList?.map((data) =>
+                data?.batchData?.length > 0 &&
                     <div className="col-md-3 col-sm-6 col-12">
                         <BatchCard data={data}/>
                     </div>

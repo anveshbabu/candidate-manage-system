@@ -64,9 +64,61 @@ export const getBatchListWithCandidate = (body) => {
 
                 const querySnapshot = await getDocs(query(collection(getFirestore(), DB_NAME?.BATCH), orderBy("order", "asc")));
 
+                let data = [];
+                let cont = 0
+                querySnapshot.forEach((doc) => {
+
+                    data.push({ ...doc.data(), id: doc.id });
+
+                });
+                getCandidate().then((candObj) => {
+                    let batchTimeList = []
+                    data.forEach((batchObj, i) => {
+                        let obj = candObj.filter(({ classTimeIDs }) => classTimeIDs.includes(batchObj?.id));
+                        batchTimeList.push({ ...batchObj, batchData: obj });
+
+                        if (i + 1 === querySnapshot.size) {
+                            resolve(batchTimeList);
+                          
+                        }
+
+
+                    });
+
+                }).catch((error) => {
+                    Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+                    console.error(error);
+
+                });
+
+                // data
+                // console.log('data getBatchListWithCandidate------------>', JSON.stringify(data), user_id)
+
+                // resolve(data)
+            } else {
+
+            }
+
+        } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            reject(e)
+            console.error("Error adding document: ", e);
+        }
+    })
+}
+
+
+export const getCandidate = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (isAuthenticated()) {
+                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+                // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("classTimeIDs", "array-contains", classTimeIDs), where("trainerIDs", "array-contains", trainerIDs)));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("trainerIDs", "array-contains", user_id)));
+
                 let data = []
                 querySnapshot.forEach((doc) => {
-                    data.push({ ...doc.data(), id: doc.id });
+                    data.push({ ...doc.data(), candId: doc.id });
                 });
                 resolve(data)
             } else {
@@ -88,7 +140,7 @@ export const updateBatch = (body, id) => {
         delete body.id;
         try {
             if (isAuthenticated()) {
-                
+
                 console.log(JSON.stringify(body))
                 const docRef = await updateDoc(doc(getFirestore(), DB_NAME?.BATCH, id), body);
                 resolve(docRef)

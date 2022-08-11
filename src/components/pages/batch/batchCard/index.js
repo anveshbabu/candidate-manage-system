@@ -9,6 +9,8 @@ import courseData from '../../../../assets/data/db.json'
 export function BatchCard({ data = {} }) {
     const [overAllAbsentCount, setOverAllAbsentCount] = useState(0);
     const [overAllPresentCount, setOverAllPresentCount] = useState(0);
+    const [overAllActiveCount, setOverAllActiveCount] = useState(0);
+    const [overAllDeActiveCount, setOverAllDeActiveCount] = useState(0);
     const [isBatchLeave, setIsBatchLeave] = useState(false);
 
     useEffect(() => {
@@ -22,8 +24,20 @@ export function BatchCard({ data = {} }) {
 
             }
         });
-        setOverAllPresentCount(overAllPresentCount)
-        setOverAllAbsentCount(overAllAbsentCount)
+        let activeCount = 0, deActiveCount = 0;
+        data?.batchData?.map(({ status }) => {
+            if (status.includes("Processing")) {
+                activeCount = activeCount + 1;
+
+            } else {
+                deActiveCount = deActiveCount + 1;
+
+            }
+        });
+        setOverAllActiveCount(activeCount);
+        setOverAllDeActiveCount(deActiveCount);
+        setOverAllPresentCount(overAllPresentCount);
+        setOverAllAbsentCount(overAllAbsentCount);
 
     }, [data])
 
@@ -50,11 +64,11 @@ export function BatchCard({ data = {} }) {
                         </tr>
                         <tr>
                             <td><strong>Total Active Members</strong></td>
-                            <td>{data?.activeCount}</td>
+                            <td>{overAllActiveCount ? overAllActiveCount : 0}</td>
                         </tr>
                         <tr>
                             <td><strong>Total Inactive Members</strong></td>
-                            <td>{data?.deActiveCount}</td>
+                            <td>{overAllDeActiveCount ? overAllDeActiveCount : 0}</td>
                         </tr>
                     </tbody>
                 </table>

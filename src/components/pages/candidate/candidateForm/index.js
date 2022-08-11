@@ -66,6 +66,8 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
             setFormLoader(true)
             let reqBody = Object.assign({}, candidateObj)
             reqBody.status = candidateObj?.joinedCourses?.map(({ status }) => status);
+            reqBody.trainerIDs = candidateObj?.joinedCourses?.map(({ trainer }) => trainer);
+            reqBody.classTimeIDs = candidateObj?.joinedCourses?.map(({ classTime }) => classTime);
             let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(reqBody, candidateObj.id) : createCandidate(reqBody)
             apiCall.then((data) => {
                 setFormLoader(false);
