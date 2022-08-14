@@ -19,6 +19,15 @@ export const candidateFormObj = {
     joinedCourses: [
         {...joinedCoursesObj}
     ],
-    createdBy: ""
+    createdBy: {
+        userId: '',
+        date: new Date().toISOString(),
+        name:''
+    },
+    updatedBy: {
+        userId: '',
+        date: '',
+        name:''
+    }
 }
 

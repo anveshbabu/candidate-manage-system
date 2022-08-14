@@ -4,6 +4,7 @@ import { CandidateList } from '../../../components/pages'
 import { candidateFormObj } from '../../../services/entity'
 import { getBatchListWithCandidate } from '../../../api/masters';
 import { getCandidate, searchCandidate, updateCandidate } from '../../../api/candidate'
+import { getAttendance } from '../../../api'
 import { useParams } from "react-router-dom"
 export function BatcheCandidate() {
     const params = useParams();
@@ -36,10 +37,18 @@ export function BatcheCandidate() {
 
 
     const handleGetList = () => {
+        alert('----------------')
         getCandidate(params?.batchId, true).then((data) => {
 
             setCandidateList(data)
             setCandidateFilterList(data)
+        }).catch((error) => {
+            // setFormLoader(false);
+
+        });
+
+        getAttendance(params?.batchId).then((data) => {
+            console.log('getAttendance--------->', data)
         }).catch((error) => {
             // setFormLoader(false);
 

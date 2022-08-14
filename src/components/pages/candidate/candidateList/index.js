@@ -3,17 +3,19 @@ import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
+import moment from 'moment';
 
-import { NormalTable, NormalModal, NormalAlert } from '../../../common';
+import { NormalTable, NormalToggleSwitch, NormalAlert } from '../../../common';
 import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
-import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH } from '../../../../services/constants'
+import { ATTENDANCE } from '../../../../services/constants'
 import './candidateList.scss'
 
-export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete }) => {
+export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '',handleToggleAttendance }) => {
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
     const [deleteObj, setDeleteObj] = useState({});
+ 
 
 
 
@@ -29,22 +31,22 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     }, {
         label: "Phone",
         key: "phone"
-    }, 
-    
+    },
+
     {
         label: "Course",
         key: "course"
-    }, 
+    },
     {
         label: "Branch",
         key: "instituteBranch"
-    }, 
-    
+    },
+
     {
         label: "Status",
         key: "status"
     },
-    
+
     // {
     //     label: "Type",
     //     key: "type"
@@ -58,7 +60,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     //     label: "Settlement Status",
     //     key: "settlementStatus"
     // },
-    
+
     {
         label: "Action",
         key: ""
@@ -91,7 +93,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
 
     const handleOpenDeleteAlert = (obj) => {
-        console.log('obk---------->',obj)
+        console.log('obk---------->', obj)
         setIsDeleteAlert(true);
         setDeleteObj(obj)
     }
@@ -101,6 +103,9 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         setIsDeleteAlert(false);
         setDeleteObj({})
     }
+
+
+  
 
     return (
 
@@ -123,14 +128,14 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.course}</td>
                                 <td>{data.instituteBranch}</td>
                                 <td>{data.status}</td>
-                               
+
                                 {/* <td>{data.course}</td>
                               
                                 <td>{data.type}</td>
                                 <td>{data.fees}</td>
                                 <td>{data.pendingFees}</td>
                                 <td>{data.settlementStatus}</td> */}
-                                <td>
+                                {!isFromBatch ? <td>
                                     <IconButton color="success" onClick={() => onGetEditData(data)}>
                                         <CreateIcon />
                                     </IconButton>
@@ -138,7 +143,9 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                         <DeleteIcon />
                                     </IconButton>
 
-                                </td>
+                                </td> : <td>
+                                    <NormalToggleSwitch  checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, data)} label="present" />
+                                </td>}
 
 
 
