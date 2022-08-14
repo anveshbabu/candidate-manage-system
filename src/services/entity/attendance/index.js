@@ -1,9 +1,12 @@
 
+import moment from "moment";
+import {ATTENDANCE} from '../../constants'
+
 export const attendanceFormObject = {
-    atd:'',
+    atd:ATTENDANCE?.ABSENT,
     candId: '',
     batchId: '',
-    atdDate:'',
+    atdDate:moment().format('DD/MM/YYYY'),
     atdTime: '',
     createdBy: {
         userId: '',

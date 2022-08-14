@@ -3,6 +3,7 @@ import { NormalBreadcrumb, Normaltabs } from '../../../components/common'
 import { BatchCard } from '../../../components/pages'
 
 import { getBatchListWithCandidate } from '../../../api/masters';
+import { ALL_BG_PLACEHOLDERS } from '../../../services/constants'
 
 
 export function Batche() {
@@ -10,6 +11,7 @@ export function Batche() {
     // const courseDataList = courseData.data;
     const tabData = ['Active Batch', 'In Active'];
     const [batchTimingList, setBatchTimingList] = useState([]);
+    const [isFormLoader, setIsFormLoader] = useState(false);
 
     //onlode call
     useEffect(() => {
@@ -24,11 +26,14 @@ export function Batche() {
 
     const handleGetBatchList = () => {
         try {
+            setIsFormLoader(true)
             getBatchListWithCandidate().then((data) => {
-                setBatchTimingList(data)
+                setBatchTimingList(data);
+                setIsFormLoader(false)
 
             }).catch((error) => {
-                // setFormLoader(false);
+    
+                setIsFormLoader(false)
 
             });
 
@@ -48,20 +53,57 @@ export function Batche() {
             </div>
 
             <div className="row">
-                {batchTimingList?.map((data) =>
+                {!isFormLoader && batchTimingList?.map((data) =>
                     data?.batchData?.length > 0 && !!data?.batchData?.find(({ status }) => status.includes("Processing")) && selectedTab == 'Active Batch' ?
                         <div className="col-md-3 col-sm-6 col-12">
                             <BatchCard data={data} />
-                        </div> :  data?.batchData?.length > 0 && !data?.batchData?.find(({ status }) => status.includes("Processing")) &&  selectedTab !== 'Active Batch' && <div className="col-md-3 col-sm-6 col-12">
+                        </div> : data?.batchData?.length > 0 && !data?.batchData?.find(({ status }) => status.includes("Processing")) && selectedTab !== 'Active Batch' && <div className="col-md-3 col-sm-6 col-12">
                             <BatchCard data={data} />
                         </div>
                 )}
 
 
+                {isFormLoader && ALL_BG_PLACEHOLDERS?.map((data) =>
+
+                    <div className="col-md-3 col-sm-6 col-12">
+                        <div className="card batch-card  mb-4" >
+                            <div className="card-header">
+                                <h5 class="card-title placeholder-glow">
+                                    <span class={`placeholder col-6 ${data}`}></span>
+                                </h5>
+                            </div>
+                            <div className="card-body">
+                                <table className="table placeholder-glow">
+                                    <tbody>
+                                        <tr>
+                                            <td>  <span class={`placeholder col-7 ${data}`}></span></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>  <span  class={`placeholder col-5 ${data}`}></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <span  class={`placeholder col-3 ${data}`}></span></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td><span  class={`placeholder col-7 ${data}`}></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                )}
             </div>
 
 
         </div>
+
+
+        // </div>
     );
 }
 

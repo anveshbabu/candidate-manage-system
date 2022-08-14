@@ -8,10 +8,10 @@ import moment from "moment"
 import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect } from '../../components/common';
 import { CandidateList, CandidateFrom } from '../../components/pages';
 import { CANDIDATE_COURSE_STATUS, ATTENDANCE, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, EXIST_LOCAL_STORAGE } from '../../services/constants'
-import { candidateFormObj ,attendanceFormObject} from '../../services/entity'
-import { getStorage } from '../../services/helperFunctions'
+import { candidateFormObj, attendanceFormObject } from '../../services/entity'
+import { getStorage, isEmpty } from '../../services/helperFunctions'
 import { getCandidate, searchCandidate, updateCandidate } from '../../api/candidate'
-import { updateAtendance,getAttendance } from '../../api'
+import { updateAtendance, getAttendance } from '../../api'
 export const Candidate = () => {
   const [isCandidateModal, setIsCandidateModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Processing');
@@ -19,6 +19,7 @@ export const Candidate = () => {
   const [candidateList, setCandidateList] = useState([])
   const [candidateFilterList, setCandidateFilterList] = useState([]);
   const [attendanceReqList, setAttendanceReqList] = useState([])
+  const [isAttendanceApiLoader, setIsAttendanceApiLoader] = useState(false)
   const [candidateFilter, setCandidateFilter] = useState({
     searchText: "",
     classType: ""
@@ -38,27 +39,18 @@ export const Candidate = () => {
     } else {
       handleGetAttendanceList()
     }
-    
-  
+
+
 
   }, []);
 
 
-  const handleGetAttendanceList=()=>{
+  const handleGetAttendanceList = () => {
     let batchCandidateList = JSON.parse(getStorage(EXIST_LOCAL_STORAGE.BATCH_CANDIDATE_LIST));
-    getAttendance(params?.batchId).then((data) => {
-      // console.log('getAttendance--------->', data)
-    let candidateAttList=  batchCandidateList.map((candObj)=>{
-       let attObj= data?.find(({candId})=> candId === candObj?.id);
-       return candObj={...candObj,attObj}
-       
-      });
-      setCandidateList(candidateAttList ? candidateAttList : []);
-      setCandidateFilterList(candidateAttList ? candidateAttList : []);
-  }).catch((error) => {
-      // setFormLoader(false);
 
-  });
+    setCandidateList(batchCandidateList ? batchCandidateList : []);
+    setCandidateFilterList(batchCandidateList ? batchCandidateList : []);
+
   }
 
 
@@ -147,30 +139,34 @@ export const Candidate = () => {
   }
 
 
-  const handleToggleAttendance = (isAtd, data) => {
+  const handleToggleAttendance = (isAtd, candIndex) => {
     let attendanceObj = {
       ...attendanceFormObject,
       atd: isAtd ? ATTENDANCE.PRESENT : ATTENDANCE.ABSENT,
-      candId: data?.id,
+      candId: candidateList[candIndex]?.id,
       batchId: params?.batchId,
       atdDate: moment().format('DD/MM/YYYY'),
       atdTime: moment().format('HH:mm'),
-      
-    };
-    const candIndex = attendanceReqList.findIndex((id) => data.id)
 
-    if (candIndex === -1) {
-      attendanceReqList.push(attendanceObj);
-    } else {
-      attendanceReqList[candIndex] = attendanceObj;
     };
-    setAttendanceReqList([...attendanceReqList])
+    candidateList[candIndex].attObj = attendanceObj;
+    setCandidateList([...candidateList])
   }
 
 
   const handleAttendance = () => {
-    console.log('--------',attendanceReqList);
-    updateAtendance(attendanceReqList)
+    let reqobj = candidateList.map(({ attObj }) => ({ ...attObj }));
+    console.log('reqobj--------->', reqobj)
+    setIsAttendanceApiLoader(true)
+    updateAtendance(reqobj).then((data) => {
+      console.log('getAttendance--------->', data)
+      setIsAttendanceApiLoader(false)
+    }).catch((error) => {
+      console.log('--------- err', error);
+      setIsAttendanceApiLoader(false)
+      // setFormLoader(false);
+
+    });
   }
 
 
@@ -179,6 +175,7 @@ export const Candidate = () => {
 
       <NormalBreadcrumb className="mb-0" label={'Candidate'} rightSideBtn={true}
         buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
+        btnIsLoader={isAttendanceApiLoader}
         onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()}
       />
 

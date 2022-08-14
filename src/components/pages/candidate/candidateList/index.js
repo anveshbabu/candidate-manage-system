@@ -11,11 +11,11 @@ import { getCandidate, deleteCandidate } from '../../../../api/candidate'
 import { ATTENDANCE } from '../../../../services/constants'
 import './candidateList.scss'
 
-export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '',handleToggleAttendance }) => {
+export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', handleToggleAttendance }) => {
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
     const [deleteObj, setDeleteObj] = useState({});
- 
+
 
 
 
@@ -60,11 +60,12 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     //     label: "Settlement Status",
     //     key: "settlementStatus"
     // },
-
     {
-        label: "Action",
-        key: ""
-    }];
+
+        label: !isFromBatch ? "Action" : "Attendance",
+        key: !isFromBatch ? "Action" : "atd",
+    }
+    ];
 
 
 
@@ -105,7 +106,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     }
 
 
-  
+
 
     return (
 
@@ -139,12 +140,12 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                     <IconButton color="success" onClick={() => onGetEditData(data)}>
                                         <CreateIcon />
                                     </IconButton>
-                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(data)}>
+                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(i)}>
                                         <DeleteIcon />
                                     </IconButton>
 
                                 </td> : <td>
-                                    <NormalToggleSwitch  checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, data)} label="present" />
+                                    <NormalToggleSwitch checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
                                 </td>}
 
 

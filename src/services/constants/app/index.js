@@ -88,4 +88,6 @@ export const ATTENDANCE={
     ABSENT:"absent",
 }
 
+export const ALL_BG_PLACEHOLDERS =['bg-primary','bg-secondary','bg-success','bg-danger','bg-warning','bg-info',' bg-light','bg-dark']
+
 

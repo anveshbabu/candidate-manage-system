@@ -11,29 +11,36 @@ import moment from "moment";
 
 
 export const updateAtendance = (body) => {
+    // console.log('-------------', body)
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                body?.map(async (attendanceObj) => {
-                    console.log(attendanceObj)
-                    const isAvilable = await getDocs(query(collection(getFirestore(), DB_NAME.ATTENDANCE), where("atdDate", "==", attendanceObj?.atdDate)));
-                    console.log('isAvilable-------------->', isAvilable[0])
+                let sucessCount = 0;
+                let avilabelCounr = 0;
+                body?.map(async (attendanceObj, i) => {
+                    sucessCount++
+                    const isAvilable = await getDocs(query(collection(getFirestore(), DB_NAME.ATTENDANCE), where("atdDate", "==", attendanceObj?.atdDate), where("candId", "==", attendanceObj?.candId)));
+
                     if (isAvilable?.size == 0) {
                         const docRef = await addDoc(collection(getFirestore(), DB_NAME.ATTENDANCE), attendanceObj);
-                        resolve(docRef)
-                    } else {
-                        isAvilable.forEach(async (cand) => {
 
+                    } else {
+
+                        isAvilable.forEach(async (cand) => {
+                            avilabelCounr++
                             let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
                             attendanceObj['createdBy']['name'] = first_name + " " + last_name;
                             attendanceObj['createdBy']['userId'] = user_id;
                             const docRef = await updateDoc(doc(getFirestore(), DB_NAME.ATTENDANCE, cand?.id), attendanceObj);
-                            console.log('is avilabel', docRef)
-                        });
+                                               });
 
-                        console.log('is avilabel')
+                
                     }
-                    console.log('isAvilable-------------->', isAvilable)
+                    if (sucessCount === i + 1) {
+                        resolve('sucess');
+                        Toast({ type: 'success', message: 'Attendance updated successfully', title: 'success' })
+                    }
+                    // console.log('isAvilable-------------->', isAvilable)
                 })
 
 
@@ -61,13 +68,14 @@ export const getAttendance = (body) => {
         try {
             if (isAuthenticated()) {
 
-                const querySnapshot = await getDocs(query(collection(getFirestore(), DB_NAME.ATTENDANCE), where("atdDate", "==",  moment().format('DD/MM/YYYY'))));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), DB_NAME.ATTENDANCE), where("atdDate", "==", moment().format('DD/MM/YYYY'))));
 
                 let data = []
                 querySnapshot.forEach((doc) => {
-                   
+
                     data.push({ ...doc.data(), id: doc.id });
                 });
+                // console.log('querySnapshot----------->', querySnapshot.size)
                 resolve(data)
             } else {
 
