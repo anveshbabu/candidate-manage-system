@@ -129,7 +129,7 @@ const handleRouteAttendance=(data)=>{
                         return candidateList.map((data, i) =>
                             <tr>
                                 <td>{i + 1}</td>
-                                <td> <a onClick={()=>handleRouteAttendance(data)}>{data.name}</a></td>
+                                <td> <a className='link-primary' onClick={()=>handleRouteAttendance(data)}>{data.name}</a></td>
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>

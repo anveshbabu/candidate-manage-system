@@ -35,14 +35,14 @@ export const COURSE_TRAINER = [
 ]
 
 export const COURSE_LIST = [
-    { value: 'Full stack', label: 'Full stack' },
-    { value: 'Front end', label: 'Front end' },
-    { value: 'React JS', label: 'React JS' },
-    { value: 'Angular', label: 'Angular' },
-    { value: 'Node js', label: 'Node js' },
+    { value: 'Full stack', label: 'Full stack',courseDuration:75 },
+    { value: 'Front end', label: 'Front end',courseDuration:45 },
+    { value: 'React JS', label: 'React JS' ,courseDuration:30},
+    { value: 'Angular', label: 'Angular',courseDuration:30 },
+    { value: 'Node js', label: 'Node js',courseDuration:25 },
     { value: 'Android', label: 'Android' },
     { value: 'Ios', label: 'Ios' },
-    { value: 'React Native', label: 'React Native' },
+    { value: 'React Native', label: 'React Native',courseDuration:30 },
 ]
 
 export const CLASS_TYPE = [
@@ -85,8 +85,9 @@ export const USER_TYPE=[
 ];
 
 export const ATTENDANCE={
-    PRESENT:"Present",
-    ABSENT:"absent",
+    PRESENT:"P",
+    ABSENT:"A",
+    LEAVE:"L",
 }
 
 export const ALL_BG_PLACEHOLDERS =['bg-primary','bg-secondary','bg-success','bg-danger','bg-warning','bg-info',' bg-light','bg-dark']

@@ -16,7 +16,10 @@ import { getAllUser } from "../../api/user";
 
 export const CandidateAttendance = () => {
     const params = useParams();
-
+    const [attendanceList, setAttendanceList] = useState([])
+    const handleGetAttendanceList=(data)=>{
+        setAttendanceList(data)
+    }
 
     return (
         <div>
@@ -24,10 +27,10 @@ export const CandidateAttendance = () => {
 
             <div className="row">
                 <div className="col-md-2 col-sm-12">
-                    <CandidateAttendanceSummary />
+                    <CandidateAttendanceSummary attendanceList={attendanceList} />
                 </div>
                 <div className="col-md-8 col-sm-12">
-                    <CandidateAttendanceList />
+                    <CandidateAttendanceList  getAttendanceList={handleGetAttendanceList}/>
                 </div>
             </div>
         </div>

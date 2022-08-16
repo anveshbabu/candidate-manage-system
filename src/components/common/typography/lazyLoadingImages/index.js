@@ -1,8 +1,9 @@
 import React, { Component, useEffect, useState, memo } from 'react';
-// import defaultImage from '../../../../assets/images/logo-placeholder.png'
+import defaultImage from '../../'
+import {letterAvatar} from '../../../../services/helperFunctions'
 
 
-const LazyLoadImage = (props) => {
+export const LazyLoadImage = (props) => {
     const [showDefault, setShowDefault] = useState(true)
     const [imageData, setImageData] = useState('')
 
@@ -12,18 +13,25 @@ const LazyLoadImage = (props) => {
     let {
         src = '',
         alt = '',
-        defaultImage = '',
-        className=''
+        name='',
+        defaultImage = letterAvatar(name,40),
+        className='',
+      
     } = props;
 
     useEffect(() => {
-        urlContentToDataUri(src).then(dataUri => {
-            setShowDefault(false);
-            setImageData(dataUri)
-        }).catch(error => {
-            setShowDefault(true)
-            setImageData('')
-        });
+       
+        if(!!src){
+            urlContentToDataUri(src).then(dataUri => {
+                setShowDefault(false);
+                setImageData(dataUri)
+            }).catch(error => {
+                console.log('-------error-----')
+                setShowDefault(true)
+                setImageData('')
+            });
+        }
+        
 
     }, []);
 
@@ -32,6 +40,7 @@ const LazyLoadImage = (props) => {
             setShowDefault(!dataUri);
             setImageData(dataUri)
         }).catch(error => {
+            console.log('------------')
             setShowDefault(true)
             setImageData('')
         });
@@ -64,7 +73,7 @@ const LazyLoadImage = (props) => {
 
 
     var image = showDefault ? defaultImage : imageData;
-
+console.log('image------->',showDefault)
     return (
 
         <img className={className} src={!!image ? image : defaultImage} />
