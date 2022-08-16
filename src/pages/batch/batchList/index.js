@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
-import { NormalBreadcrumb, Normaltabs } from '../../../components/common'
+import { NormalBreadcrumb, Normaltabs, Normalselect } from '../../../components/common'
 import { BatchCard } from '../../../components/pages'
 
 import { getBatchListWithCandidate } from '../../../api/masters';
-import { ALL_BG_PLACEHOLDERS } from '../../../services/constants'
+import { getAllUser } from '../../../api/user';
+import { ALL_BG_PLACEHOLDERS, CURRENT_USER } from '../../../services/constants'
 
 
 export function Batche() {
     const [selectedTab, setSelectedTab] = useState('Active Batch');
-    // const courseDataList = courseData.data;
+    const [usersList, setUsersList] = useState([]);
     const tabData = ['Active Batch', 'In Active'];
     const [batchTimingList, setBatchTimingList] = useState([]);
     const [isFormLoader, setIsFormLoader] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
     //onlode call
     useEffect(() => {
-        handleGetBatchList();
+        let {userId='',user_type} = JSON.parse(localStorage.getItem(CURRENT_USER));
+        setIsAdmin(user_type ===1)
+        setSelectedUserId(userId)
+        handleGetBatchList(userId);
+        handleUserList();
     }, [])
 
     const handleTabChange = (i) => {
@@ -24,15 +31,37 @@ export function Batche() {
 
     };
 
-    const handleGetBatchList = () => {
+    const handleUserList = () => {
+        try {
+            setIsFormLoader(true);
+
+            getAllUser().then((data) => {
+                setIsFormLoader(false);
+                if (data?.length > 0) {
+                    let users = data.map(({ first_name, last_name, id }) => ({ label: `${first_name} ${last_name}`, value: id }))
+                    setUsersList(users);
+                }
+            })
+                .catch((error) => {
+                    setIsFormLoader(false);
+                });
+        } catch (e) {
+            setIsFormLoader(false);
+        }
+    };
+
+    const handleGetBatchList = (userId) => {
         try {
             setIsFormLoader(true)
-            getBatchListWithCandidate().then((data) => {
+            let req={
+                userId
+            }
+            getBatchListWithCandidate(req).then((data) => {
                 setBatchTimingList(data);
                 setIsFormLoader(false)
 
             }).catch((error) => {
-    
+
                 setIsFormLoader(false)
 
             });
@@ -40,14 +69,24 @@ export function Batche() {
         } catch (e) {
 
         }
-    }
+    };
+
+const handleUserChange=(e)=>{
+    setSelectedUserId(e?.target?.value);
+    handleGetBatchList(e?.target?.value)
+
+}
+
+
     return (
         <div>
             <NormalBreadcrumb label='Batches' />
             <div className="row mb-3">
+             {isAdmin && <div className="col-md-3 offset-md-9">
+                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} value={selectedUserId} options={usersList} onChange={handleUserChange}/>
+                </div>}
                 <div className="col-md-12">
                     <Normaltabs data={tabData} onChange={handleTabChange} />
-
                 </div>
 
             </div>
@@ -80,14 +119,14 @@ export function Batche() {
                                         </tr>
                                         <tr>
 
-                                            <td>  <span  class={`placeholder col-5 ${data}`}></span></td>
+                                            <td>  <span class={`placeholder col-5 ${data}`}></span></td>
                                         </tr>
                                         <tr>
-                                            <td>  <span  class={`placeholder col-3 ${data}`}></span></td>
+                                            <td>  <span class={`placeholder col-3 ${data}`}></span></td>
                                         </tr>
                                         <tr>
 
-                                            <td><span  class={`placeholder col-7 ${data}`}></span></td>
+                                            <td><span class={`placeholder col-7 ${data}`}></span></td>
                                         </tr>
                                     </tbody>
                                 </table>

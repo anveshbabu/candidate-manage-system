@@ -71,7 +71,7 @@ export const getBatchListWithCandidate = (body) => {
                     data.push({ ...doc.data(), id: doc.id });
 
                 });
-                getCandidate().then((candObj) => {
+                getCandidate(body).then((candObj) => {
                     let batchTimeList = []
                     data.forEach((batchObj, i) => {
                         let obj = candObj.filter(({ classTimeIDs }) => classTimeIDs.includes(batchObj?.id));
@@ -108,13 +108,13 @@ export const getBatchListWithCandidate = (body) => {
 }
 
 
-export const getCandidate = () => {
+export const getCandidate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+              
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("classTimeIDs", "array-contains", classTimeIDs), where("trainerIDs", "array-contains", trainerIDs)));
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("trainerIDs", "array-contains", user_id)));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("trainerIDs", "array-contains", body?.userId)));
 
                 let data = []
                 querySnapshot.forEach((doc) => {

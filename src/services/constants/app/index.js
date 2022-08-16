@@ -4,6 +4,7 @@ export const EXIST_LOCAL_STORAGE = {
     IS_KEEP_ME: 'isKeepMe',
     THEME_MODE: 'themeMode',
     BATCH_CANDIDATE_LIST: 'batchCandidateList',
+    ATTENDANCE_CANDIDATE: 'attendanceCandidate',
 
 }
 

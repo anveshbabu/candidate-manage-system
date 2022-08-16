@@ -1,0 +1,26 @@
+.candidateSummary{
+    .card-header{
+        min-height: 54px;
+        h5{
+            font-size: 1rem;
+        color: var(--text-secondary);
+        }
+    }
+    // .card-body{
+        .list-group{
+            .list-group-item{
+                background-color: transparent;
+                color: var(--text-black);
+                // font-size: .8rem;
+               
+                label{
+                    margin-top: .6rem;
+                    font-weight: 500;
+                }
+                small{
+                    font-weight: unset;
+                }
+            }
+        }
+    // }
+}

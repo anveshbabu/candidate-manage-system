@@ -16,19 +16,10 @@ export function BatchCard({ data = {} }) {
     const [overAllPresentCount, setOverAllPresentCount] = useState(0);
     const [overAllActiveCount, setOverAllActiveCount] = useState(0);
     const [overAllDeActiveCount, setOverAllDeActiveCount] = useState(0);
-    const [batchObj, setBatchObj] = useState({})
+    const [batchObj, setBatchObj] = useState({...data})
     const [isBatchLeave, setIsBatchLeave] = useState(false);
 
     useEffect(() => {
-
-        // batchDetail?.batchDetails?.map(({ absentCount, presentCount, todayLeave }) => {
-        //     overAllPresentCount = overAllPresentCount + presentCount;
-        //     overAllAbsentCount = overAllAbsentCount + absentCount;
-        //     if (todayLeave) {
-        //         setIsBatchLeave(todayLeave)
-
-        //     }
-        // });
         let activeCount = 0, deActiveCount = 0;
         let overAllAbsentCount = 0;
         let overAllPresentCount = 0;
@@ -82,7 +73,7 @@ export function BatchCard({ data = {} }) {
             });
             setBatchObj({ ...data, batchData: batchDetail })
         }).catch((error) => {
-            console.log('--------- err', error)
+            console.log('--------- err', error);
             // setFormLoader(false);
 
         });

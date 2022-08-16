@@ -4,11 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import moment from 'moment';
-
+import {history} from '../../../../helpers'
 import { NormalTable, NormalToggleSwitch, NormalAlert } from '../../../common';
 import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
-import { ATTENDANCE } from '../../../../services/constants'
+import { ATTENDANCE,EXIST_LOCAL_STORAGE } from '../../../../services/constants'
+import { setStorage } from '../../../../services/helperFunctions'
 import './candidateList.scss'
 
 export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', handleToggleAttendance }) => {
@@ -106,6 +107,11 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     }
 
 
+const handleRouteAttendance=(data)=>{
+    setStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE,JSON.stringify(data));
+    history.push(`/batche/${isFromBatch}/candidate/attendance`)
+}
+
 
 
     return (
@@ -123,7 +129,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                         return candidateList.map((data, i) =>
                             <tr>
                                 <td>{i + 1}</td>
-                                <td> <a href='#'>{data.name}</a></td>
+                                <td> <a onClick={()=>handleRouteAttendance(data)}>{data.name}</a></td>
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>

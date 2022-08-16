@@ -5,6 +5,7 @@ export {CandidateIndividualForm} from './candidateIndividualForm';
 export {Course,CourseDetail} from './courses';
 export {Batche,BatcheCandidate} from './batch';
 export {Users} from './users';
+export {CandidateAttendance} from './attendance';
 
 
 
