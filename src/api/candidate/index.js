@@ -79,8 +79,8 @@ export const getCandidate = (body,isBatch=false) => {
         try {
             if (isAuthenticated()) {
 
-                // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where(!isBatch?"status":"classTimeIDs", "array-contains", body)));
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where(!isBatch?"status":"classTimeIDs", "array-contains", body)));
+                // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
 
                 let data = []
                 querySnapshot.forEach((doc) => {
