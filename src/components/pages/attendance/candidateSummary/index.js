@@ -12,6 +12,7 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
     const [presentCount, setPresentCount] = useState(0)
     const [absentCount, setAbsentCount] = useState(0)
     const [leaveCount, setleaveCount] = useState(0)
+    const [weekOffCount, setWeekOffCount] = useState(0)
 
     useEffect(() => {
         let candData = JSON.parse(getStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE));
@@ -19,14 +20,17 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
         var joinDate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
         var current = moment();
         var diff = current.diff(joinDate, 'days');
+        console.log('diff--------->',diff)
         setCourseExtendDays(diff)
 
     }, []);
 
 
     useEffect(() => {
-        let presentCount = 0, absentCount = 0, leaveCount = 0;
-        attendanceList.map(({ atd }) => {
+        let candData = JSON.parse(getStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE));
+        let presentCount = 0, absentCount = 0, leaveCount = 0,weekOffCount=0;
+   
+        attendanceList.map(({ atd,atdDate }) => {
             if (atd === ATTENDANCE.PRESENT) {
                 presentCount++
 
@@ -34,9 +38,13 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
                 absentCount++
             } else if (atd === ATTENDANCE.LEAVE) {
                 leaveCount++
+            } 
+            else if (!atd && !candData?.joinedCourses[0]?.classDays.includes(moment(atdDate, "DD/MM/YYYY").day())) {
+                weekOffCount++;
+                console.log('isWeekOff---------->')
             }
-            // console.log('data------------>', JSON.stringify(data))
         });
+        setWeekOffCount(weekOffCount)
         setPresentCount(presentCount);
         setAbsentCount(absentCount);
         setleaveCount(leaveCount)
@@ -46,13 +54,14 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
 
     const handleGetCourseDuration = () => {
         // candData?.joinedCourses?[0]?.course
-        console.log(' candidateDetail?.joinedCourses---------->', candidateDetail?.joinedCourses)
         if (!!candidateDetail) {
             return COURSE_LIST.find(({ value }) => value === candidateDetail?.joinedCourses[0]?.course)?.courseDuration
         }
         return 0
 
-    }
+    };
+
+
     return (
         <div class="card candidateSummary">
             <div class="card-header d-flex align-items-center">
@@ -86,6 +95,18 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
                     </span>
                 </li>
                 <li class="list-group-item">
+                    <label>Week Off</label>
+                    <span className="float-end text-center">{weekOffCount}
+                        <small className="d-flex">Days</small>
+                    </span>
+                </li>
+                <li class="list-group-item">
+                    <label>Complete Days</label>
+                    <span className="float-end text-center">{weekOffCount}
+                        <small className="d-flex">Days</small>
+                    </span>
+                </li>
+                <li class="list-group-item">
                     <label> Course Duration</label>
                     <span className="float-end text-center">{handleGetCourseDuration()}
                         <small className="d-flex">Days</small>
@@ -93,7 +114,7 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
                 </li>
                 <li class="list-group-item">
                     <label>Extended Days</label>
-                    <span className="float-end text-center">{handleGetCourseDuration() < courseExtendDays ? courseExtendDays-handleGetCourseDuration():0 }
+                    <span className="float-end text-center">{handleGetCourseDuration() < courseExtendDays ? courseExtendDays-weekOffCount - handleGetCourseDuration() : 0}
                         <small className="d-flex">Days</small>
                     </span>
                 </li>

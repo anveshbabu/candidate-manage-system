@@ -17,9 +17,8 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
         let candData = JSON.parse(getStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE));
         var joinDate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
         var current = moment()
-        setCandidateDetail(candData)
+        setCandidateDetail(candData);
         var diff = current.diff(joinDate, 'days');
-
         let setJoindate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
         let attendanceLis = []
         for (let i = 0; i < diff + 1; i++) {
@@ -66,7 +65,24 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
             // setFormLoader(false);
 
         });
+    };
+
+
+
+    const handleAttendanceLabel = (atd, atdDate) => {
+        if (atd === ATTENDANCE.PRESENT) {
+            return 'Present'
+        } else if (atd === ATTENDANCE.ABSENT) {
+            return 'Absent'
+        } else if (atd === ATTENDANCE.LEAVE) {
+            return 'Leave'
+        } else if (!atd && !candidateDetail?.joinedCourses[0]?.classDays.includes(moment(atdDate, "DD/MM/YYYY").day())) {
+            return 'Week Off'
+        } else {
+            return "Missing"
+        }
     }
+
 
 
     return (
@@ -74,7 +90,7 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
             <div className="card-header d-flex align-items-center">
                 <div className="d-flex">
                     <div className="flex-shrink-0">
-                        <LazyLoadImage alt={candidateDetail?.name} className='rounded-circle' name={candidateDetail?.name}/>
+                        <LazyLoadImage alt={candidateDetail?.name} className='rounded-circle' name={candidateDetail?.name} />
                     </div>
                     <div className="flex-grow-1 ms-3">
                         <h5 className="mb-0">{candidateDetail?.name}</h5>
@@ -89,7 +105,7 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
                 {attendanceList?.map(({ atdDate, atd }, i) =>
                     <li className="list-group-item" key={i}>
                         <label>{atdDate}</label>
-                        <span className={`float-end text-center ${atd === ATTENDANCE.PRESENT ? "text-success" : atd === ATTENDANCE.ABSENT ? "text-warning" : "text-danger"}`}>{atd === ATTENDANCE.PRESENT ? "Present" : atd === ATTENDANCE.ABSENT ? "Absent" : "Missing"}
+                        <span className={`float-end text-center ${atd === ATTENDANCE.PRESENT ? "text-success" : atd === ATTENDANCE.ABSENT ? "text-warning" : "text-danger"}`}>{handleAttendanceLabel(atd, atdDate)}
                             {/* <small className="d-flex">{atd ? atd : "Missing"}</small> */}
                         </span>
                     </li>

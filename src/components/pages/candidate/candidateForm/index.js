@@ -1,9 +1,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 
-import { NormalButton, NormalInput, Normalselect } from '../../../common';
+import { NormalButton, NormalInput, Normalselect, NormalCheckbox } from '../../../common';
 import { candidateFormObj, joinedCoursesObj } from '../../../../services/entity'
-import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, COURSE_TRAINER } from '../../../../services/constants'
+import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, WEEK_LIST } from '../../../../services/constants'
 import SimpleReactValidator from 'simple-react-validator';
 import { createCandidate, updateCandidate } from '../../../../api/candidate';
 import { getBatchList } from '../../../../api/masters';
@@ -11,6 +11,7 @@ import { getAllUser } from '../../../../api/user';
 
 import { isEmpty } from '../../../../services/helperFunctions'
 import './candidateFrom.scss'
+import { Label } from 'reactstrap';
 
 export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj }) => {
     const simpleValidator = useRef(new SimpleReactValidator({ className: "error-message", }));
@@ -20,6 +21,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     const [batchTimingList, setBatchTimingList] = useState([]);
     const [batchTimings, setBatchTiming] = useState([]);
     const [curseTrainerList, setCurseTrainerList] = useState([]);
+
 
 
     //onlode call
@@ -42,7 +44,18 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
 
     const handleInputJoinedCoursesChange = (e, i) => {
         let { value, name } = e.target;
-        candidateObj.joinedCourses[i][name] = value
+        if (name != 'classDays') {
+            candidateObj.joinedCourses[i][name] = value
+        } else {
+            value = Number(value)
+            let index = candidateObj.joinedCourses[i][name].findIndex((data) => data === value);
+            console.log('candidateObj------------>', index)
+            if (index == -1) {
+                candidateObj.joinedCourses[i][name].push(value);
+            } else {
+                candidateObj.joinedCourses[i][name].splice(index, 1);
+            }
+        }
         SetCandidateObj({
             ...candidateObj
         });
@@ -252,6 +265,15 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         name='settlementStatus'
                                         options={YES_NO}
                                         errorMessage={simpleValidator.current.message('Settlement Status', joinedCourses.settlementStatus, 'required')} />
+                                </div>
+                                <div className='col-md-12 col-sm-12'>
+                                    <div class="mb-3">
+                                        <label className="form-label d-flex">Class Days</label>
+                                        {WEEK_LIST?.map(({ label, value }) => <NormalCheckbox label={label} value={value} name='classDays' onChange={(e) => handleInputJoinedCoursesChange(e, i)} checked={joinedCourses.classDays.includes(value)} />)}
+                                    </div>
+
+
+
                                 </div>
                                 <div className='col-md-12 col-sm-12 text-end'>
                                     {candidateObj?.joinedCourses.length === i + 1 && <a class="link-success add-delete-text me-2" onClick={handleJoinCourses}>Add New</a>}
