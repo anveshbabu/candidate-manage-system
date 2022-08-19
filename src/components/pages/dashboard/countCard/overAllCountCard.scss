@@ -1,0 +1,13 @@
+.overAllCountCard {
+    border: 0;
+    border-left: 3px solid;
+
+    .text-count {
+        font-size: .8rem;
+        font-weight: 600;
+    }
+
+    .count-icon {
+        color: var(--text-gray);
+    }
+}

@@ -15,6 +15,7 @@ export const createCandidate = (body) => {
                 let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
                 body['createdBy']['name'] = first_name + " " + last_name;
                 body['createdBy']['userId'] = user_id;
+                body['createdBy']['date'] = new Date().toISOString();
                 const docRef = await addDoc(collection(getFirestore(), "candidate"), body);
                 resolve(docRef)
                 Toast({ type: 'success', message: 'candidate saved successfully', title: 'success' })
@@ -35,12 +36,14 @@ export const updateCandidate = (body, id) => {
     delete body.statusCount
     delete body?.course;
     delete body?.instituteBranch;
+    console.log('body-------------->',body)
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                let { email } = jwtDecodeDetails()
-                body['createdBy'] = email
-                body['createdEmail'] = email
+                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+                body['updatedBy']['name'] = first_name + " " + last_name;
+                body['updatedBy']['userId'] = user_id;
+                body['updatedBy']['date'] = new Date().toString();
                 const docRef = await updateDoc(doc(getFirestore(), "candidate", id), body);
                 resolve(docRef)
                 Toast({ type: 'success', message: 'candidate saved successfully', title: 'success' })

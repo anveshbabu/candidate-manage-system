@@ -66,7 +66,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     useEffect(() => {
         console.log('candidateEditObj--------------->', candidateEditObj)
         if (!isEmpty(candidateEditObj)) {
-            SetCandidateObj(candidateEditObj)
+            SetCandidateObj({...candidateFormObj,...candidateEditObj})
         }
     }, [candidateEditObj]);
 

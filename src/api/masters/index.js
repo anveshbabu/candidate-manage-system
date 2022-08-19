@@ -79,7 +79,7 @@ export const getBatchListWithCandidate = (body) => {
 
                         if (i + 1 === querySnapshot.size) {
                             resolve(batchTimeList);
-                          
+
                         }
 
 
@@ -112,13 +112,17 @@ export const getCandidate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-              
+
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("classTimeIDs", "array-contains", classTimeIDs), where("trainerIDs", "array-contains", trainerIDs)));
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("trainerIDs", "array-contains", body?.userId)));
 
                 let data = []
                 querySnapshot.forEach((doc) => {
-                    data.push({ ...doc.data(), id: doc.id });
+                    let avilStatus = doc.data().joinedCourses.find(({ trainer }) => trainer == body?.userId);
+                    if (avilStatus?.classDays.includes(new Date().getDay())) {
+                        data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, classDays: avilStatus?.classDays });
+                    }
+
                 });
                 resolve(data)
             } else {
