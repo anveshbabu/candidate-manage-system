@@ -27,7 +27,9 @@ export const CANDIDATE_COURSE_STATUS = [
     { value: 'Hold', label: 'Hold' },
     { value: 'Processing', label: 'Processing' },
     { value: 'Discontinued', label: 'Discontinued' },
-]
+];
+
+
 
 export const COURSE_TRAINER = [
     { value: 'Anvesh babu', label: 'Anvesh babu' },

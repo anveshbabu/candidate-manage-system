@@ -25,11 +25,11 @@ export const MENU = [
     {
         // title: "Models",
         menuItems: [
-            // {
-            //     icon: 'fa-solid fa-chart-line',
-            //     text: 'Dashboard',
-            //     url:"/dashboard"
-            // },
+            {
+                icon: 'fa-solid fa-chart-line',
+                text: 'Dashboard',
+                url:"/dashboard"
+            },
             {
                 icon: 'fa-solid fa-users',
                 text: 'candidate',
