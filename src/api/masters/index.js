@@ -119,9 +119,9 @@ export const getCandidate = (body) => {
                 let data = []
                 querySnapshot.forEach((doc) => {
                     let avilStatus = doc.data().joinedCourses.find(({ trainer }) => trainer == body?.userId);
-                    if (avilStatus?.classDays.includes(new Date().getDay())) {
+                    // if (avilStatus?.classDays.includes(new Date().getDay())) {
                         data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, classDays: avilStatus?.classDays });
-                    }
+                    // }
 
                 });
                 resolve(data)

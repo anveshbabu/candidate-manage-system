@@ -9,7 +9,8 @@ export const NormalBreadcrumb = (props) => {
     rightSideBtn=false,
     buttonLabel='',
     onBtnClick,
-    btnIsLoader=false
+    btnIsLoader=false,
+    rightSideChild,
   } = props;
 
   return (
@@ -22,6 +23,7 @@ export const NormalBreadcrumb = (props) => {
         </div>
         <div className='col-sm-12 col-md-6 text-end '>
        {rightSideBtn &&  <NormalButton  isLoader={btnIsLoader} onClick={onBtnClick} label={buttonLabel} className='add-new-btn' size="small"  variant="outlined"/> }
+       {rightSideChild && rightSideChild }
         </div>
       </div>
 

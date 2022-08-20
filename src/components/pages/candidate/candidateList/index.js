@@ -112,6 +112,7 @@ const handleRouteAttendance=(data)=>{
     history.push(`/batche/${isFromBatch}/candidate/attendance`)
 }
 
+// console.log('candidateList----------------->',candidateList)
 
 
     return (

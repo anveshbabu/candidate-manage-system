@@ -25,8 +25,10 @@ export const updateAtendance = (body) => {
                         const docRef = await addDoc(collection(getFirestore(), DB_NAME.ATTENDANCE), attendanceObj);
 
                     } else {
+                        console.log('isAvilable---------->',isAvilable.size)
 
                         isAvilable.forEach(async (cand) => {
+                            console.log('isAvilable---------->',cand.data(),cand.data().id)
                             avilabelCounr++
                             let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
                             attendanceObj['createdBy']['name'] = first_name + " " + last_name;
