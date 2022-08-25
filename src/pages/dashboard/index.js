@@ -1,31 +1,52 @@
 import React from "react";
 import { NormalBreadcrumb } from '../../components/common'
-import { OverAllCountCard,InstituteWiseEnrollCountCard } from '../../components/pages';
+import { OverAllCountCard, InstituteWiseEnrollCountCard, ExtendedDaysCandidate } from '../../components/pages';
 import { getSummaryCandidate } from '../../api/dashboard'
+import { getAllUser } from '../../api/user'
 
 
 export class Dashboard extends React.Component {
   state = {
     summaryCounts: {},
-    branchCandList:[]
+    branchCandList: [],
+    usersList: [],
+    extendedDayCandList:[],
+    isFormLoader: false
 
   }
 
   componentDidMount() {
-    getSummaryCandidate().then(({summaryCounts='',branchCandidateList=[]}) => {
-      this.setState({ summaryCounts,branchCandList:branchCandidateList });
+    this.setState({ isFormLoader: true })
+    getSummaryCandidate().then(({ summaryCounts = '', branchCandidateList = [], extendedDayCandList=[] }) => {
+      console.log('extendedDayCandList------------>',extendedDayCandList)
+
+      this.setState({ summaryCounts, branchCandList: branchCandidateList, extendedDayCandList });
 
     }).catch((error) => {
-      console.log('--------- err', error);
-      // setFormLoader(false);
+      this.setState({ isFormLoader: false })
 
     });
+
+    this.handleUserList();
   }
 
 
+  handleUserList = () => {
+
+
+    getAllUser().then((usersList) => {
+      if (usersList?.length > 0) {
+        this.setState({ usersList })
+      }
+    })
+      .catch((error) => {
+        this.setState({ isFormLoader: false })
+      });
+
+  };
 
   render() {
-    let { summaryCounts={},branchCandList=[] } = this.state;
+    let { summaryCounts = {}, branchCandList = [], extendedDayCandList = [],usersList=[] } = this.state;
     return (
       <div>
         <NormalBreadcrumb label='Dashboard' />
@@ -50,6 +71,9 @@ export class Dashboard extends React.Component {
         <div className="row mb-4">
           <div className="col-md-6 col-sm-12">
             <InstituteWiseEnrollCountCard branchCandList={branchCandList} />
+          </div>
+          <div className="col-md-6 col-sm-12">
+            <ExtendedDaysCandidate extendedDayCandList={extendedDayCandList} usersList={usersList}/>
           </div>
         </div>
 

@@ -25,14 +25,17 @@ export const InstituteWiseEnrollCountCard = ({ branchCandList = [] }) => {
             }
 
         });
-        return settlementCount ? `${settlementCount}/${complitedCount}` :`${settlementCount}/${complitedCount}`;
+        return settlementCount ? `${settlementCount}/${complitedCount}` : `${settlementCount}/${complitedCount}`;
 
     }
 
 
     return (
         <div className={`card `}>
-            <div className="card-body">
+            <div className="card-header">
+                <h5 className='card-title mb-0'>Branch Wise Details</h5>
+            </div>
+            <div className="card-body pt-0">
                 <div className="row ">
                     <div className='col-12'>
                         <table className="table">
@@ -40,7 +43,7 @@ export const InstituteWiseEnrollCountCard = ({ branchCandList = [] }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Branch</th>
-                                    <th scope="col">Pending</th>
+                                    <th scope="col">Processing</th>
 
                                     <th scope="col">Completed</th>
                                     <th scope="col">Hold</th>

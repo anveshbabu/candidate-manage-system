@@ -104,7 +104,7 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
 
                 {attendanceList?.map(({ atdDate, atd }, i) =>
                     <li className="list-group-item" key={i}>
-                        <label>{atdDate}</label>
+                        <label>{atdDate} {i}</label>
                         <span className={`float-end text-center ${atd === ATTENDANCE.PRESENT ? "text-success" : atd === ATTENDANCE.ABSENT ? "text-warning" : "text-danger"}`}>{handleAttendanceLabel(atd, atdDate)}
                             {/* <small className="d-flex">{atd ? atd : "Missing"}</small> */}
                         </span>

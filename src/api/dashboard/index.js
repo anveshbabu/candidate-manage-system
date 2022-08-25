@@ -4,7 +4,7 @@ import { getAuth, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { isAuthenticated, jwtDecodeDetails } from '../../services/utilities';
 import { STATUS } from '../../services/constants'
-import { CURRENT_USER, INSTITUTE_BRANCH } from '../../services/constants'
+import { COURSE_LIST, INSTITUTE_BRANCH } from '../../services/constants'
 import { isEmpty } from '../../services/helperFunctions'
 import { Toast } from '../../services/toast';
 import moment from "moment";
@@ -18,7 +18,7 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
 
-                let summaryCounts = {}, data = []
+                let summaryCounts = {}, data = [],extendedDayCandList=[];
                 let weekCount = 0, monthSummary = 0, lastThreeMonthSUmmary = 0;
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
@@ -32,7 +32,6 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
                  
                     if (!isEmpty(isWeekSummary)) {
-                        console.log('isWeekSummary----------------->',isWeekSummary,doc.data())
                         weekCount++
                     };
                     if (!isEmpty(isMonthSummary)) {
@@ -42,11 +41,28 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                         lastThreeMonthSUmmary++
                     }
                     data.push({ ...doc.data(), id: doc.id, });
-                    summaryCounts = { weekCount, monthSummary, lastThreeMonthSUmmary, overAllSummary: querySnapshot?.size }
+                    summaryCounts = { weekCount, monthSummary, lastThreeMonthSUmmary, overAllSummary: querySnapshot?.size };
+                    let avilStatus = doc.data().joinedCourses.find(({ status }) => status == 'Processing');
+                 
+                    if(!!avilStatus){
+                        var date = moment(avilStatus?.joinDate, "YYYY-MM-DD");
+                        var current = moment();
+                        var diff = current.diff(date, 'days');
+                        let courseDuration = COURSE_LIST.find(({ value }) => value === avilStatus?.course)?.courseDuration;
+                        if (courseDuration < diff) {
+                
+                            extendedDayCandList.push({ ...doc.data(), id: doc.id, trainer:avilStatus?.trainer, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch,joinDate:avilStatus?.joinDate })
+                
+                        } else {
+                            return 0;
+                        }
+                        console.log('!isEmpty(avilStatus) test----------->',avilStatus)
+                      
+                    }
+                    
                 });
                 
                 let branchList= INSTITUTE_BRANCH.map(({ value }) => {
-                    let f= data.map(({ joinedCourses }) => joinedCourses?.find(({ instituteBranch }) => instituteBranch === value)).filter( Boolean );;
 
                     return {
                         data: data.map(({ joinedCourses }) => joinedCourses?.find(({ instituteBranch }) => instituteBranch === value)).filter( Boolean ),
@@ -54,7 +70,7 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     }
                 });
 
-                resolve({summaryCounts,branchCandidateList:branchList})
+                resolve({summaryCounts,branchCandidateList:branchList,extendedDayCandList})
             } else {
 
             }
