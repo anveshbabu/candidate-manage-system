@@ -30,7 +30,9 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     let isWeekSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd));
                     let isMonthSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
                     let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
+                 
                     if (!isEmpty(isWeekSummary)) {
+                        console.log('isWeekSummary----------------->',isWeekSummary,doc.data())
                         weekCount++
                     };
                     if (!isEmpty(isMonthSummary)) {

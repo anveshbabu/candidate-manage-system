@@ -72,13 +72,18 @@ export const getBatchListWithCandidate = (body) => {
 
                 });
                 getCandidate(body).then((candObj) => {
-                    let batchTimeList = []
+                    let batchTimeList = [],activeCandCount=0,inActiveCandCount=0;
+                    let InActiveBatchTimeList = []
                     data.forEach((batchObj, i) => {
-                        let obj = candObj.filter(({ classTimeIDs }) => classTimeIDs.includes(batchObj?.id));
+                        let obj = candObj.filter(({ classTimeIDs ,status}) => classTimeIDs.includes(batchObj?.id) && status.includes("Processing"));
+                        let InActiveCandObj = candObj.filter(({ classTimeIDs ,status}) => classTimeIDs.includes(batchObj?.id) && !status.includes("Processing"));
                         batchTimeList.push({ ...batchObj, batchData: obj });
+                        InActiveBatchTimeList.push({ ...batchObj, batchData: InActiveCandObj });
+                        activeCandCount=activeCandCount+obj.length;
+                        inActiveCandCount= inActiveCandCount + InActiveCandObj.length;
 
                         if (i + 1 === querySnapshot.size) {
-                            resolve(batchTimeList);
+                            resolve({batchTimeList,InActiveBatchTimeList,inActiveCandCount,activeCandCount});
 
                         }
 

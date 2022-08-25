@@ -8,18 +8,19 @@ import { ALL_BG_PLACEHOLDERS, CURRENT_USER } from '../../../services/constants'
 
 
 export function Batche() {
-    const [selectedTab, setSelectedTab] = useState('Active Batch');
+    const [selectedTab, setSelectedTab] = useState('Active Batch (0)');
     const [usersList, setUsersList] = useState([]);
-    const tabData = ['Active Batch', 'In Active'];
+    const [tabData, setTabData] = useState( [`Active Batch (0)`, 'In Active (0)' ]);
     const [batchTimingList, setBatchTimingList] = useState([]);
+    const [InActiveBatchTimeList, setInActiveBatchTimeList] = useState([]);
     const [isFormLoader, setIsFormLoader] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
 
     //onlode call
     useEffect(() => {
-        let {userId='',user_type} = JSON.parse(localStorage.getItem(CURRENT_USER));
-        setIsAdmin(user_type ===1)
+        let { userId = '', user_type } = JSON.parse(localStorage.getItem(CURRENT_USER));
+        setIsAdmin(user_type === 1)
         setSelectedUserId(userId)
         handleGetBatchList(userId);
         handleUserList();
@@ -53,11 +54,15 @@ export function Batche() {
     const handleGetBatchList = (userId) => {
         try {
             setIsFormLoader(true)
-            let req={
+            let req = {
                 userId
             }
-            getBatchListWithCandidate(req).then((data) => {
-                setBatchTimingList(data);
+            getBatchListWithCandidate(req).then(({ InActiveBatchTimeList, batchTimeList, inActiveCandCount = 0, activeCandCount = 0 }) => {
+            
+                setTabData( [`Active Batch (${activeCandCount})`, `In Active (${inActiveCandCount})`])
+                setSelectedTab(`Active Batch (${activeCandCount})`)
+                setBatchTimingList(batchTimeList);
+                setInActiveBatchTimeList(InActiveBatchTimeList)
                 setIsFormLoader(false)
 
             }).catch((error) => {
@@ -71,19 +76,20 @@ export function Batche() {
         }
     };
 
-const handleUserChange=(e)=>{
-    setSelectedUserId(e?.target?.value);
-    handleGetBatchList(e?.target?.value)
+    const handleUserChange = (e) => {
+        setSelectedUserId(e?.target?.value);
+        handleGetBatchList(e?.target?.value)
 
-}
+    }
 
 
     return (
         <div>
             <NormalBreadcrumb label='Batches' />
+     
             <div className="row mb-3">
-             {isAdmin && <div className="col-md-3 offset-md-9">
-                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} value={selectedUserId} options={usersList} onChange={handleUserChange}/>
+                {isAdmin && <div className="col-md-3 offset-md-9">
+                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} value={selectedUserId} options={usersList} onChange={handleUserChange} />
                 </div>}
                 <div className="col-md-12">
                     <Normaltabs data={tabData} onChange={handleTabChange} />
@@ -92,13 +98,25 @@ const handleUserChange=(e)=>{
             </div>
 
             <div className="row">
-                {!isFormLoader && batchTimingList?.map((data) =>
+                {/* {!isFormLoader && batchTimingList?.map((data) =>
                     data?.batchData?.length > 0 && !!data?.batchData?.find(({ status }) => status.includes("Processing")) && selectedTab == 'Active Batch' ?
                         <div className="col-md-3 col-sm-6 col-12">
                             <BatchCard data={data} />
                         </div> : data?.batchData?.length > 0 && !data?.batchData?.find(({ status }) => status.includes("Processing")) && selectedTab !== 'Active Batch' && <div className="col-md-3 col-sm-6 col-12">
                             <BatchCard data={data} />
-                        </div>
+                        </div> */}
+                {!isFormLoader && selectedTab == tabData[0] && batchTimingList?.map((data) =>
+                    data?.batchData?.length > 0 &&
+                    <div className="col-md-3 col-sm-6 col-12">
+                        <BatchCard data={data} />
+                    </div>
+                )};
+
+                {!isFormLoader && selectedTab !== tabData[0] && InActiveBatchTimeList?.map((data) =>
+                    data?.batchData?.length > 0 &&
+                    <div className="col-md-3 col-sm-6 col-12">
+                        <BatchCard data={data} />
+                    </div>
                 )}
 
 

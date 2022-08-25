@@ -9,7 +9,8 @@ export const NormalToggleSwitch = (props) => {
         label = '',
         errorMessage = '',
         checked = false,
-        onChange=''
+        onChange='',
+        disabled=false
     } = props;
 
     const [isChecked,setIsChecked]=useState(checked)
@@ -21,7 +22,7 @@ export const NormalToggleSwitch = (props) => {
     }
 
     return (
-        <FormControlLabel  control={<Switch checked={isChecked} onChange={handleOnChange} />} label={label} />
+        <FormControlLabel  control={<Switch disabled={disabled} checked={isChecked} onChange={handleOnChange} />} label={label} />
     )
 }
 

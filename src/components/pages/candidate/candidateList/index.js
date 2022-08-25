@@ -152,7 +152,8 @@ const handleRouteAttendance=(data)=>{
                                     </IconButton>
 
                                 </td> : <td>
-                                    <NormalToggleSwitch checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
+                                
+                                    <NormalToggleSwitch disabled={data.status != 'Processing' } checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
                                 </td>}
 
 

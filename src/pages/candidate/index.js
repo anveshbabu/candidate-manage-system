@@ -210,7 +210,7 @@ export const Candidate = () => {
         buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
         btnIsLoader={isAttendanceApiLoader}
         onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : setIsUpdateAttendanceModal(true)}
-        rightSideChild={<NormalButton label={'Apply Leave'} color='error' onClick={() => setIsLeaveAttendanceModal(true)} className='add-new-btn' size="small" variant="outlined" />}
+        rightSideChild={!!params?.batchId && <NormalButton label={'Apply Leave'} color='error' onClick={() => setIsLeaveAttendanceModal(true)} className='add-new-btn' size="small" variant="outlined" />}
       />
 
       <div className="row mt-4">
