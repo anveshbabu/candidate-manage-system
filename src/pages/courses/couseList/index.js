@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { NormalBreadcrumb, Normaltabs } from '../../../components/common'
 import { CourseCard } from '../../../components/pages'
-
-import courseData from '../../../assets/data/db.json'
+import {couserDetailObjList} from '../../../assets/data/courseDetail'
 
 export function Course() {
     const [selectedTab, setSelectedTab] = useState('Course Library');
-    const courseDataList = courseData.data;
+    const courseDataList =couserDetailObjList;
     const tabData = ['Course Library', 'Combo'];
 
 

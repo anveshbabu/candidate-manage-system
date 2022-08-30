@@ -45,7 +45,7 @@ const routers = [
       },
       {
         component: "CourseDetail",
-        path: "/detail",
+        path: "/detail/:courseId",
         auth: false,
         exact: true
       }

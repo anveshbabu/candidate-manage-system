@@ -31,7 +31,7 @@ export const InstituteWiseEnrollCountCard = ({ branchCandList = [] }) => {
 
 
     return (
-        <div className={`card `}>
+        <div className={`card dashboard-card `}>
             <div className="card-header">
                 <h5 className='card-title mb-0'>Branch Wise Details</h5>
             </div>

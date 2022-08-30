@@ -1,7 +1,7 @@
 import React from "react";
 import './courseCard.scss'
-// import { NormalBreadcrumb } from '../../components/common'
-import courseData from '../../../../assets/data/db.json'
+import { history } from '../../../../helpers'
+
 
 
 
@@ -11,7 +11,7 @@ export function CourseCard({ data = {} }) {
 
   return (
 
-    <div className="card course-card  mb-4">
+    <div className="card course-card  mb-4" onClick={()=>history.push(`/course/detail/${data?.id}`)}>
       <img src="https://s3.ap-south-1.amazonaws.com/guvi-2.0/course-thumbnail/python.png" className="card-img-top" alt="course" />
       <div className="card-body">
         <h5 className="card-title">{data?.courseName}</h5>

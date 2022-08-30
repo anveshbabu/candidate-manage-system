@@ -1,31 +1,10 @@
 
-// import './overAllCountCard.scss'
-import { COURSE_LIST } from '../../../../services/constants'
-import moment from "moment";
+import './extendedDaysCandidate.scss'
 export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = [] }) => {
 
-    const handleStatusCount = (candidate = [], status) => {
-        let count = candidate?.filter((data) => data?.status === status)?.length
+   
 
-        return count ? count : 0;
 
-    };
-
-    const handleExtendDateCount = (joinDate, course) => {
-
-        var date = moment(joinDate, "YYYY-MM-DD");
-        var current = moment();
-        var diff = current.diff(date, 'days');
-        let courseDuration = COURSE_LIST.find(({ value }) => value === course)?.courseDuration;
-        if (courseDuration < diff) {
-
-            return diff - courseDuration;
-
-        } else {
-            return 0;
-        }
-
-    };
 
     const handleGetUserName = (trainer) => {
         try {
@@ -42,7 +21,7 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
 
 
     return (
-        <div className={`card `}>
+        <div className={`card dashboard-card`}>
             <div className="card-header">
                 <h5 className='card-title mb-0'>Extended Days Candidate</h5>
             </div>
@@ -62,8 +41,7 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                                 </tr>
                             </thead>
                             <tbody>
-                                {extendedDayCandList?.map(({ name, phone, course, joinDate, trainer }, i) =>
-                                    handleExtendDateCount(joinDate, course) > 0 &&
+                                {extendedDayCandList?.map(({ name, phone, course, joinDate, trainer,extendDays ,joinedCourses = [] }, i) =>
                                     <tr>
                                         <th scope="row">{i + 1}</th>
                                         <td>{name}</td>
@@ -71,7 +49,7 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                                         <td>{joinDate}</td>
                                         <td>{course}</td>
                                         <td>{handleGetUserName(trainer)}</td>
-                                        <td>{handleExtendDateCount(joinDate, course)}</td>
+                                        <td>{extendDays}</td>
                                     </tr>
                                 )}
 
