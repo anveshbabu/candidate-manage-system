@@ -5,6 +5,11 @@
             // font-size: 1.4rem;
             // font-weight: 700;
         }
+        .list-group-item{
+            color: var(--text-black);
+            border: 0;
+            background-color: transparent;
+        }
         .achieve-list{
             li{
                 color: var(--text-black);

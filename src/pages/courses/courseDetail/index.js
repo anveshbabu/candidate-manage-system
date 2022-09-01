@@ -3,16 +3,20 @@ import { NormalBreadcrumb, Normaltabs } from '../../../components/common'
 import { CourseWhatYouLearn, CourseContent } from '../../../components/pages'
 import { useParams } from "react-router-dom";
 import {couserDetailObjList} from '../../../assets/data/courseDetail'
+
 export function CourseDetail() {
     const [courseContent,setCourseContent]=useState([]);
     const params = useParams();
-    
+ 
     
     useEffect(()=>{
         let courseContent =couserDetailObjList.find(({id})=>id === params?.courseId);
         console.log('courseContent------------->',courseContent)
         setCourseContent(courseContent)
-    
+
+
+
+
     },[])
     
 
