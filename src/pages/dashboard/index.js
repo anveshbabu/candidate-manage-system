@@ -1,6 +1,6 @@
 import React from "react";
 import { NormalBreadcrumb } from '../../components/common'
-import { OverAllCountCard, InstituteWiseEnrollCountCard, ExtendedDaysCandidate } from '../../components/pages';
+import { OverAllCountCard, InstituteWiseEnrollCountCard, ExtendedDaysCandidate,TotalEarn } from '../../components/pages';
 import { getSummaryCandidate } from '../../api/dashboard'
 import { getAllUser } from '../../api/user'
 import './dashboard.scss'
@@ -18,7 +18,7 @@ export class Dashboard extends React.Component {
   componentDidMount() {
     this.setState({ isFormLoader: true })
     getSummaryCandidate().then(({ summaryCounts = '', branchCandidateList = [], extendedDayCandList=[] }) => {
-      console.log('extendedDayCandList------------>',extendedDayCandList)
+      console.log('extendedDayCandList------------>',branchCandidateList)
 
       this.setState({ summaryCounts, branchCandList: branchCandidateList, extendedDayCandList });
 
@@ -75,6 +75,13 @@ export class Dashboard extends React.Component {
           <div className="col-md-6 col-sm-12">
             <ExtendedDaysCandidate extendedDayCandList={extendedDayCandList} usersList={usersList}/>
           </div>
+        </div>
+
+        <div className="row mb-4">
+          <div className="col-md-12 col-sm-12">
+            <TotalEarn branchCandList={branchCandList}/>
+          </div>
+         
         </div>
 
       </div>

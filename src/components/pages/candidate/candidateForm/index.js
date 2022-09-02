@@ -245,11 +245,11 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         errorMessage={simpleValidator.current.message('Institute Branch', joinedCourses.instituteBranch, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
-                                    <NormalInput label='Fees'
+                                    <NormalInput label='Total Fees'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
                                         value={joinedCourses.fees}
                                         name='fees'
-                                        errorMessage={simpleValidator.current.message('Fees', joinedCourses.fees, 'required|numeric')} />
+                                        errorMessage={simpleValidator.current.message('Total Fees', joinedCourses.fees, 'required|numeric')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
                                     <NormalInput label='Pending Fees'
