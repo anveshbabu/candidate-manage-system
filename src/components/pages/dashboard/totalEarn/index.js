@@ -82,7 +82,6 @@ export const TotalEarn = ({ branchCandList }) => {
             const endOfMonth = moment(currentYear).endOf('month');
 
             let candidateList = branchCandList?.find(({ branch }) => branch == value);
-            console.log('candidateList----------->',candidateList)
             let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
             let selectedMonthFeesTotal = 0
             if (Array.isArray(selectedMonthCandList)) {
@@ -107,7 +106,7 @@ export const TotalEarn = ({ branchCandList }) => {
 
                 <div className='row'>
                     <div className='col-md-9'>
-                        <h5 className='card-title mb-0'>Branch Wise Earn</h5>
+                        <h5 className='card-title mb-0'>Month Wise Revenue</h5>
                     </div>
                     <div className='col-md-3'>
                         <Normalselect label='Branch' value={selectedBranch} onChange={(e)=>getEarnMoney(e?.target?.value)} options={branchCandList?.map(({branch})=>({label:branch,value:branch}))}   size="small"/>
