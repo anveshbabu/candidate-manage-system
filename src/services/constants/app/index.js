@@ -50,6 +50,7 @@ export const COURSE_LIST = [
     { value: 'Full stack', label: 'Full stack', courseDuration: 75 },
     { value: 'Front end', label: 'Front end', courseDuration: 45 },
     { value: 'React JS', label: 'React JS', courseDuration: 30 },
+    { value: 'Java Script', label: 'Java Script', courseDuration: 20 },
     { value: 'Angular', label: 'Angular', courseDuration: 30 },
     { value: 'Node js', label: 'Node js', courseDuration: 25 },
     { value: 'Android', label: 'Android' },
@@ -65,9 +66,7 @@ export const CLASS_TYPE = [
 export const YES_NO = [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' },
-]
-
-
+]                                                                                                                                                                                                                                                                                                                                                                                      
 
 export const INSTITUTE_BRANCH = [
     { value: 'Perumbakam', label: 'Perumbakam' },
@@ -83,6 +82,7 @@ export const INSTITUTE_BRANCH = [
     { value: 'Anna Nagar', label: 'Anna Nagar' },
     { value: 'West Tambaram', label: 'West Tambaramr' },
 ];
+
 
 
 export const DB_NAME = {

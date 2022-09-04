@@ -106,7 +106,7 @@ export class Login extends React.Component {
         <div className="col-md-9 col-xs-9">
           <div className="row">
             <div className="col-md-12 title">
-              <h4>Sign in to access iTrain</h4>
+              <h4>Sign in to access My 360</h4>
               <h4>Super Admin Portal</h4>
             </div>
           </div>

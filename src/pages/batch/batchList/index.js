@@ -110,7 +110,7 @@ export function Batche() {
                     <div className="col-md-3 col-sm-6 col-12">
                         <BatchCard data={data} />
                     </div>
-                )};
+                )}
 
                 {!isFormLoader && selectedTab !== tabData[0] && InActiveBatchTimeList?.map((data) =>
                     data?.batchData?.length > 0 &&

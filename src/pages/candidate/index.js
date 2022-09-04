@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import moment from "moment"
 
 
-import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect, NormalButton, NormalAlert } from '../../components/common';
+import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect } from '../../components/common';
 import { CandidateList, CandidateFrom } from '../../components/pages';
 import { CANDIDATE_COURSE_STATUS, ATTENDANCE, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, EXIST_LOCAL_STORAGE } from '../../services/constants'
 import { candidateFormObj, attendanceFormObject } from '../../services/entity'
@@ -19,9 +19,7 @@ export const Candidate = () => {
   const [candidateList, setCandidateList] = useState([])
   const [candidateFilterList, setCandidateFilterList] = useState([]);
   const [attendanceReqList, setAttendanceReqList] = useState([])
-  const [isAttendanceApiLoader, setIsAttendanceApiLoader] = useState(false);
-  const [isUpdateAttendanceModal, setIsUpdateAttendanceModal] = useState(false);
-  const [isLeaveAttendanceModal, setIsLeaveAttendanceModal] = useState(false);
+  const [isAttendanceApiLoader, setIsAttendanceApiLoader] = useState(false)
   const [candidateFilter, setCandidateFilter] = useState({
     searchText: "",
     classType: ""
@@ -156,51 +154,20 @@ export const Candidate = () => {
   }
 
 
-  const handleAttendance = (value) => {
-    if (value) {
-      let reqobj = candidateList.map(({ attObj }) => ({ ...attObj }));
-      let candList = candidateList.map((data, i) => ({ ...data,attObj:{...data?.attObj} }));
-    
-      console.log('reqobj--------->', reqobj)
-      setIsAttendanceApiLoader(true)
-      updateAtendance(reqobj).then((data) => {
-        setCandidateList([...candList])
-        setIsAttendanceApiLoader(false)
-        setIsUpdateAttendanceModal(false)
-      }).catch((error) => {
-        console.log('--------- err', error);
-        setIsAttendanceApiLoader(false)
-        setIsUpdateAttendanceModal(false)
-        // setFormLoader(false);
+  const handleAttendance = () => {
+    let reqobj = candidateList.map(({ attObj }) => ({ ...attObj }));
+    console.log('reqobj--------->', reqobj)
+    setIsAttendanceApiLoader(true)
+    updateAtendance(reqobj).then((data) => {
+      console.log('getAttendance--------->', data)
+      setIsAttendanceApiLoader(false)
+    }).catch((error) => {
+      console.log('--------- err', error);
+      setIsAttendanceApiLoader(false)
+      // setFormLoader(false);
 
-      });
-    } else {
-      setIsUpdateAttendanceModal(false)
-    }
+    });
   }
-
-  const handleApplyLeave = (value) => {
-    if (value) {
-
-      let reqobj = candidateList.map(({ attObj }, i) => ({ ...attObj, atd: ATTENDANCE.LEAVE, candId: candidateList[i]?.id, batchId: params?.batchId, atdDate: moment().format('DD/MM/YYYY'), atdTime: moment().format('HH:mm'), }));
-      let candList = candidateList.map((data, i) => ({ ...data,attObj:{...data?.attObj, atd: ATTENDANCE.LEAVE, candId: candidateList[i]?.id, batchId: params?.batchId, atdDate: moment().format('DD/MM/YYYY'), atdTime: moment().format('HH:mm'),} }));
-     
-      setIsAttendanceApiLoader(true)
-      updateAtendance(reqobj).then((data) => {
-        setCandidateList([...candList])
-        setIsAttendanceApiLoader(false);
-        setIsLeaveAttendanceModal(false)
-      }).catch((error) => {
-        setIsAttendanceApiLoader(false)
-        setIsLeaveAttendanceModal(false)
-        // setFormLoader(false);
-
-      });
-    } else {
-      setIsLeaveAttendanceModal(false)
-    }
-  }
-
 
 
   return (
@@ -209,8 +176,7 @@ export const Candidate = () => {
       <NormalBreadcrumb className="mb-0" label={'Candidate'} rightSideBtn={true}
         buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
         btnIsLoader={isAttendanceApiLoader}
-        onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : setIsUpdateAttendanceModal(true)}
-        rightSideChild={!!params?.batchId && <NormalButton label={'Apply Leave'} color='error' onClick={() => setIsLeaveAttendanceModal(true)} className='add-new-btn' size="small" variant="outlined" />}
+        onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()}
       />
 
       <div className="row mt-4">
@@ -260,8 +226,7 @@ export const Candidate = () => {
         </div>
       </div>
 
-      <NormalAlert isLoader={isAttendanceApiLoader} isShow={isUpdateAttendanceModal} title='Are You sure want to Update the Attendance' toggle={() => setIsUpdateAttendanceModal(false)} onClick={handleAttendance} />
-      <NormalAlert isLoader={isAttendanceApiLoader} isShow={isLeaveAttendanceModal} title='Are You sure want to Applay Leave' toggle={() => isLeaveAttendanceModal(false)} onClick={handleApplyLeave} />
+
       <NormalModal className='modal-right' toggle={handleCandidateFormClose} title="Add Candidate" isShow={isCandidateModal}>
         <CandidateFrom onClose={handleCandidateFormClose} sucessSaved={handleCandidateFormClose} candidateEditObj={candidateObj} />
       </NormalModal>

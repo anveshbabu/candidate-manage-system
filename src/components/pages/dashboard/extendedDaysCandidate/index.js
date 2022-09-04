@@ -2,7 +2,7 @@
 import './extendedDaysCandidate.scss'
 export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = [] }) => {
 
-   
+
 
 
 
@@ -25,8 +25,8 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
             <div className="card-header">
                 <h5 className='card-title mb-0'>Extended Days Candidate</h5>
             </div>
-            <div className="card-body pt-0">
-                <div className="row ">
+            <div className="card-body pt-0 ">
+              {extendedDayCandList?.length>0 ? <div className="row ">
                     <div className='col-12'>
                         <table className="table">
                             <thead>
@@ -41,7 +41,7 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                                 </tr>
                             </thead>
                             <tbody>
-                                {extendedDayCandList?.map(({ name, phone, course, joinDate, trainer,extendDays ,joinedCourses = [] }, i) =>
+                                {extendedDayCandList?.map(({ name, phone, course, joinDate, trainer, extendDays, joinedCourses = [] }, i) =>
                                     <tr>
                                         <th scope="row">{i + 1}</th>
                                         <td>{name}</td>
@@ -57,7 +57,19 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div>:
+                <div className='nodate-image'>
+                    <div className='image-wrap'>
+                    <img src={require('../../../../assets/images/noData.png')} />
+                    </div>
+                  
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <h4>No data found</h4>
+                        </div>
+                    </div>
+
+                </div>}
             </div>
         </div>
     )

@@ -5,6 +5,7 @@ import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
 import { jwtDecodeDetails } from '../../../services/utilities';
+import { letterAvatar } from '../../../services/helperFunctions';
 import {ThemeMode} from '../../../components/common';
 
 export const Header = () => {
@@ -77,7 +78,8 @@ export const Header = () => {
 
         {/* <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button> */}
         <a className="navbar-brand ms-2 mb-2" href="#">
-          <img src={require('../../../assets/images/logo.png')} alt="" width="125"/>
+          <img src={require(`../../../assets/images/logo.png`)} alt="My 360" title="My 360" width="50" height='50'/> 
+          {/* {" "}My 360 */}
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -95,7 +97,7 @@ export const Header = () => {
               <a className="nav-link" href="#"><i className="fa-solid fa-bell mt-2" /></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link profile-icon" href="#">{userData?.userObj?.first_name} {userData?.userObj?.last_name} <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
+              <a className="nav-link profile-icon" href="#">{userData?.userObj?.first_name} {userData?.userObj?.last_name} <img className="ms-2" src={letterAvatar(`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`)}/></a>
             </li>
 
           </ul>

@@ -127,7 +127,6 @@ export const getCandidate = (body) => {
                     // if (avilStatus?.classDays.includes(new Date().getDay())) {
                         data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, classDays: avilStatus?.classDays });
                     // }
-
                 });
                 resolve(data)
             } else {

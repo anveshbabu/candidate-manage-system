@@ -75,6 +75,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     const handleDeleteCandidate = (value) => {
 
         if (value) {
+            console.log('deleteObj?.id-------->',deleteObj?.id)
             deleteCandidate(deleteObj?.id).then((data) => {
                 let index = candidateList.findIndex(({ id }) => id === deleteObj?.id);
                 if (index !== -1) {
@@ -147,7 +148,7 @@ const handleRouteAttendance=(data)=>{
                                     <IconButton color="success" onClick={() => onGetEditData(data)}>
                                         <CreateIcon />
                                     </IconButton>
-                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(i)}>
+                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(data)}>
                                         <DeleteIcon />
                                     </IconButton>
 
