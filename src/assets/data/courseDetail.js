@@ -1,10 +1,26 @@
 export const couserDetailObjList = [
     {
+        courseName: "Front End",
+        overAllTime: "50 hrs",
+        fees: "25000",
+        id: "1108",
+        "isCombo": true
+    },
+    {
+        courseName: "Full Stack",
+        overAllTime: "80 hrs",
+        fees: "35000",
+        id: "1109",
+        "isCombo": true
+    },
+    {
         title: "Course Content",
         courseName: "HTML & CSS",
         overAllTime: "8 hrs",
         fees: "10000",
         id: "1100",
+        mapId:["1108",'1109'],
+        img:require('../../assets/images/courses/html_css.png'),
         whatYouLearn: ['Create HTML and CSS files.',
             'Create, maintain, or modify HTML and CSS',
             'Use the functions of HTML & Cascading Style Sheets (CSS) in Web communications.',
@@ -146,6 +162,8 @@ export const couserDetailObjList = [
         overAllTime: "6 hrs",
         fees: "8000",
         id: "1101",
+        mapId:["1108",'1109'],
+        img:require('../../assets/images/courses/html_css.png'),
         whatYouLearn: ['Learn and create amazing high quality Bootstrap themes and UIs from scratch',
             'Learn the Bootstrap utilities, classes, components & JS widgets using a custom sandbox environment',
             'Learn semantic HTML5 & modern CSS3 techniques',
@@ -348,6 +366,8 @@ export const couserDetailObjList = [
         overAllTime: "12 hrs",
         fees: "10000",
         id: "1102",
+        mapId:["1108",'1109'],
+        img:require('../../assets/images/courses/js.png'),
         whatYouLearn: ['Learn how JavaScript works and find out how to use its many advantages',
             'Understand and Use the new Features and Concepts introduced with ES6',
             'Master all the fundamental features of JavaScript starting from basic concepts such as Variables, Objects, Functions, Scopes, Operators, etc.',
@@ -474,6 +494,8 @@ export const couserDetailObjList = [
         overAllTime: "18 hrs",
         fees: "15000",
         id: "1103",
+        mapId:["1108",'1109'],
+        img:require('../../assets/images/courses/react.png'),
         whatYouLearn: ['Build powerful, fast, user-friendly and reactive web apps', 'Provide amazing user experiences by leveraging the power of JavaScript with ease', 'Apply for high-paid jobs or work as a freelancer in one the most-demanded sectors you can find in web dev right now', 'Learn all about React Hooks and React Components'],
         data: [
             {
@@ -610,6 +632,8 @@ export const couserDetailObjList = [
         overAllTime: "18 hrs",
         fees: "15000",
         id: "1104",
+        mapId:["1108",'1109'],
+        img:require('../../assets/images/courses/angular.png'),
         whatYouLearn: ['Develop modern, complex, responsive and scalable web applications with Angular',
             'Fully understand the architecture behind an Angular application and how to use it',
             'Use the gained, deep understanding of the Angular fundamentals to quickly establish yourself as a frontend developer',
@@ -733,6 +757,8 @@ export const couserDetailObjList = [
         overAllTime: "10 hrs",
         fees: "15000",
         id: "1105",
+        mapId:['1109'],
+        img:require('../../assets/images/courses/html_css.png'),
         whatYouLearn: ['Work with one of the most in-demand web development programming languages',
             'Learn the basics as well as advanced concepts of NodeJS in great detail',
             'Build modern, fast and scalable server-side web applications with NodeJS, databases like SQL or MongoDB and more',
@@ -1082,6 +1108,7 @@ export const couserDetailObjList = [
         overAllTime: "20 hrs",
         fees: "35000",
         id: "1111",
+        mapId:['1109'],
         whatYouLearn: ['Understand how Git works behind the scenes',
             'Explain the difference Git objects: trees, blobs, commits, and annotated tags',
             'Master the essential Git workflow: adding & committing',
@@ -1156,25 +1183,13 @@ export const couserDetailObjList = [
         ],
         "isCombo": false
     },
-    {
-        courseName: "Front End",
-        overAllTime: "50 hrs",
-        fees: "25000",
-        id: "1108",
-        "isCombo": true
-    },
-    {
-        courseName: "Full Stack",
-        overAllTime: "80 hrs",
-        fees: "35000",
-        id: "1109",
-        "isCombo": true
-    },
+ 
     {
         courseName: "TypeScript",
         overAllTime: "20 hrs",
         fees: "35000",
         id: "1110",
-        "isCombo": false
+        "isCombo": false,
+        img:require('../../assets/images/courses/typescript.jpg'),
     }
 ]

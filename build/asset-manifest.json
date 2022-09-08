@@ -1,27 +1,32 @@
 {
   "files": {
-    "main.css": "/candidate-manage-system/static/css/main.f60685f7.css",
-    "main.js": "/candidate-manage-system/static/js/main.7f02f7db.js",
+    "main.css": "/candidate-manage-system/static/css/main.68af58c8.css",
+    "main.js": "/candidate-manage-system/static/js/main.f13af17a.js",
     "static/js/787.65f868c6.chunk.js": "/candidate-manage-system/static/js/787.65f868c6.chunk.js",
     "static/media/fa-solid-900.ttf": "/candidate-manage-system/static/media/fa-solid-900.79da213423ac0def2058.ttf",
     "static/media/fa-brands-400.ttf": "/candidate-manage-system/static/media/fa-brands-400.0a1b701f5563c2288281.ttf",
     "static/media/fa-solid-900.woff2": "/candidate-manage-system/static/media/fa-solid-900.4896d4b04430cc3dfb06.woff2",
     "static/media/fa-brands-400.woff2": "/candidate-manage-system/static/media/fa-brands-400.f77bcc98bb7468c8b15a.woff2",
+    "static/media/angular.png": "/candidate-manage-system/static/media/angular.15c15959afcdb8003754.png",
+    "static/media/js.png": "/candidate-manage-system/static/media/js.4f7f610277039e3e5a59.png",
+    "static/media/html_css.png": "/candidate-manage-system/static/media/html_css.862ccbc93aa1ebfe45bd.png",
     "static/media/fa-regular-400.ttf": "/candidate-manage-system/static/media/fa-regular-400.15d98c18221c8bcb2334.ttf",
     "static/media/logo.png": "/candidate-manage-system/static/media/logo.f3e236ef1ab78686f79a.png",
+    "static/media/react.png": "/candidate-manage-system/static/media/react.397c3a4429bcb9087397.png",
+    "static/media/typescript.jpg": "/candidate-manage-system/static/media/typescript.a2f6204eb56b224f0494.jpg",
     "static/media/logo_white.png": "/candidate-manage-system/static/media/logo_white.57862805c248f9182e32.png",
     "static/media/fa-regular-400.woff2": "/candidate-manage-system/static/media/fa-regular-400.d79c2ec96ab9ff1161a2.woff2",
     "static/media/fa-v4compatibility.ttf": "/candidate-manage-system/static/media/fa-v4compatibility.52eba2c567c521b8d58a.ttf",
     "static/media/fa-v4compatibility.woff2": "/candidate-manage-system/static/media/fa-v4compatibility.3d503f89ccaf1b224aa5.woff2",
-    "static/media/delete.svg": "/candidate-manage-system/static/media/delete.9e7de1c225e216a08d33c666a31c4713.svg",
-    "static/media/sucess.svg": "/candidate-manage-system/static/media/sucess.2d597af7471ec5fe7d801a127501d669.svg",
+    "static/media/delete.svg": "/candidate-manage-system/static/media/delete.776be2083984567e072348cf0598f52c.svg",
+    "static/media/sucess.svg": "/candidate-manage-system/static/media/sucess.f3a2adc4c232805f08384319f253886e.svg",
     "index.html": "/candidate-manage-system/index.html",
-    "main.f60685f7.css.map": "/candidate-manage-system/static/css/main.f60685f7.css.map",
-    "main.7f02f7db.js.map": "/candidate-manage-system/static/js/main.7f02f7db.js.map",
+    "main.68af58c8.css.map": "/candidate-manage-system/static/css/main.68af58c8.css.map",
+    "main.f13af17a.js.map": "/candidate-manage-system/static/js/main.f13af17a.js.map",
     "787.65f868c6.chunk.js.map": "/candidate-manage-system/static/js/787.65f868c6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f60685f7.css",
-    "static/js/main.7f02f7db.js"
+    "static/css/main.68af58c8.css",
+    "static/js/main.f13af17a.js"
   ]
 }

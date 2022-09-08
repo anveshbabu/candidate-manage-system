@@ -11,8 +11,8 @@ export function CourseCard({ data = {} }) {
 
   return (
 
-    <div className="card course-card  mb-4" onClick={() => data.data.length > 0 && history.push(`/course/detail/${data?.id}`)}>
-      <img src="https://s3.ap-south-1.amazonaws.com/guvi-2.0/course-thumbnail/python.png" className="card-img-top" alt="course" />
+    <div className="card course-card  mb-4" onClick={() => history.push(`/course/detail/${data?.id}`)}>
+      <img src={data?.img?data?.img:'https://s3.ap-south-1.amazonaws.com/guvi-2.0/course-thumbnail/python.png'} className="card-img-top" alt="course" />
       <div className="card-body">
         <h5 className="card-title">{data?.courseName}</h5>
         <div className="text-muted mt-2 mb-2 w-100">

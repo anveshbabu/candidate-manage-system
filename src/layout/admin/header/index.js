@@ -6,9 +6,10 @@ import { styled } from '@mui/material/styles';
 import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
 import { jwtDecodeDetails } from '../../../services/utilities';
 import { letterAvatar } from '../../../services/helperFunctions';
-import {ThemeMode} from '../../../components/common';
+import { history } from '../../../helpers';
+import {ThemeMode,NormalButton} from '../../../components/common';
 
-export const Header = () => {
+export const Header = ({isAuth=false}) => {
   
   const themeMode = useContext(ThemeMode);
   const [userData,setUserDate]=useState(jwtDecodeDetails())
@@ -93,14 +94,15 @@ export const Header = () => {
                 // label="MUI switch"
               />
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link" href="#"><i className="fa-solid fa-bell mt-2" /></a>
-            </li>
-            <li className="nav-item">
+            </li> */}
+          {isAuth ?  <li className="nav-item">
               <a className="nav-link profile-icon" href="#">{userData?.userObj?.first_name} {userData?.userObj?.last_name} <img className="ms-2" src={letterAvatar(`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`)}/></a>
-            </li>
+            </li>:''}
 
           </ul>
+          {!isAuth && <NormalButton  onClick={()=>history.push('/login')} label={'Login'}   variant="outlined"/>}
         </div>
       </div>
     </nav>

@@ -3,10 +3,16 @@ const routers = [
 
   {
     component: 'AuthLayout',
-    path: '/',
+    path: '/login',
     auth: false,
     exact: false,
     childrens: [
+      // {
+      //   component: "Course",
+      //   path: "/",
+      //   auth: false,
+      //   exact: true,
+      // },
       {
         component: "Login",
         path: "/",
@@ -15,6 +21,21 @@ const routers = [
       },
     ]
   },
+  {
+    component: 'Adminlayout',
+    path: '/',
+    auth: false,
+    exact: false,
+    childrens: [
+     {
+        component: "Course",
+        path: "/",
+        auth: false,
+        exact: true,
+      },
+    ]
+  },
+  
   {
     component: "Adminlayout",
     path: "/dashboard",
