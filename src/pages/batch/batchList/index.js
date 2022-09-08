@@ -4,25 +4,32 @@ import { BatchCard } from '../../../components/pages'
 
 import { getBatchListWithCandidate } from '../../../api/masters';
 import { getAllUser } from '../../../api/user';
-import { ALL_BG_PLACEHOLDERS, CURRENT_USER } from '../../../services/constants'
+import { ALL_BG_PLACEHOLDERS, CURRENT_USER, WEEK_LIST } from '../../../services/constants'
 
 
 export function Batche() {
     const [selectedTab, setSelectedTab] = useState('Active Batch (0)');
     const [usersList, setUsersList] = useState([]);
-    const [tabData, setTabData] = useState( [`Active Batch (0)`, 'In Active (0)' ]);
+    const [tabData, setTabData] = useState([`Active Batch (0)`, 'In Active (0)']);
     const [batchTimingList, setBatchTimingList] = useState([]);
     const [InActiveBatchTimeList, setInActiveBatchTimeList] = useState([]);
     const [isFormLoader, setIsFormLoader] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [filterObj, setFilterObj] = useState({
+        userId: "",
+        classDay: new Date().getDay()
+    })
 
     //onlode call
     useEffect(() => {
         let { userId = '', user_type } = JSON.parse(localStorage.getItem(CURRENT_USER));
         setIsAdmin(user_type === 1)
-        setSelectedUserId(userId)
-        handleGetBatchList(userId);
+        let filterNewObj = {
+            ...filterObj,
+            userId
+        }
+        setFilterObj(filterNewObj)
+        handleGetBatchList(filterNewObj);
         handleUserList();
     }, [])
 
@@ -51,15 +58,15 @@ export function Batche() {
         }
     };
 
-    const handleGetBatchList = (userId) => {
+    const handleGetBatchList = (req) => {
         try {
             setIsFormLoader(true)
-            let req = {
-                userId
-            }
+            // let req = {
+            //     userId
+            // }
             getBatchListWithCandidate(req).then(({ InActiveBatchTimeList, batchTimeList, inActiveCandCount = 0, activeCandCount = 0 }) => {
-            
-                setTabData( [`Active Batch (${activeCandCount})`, `In Active (${inActiveCandCount})`])
+
+                setTabData([`Active Batch (${activeCandCount})`, `In Active (${inActiveCandCount})`])
                 setSelectedTab(`Active Batch (${activeCandCount})`)
                 setBatchTimingList(batchTimeList);
                 setInActiveBatchTimeList(InActiveBatchTimeList)
@@ -77,19 +84,30 @@ export function Batche() {
     };
 
     const handleUserChange = (e) => {
-        setSelectedUserId(e?.target?.value);
-        handleGetBatchList(e?.target?.value)
+        let {value,name}=e.target;
+        let filterNewObj = {
+            ...filterObj,
+            [name]:value
+        }
+        console.log('filterNewObj----------->',filterNewObj)
+        setFilterObj(filterNewObj)
+        handleGetBatchList(filterNewObj)
 
     }
+
+    // handleFilterChange
 
 
     return (
         <div>
             <NormalBreadcrumb label='Batches' />
-     
+
             <div className="row mb-3">
-                {isAdmin && <div className="col-md-3 offset-md-9">
-                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} value={selectedUserId} options={usersList} onChange={handleUserChange} />
+                <div className="col-md-3 offset-md-6">
+                    <Normalselect size="small" label='Class Day' value={filterObj?.classDay} name='classDay' options={WEEK_LIST} onChange={handleUserChange} />
+                </div>
+                {isAdmin && <div className="col-md-3">
+                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} name='userId' value={filterObj?.userId} options={usersList} onChange={handleUserChange} />
                 </div>}
                 <div className="col-md-12">
                     <Normaltabs data={tabData} onChange={handleTabChange} />

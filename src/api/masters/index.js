@@ -124,9 +124,9 @@ export const getCandidate = (body) => {
                 let data = []
                 querySnapshot.forEach((doc) => {
                     let avilStatus = doc.data().joinedCourses.find(({ trainer }) => trainer == body?.userId);
-                    // if (avilStatus?.classDays.includes(new Date().getDay())) {
+                    if (avilStatus?.classDays.includes(body?.classDay)) {
                         data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, classDays: avilStatus?.classDays });
-                    // }
+                    }
                 });
                 resolve(data)
             } else {
@@ -148,8 +148,6 @@ export const updateBatch = (body, id) => {
         delete body.id;
         try {
             if (isAuthenticated()) {
-
-                console.log(JSON.stringify(body))
                 const docRef = await updateDoc(doc(getFirestore(), DB_NAME?.BATCH, id), body);
                 resolve(docRef)
             } else {

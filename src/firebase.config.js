@@ -4,18 +4,19 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import { getFirestore } from "firebase/firestore";
 
-var db
+var db;
+console.log('')
 export const initializeFirebase = () => {
     // if (!firebase.apps.length) {
     initializeApp({
-        apiKey: "AIzaSyC19rpM70SQy7oXtx0TtlguuZsTNWm6PyE",
-        authDomain: "greens-cms-2080e.firebaseapp.com",
-        projectId: "greens-cms-2080e",
-        storageBucket: "greens-cms-2080e.appspot.com",
-        messagingSenderId: "1017973602576",
-        appId: "1:1017973602576:web:0ef553a88b5ab266a58d95",
-        measurementId: "G-VBY401Q2DD"
-    });
+        apiKey: process.env.REACT_APP_FIRE_BASE_API_KEY,
+        authDomain:process.env.REACT_APP_FIRE_BASE_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_FIRE_BASE_PROJECT_ID,
+        storageBucket: process.env.REACT_APP_FIRE_BASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID,
+        appId: process.env.REACT_APP_FIRE_BASE_APP_ID,
+        measurementId: process.env.REACT_APP_FIRE_BASE_MEASUREMENT_ID,
+    } );
     db = getFirestore();
 }
 
