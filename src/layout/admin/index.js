@@ -18,9 +18,11 @@ export const Adminlayout = ({ children }) => {
             if(!pathname){
                 history.push('/dashboard')
             }
+        }else{
+            history.push('/')
         }
 
-    }, [])
+    })
 
 
 

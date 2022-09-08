@@ -21,20 +21,24 @@ export const logout = () => {
 
 export const isAuthenticated = (req, res, next) => {
   let accessToken = localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN);
+  let themeMode = localStorage.getItem(EXIST_LOCAL_STORAGE.THEME_MODE);
   if (!!accessToken) {
     const jwtDecoded = jwtDecode(accessToken);
     if (new Date() < new Date(jwtDecoded.exp * 1e3)) {
       return true;
     } else {
-      localStorage.removeItem(EXIST_LOCAL_STORAGE);
-      Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
+      localStorage.clear();
+     localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE,themeMode);
+      Toast({ type: 'danger', message: 'Your Session has expired dsdsd', title: 'Error' })
       console.error('session expired');
       history.push('/')
       return false
     }
 
   } else {
-    Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
+    localStorage.clear();
+    localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE,themeMode);
+    Toast({ type: 'danger', message: 'Your Session has expired tttt', title: 'Error' })
     console.error('session expired');
     history.push('/')
   }
