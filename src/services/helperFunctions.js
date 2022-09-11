@@ -80,7 +80,7 @@ export const letterAvatar = (name, size, colour) => {
 
   context.fillStyle = colour ? colours[colourIndex - 1] : "transparent";
   context.fillRect(0, 0, canvas.width, canvas.height);
-  context.font = Math.round(canvas.width / 2) + "px Arial";
+  context.font = Math.round(canvas.width / 2.2) + "px Arial";
   context.textAlign = "center";
   context.fillStyle = colour ? "#FFF" : "#454545";
   context.fillText(initials, size / 2, size / 1.5);

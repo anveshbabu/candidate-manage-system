@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { history } from '../../../../helpers'
+import moment from "moment";
 export function AccountList({ handleFormToggle, accountsList = [] }) {
 
 
@@ -93,7 +94,7 @@ export function AccountList({ handleFormToggle, accountsList = [] }) {
                             data?.map(({ month, tIncome = 0, rAmo = 0 }, i) =>
                                 <tr key={i} >
                                     <td>{i+1}</td>
-                                    <td>{month}</td>
+                                    <td>{ moment(month,'YYYY-MM').format('MMM YYYY') }</td>
                                     <td>{tIncome}</td>
                                     <td>{rAmo}</td>
                                     <td>{handleGetPendingCall(data[i])}</td>

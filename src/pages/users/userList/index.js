@@ -11,7 +11,7 @@ import {
 } from "../../../components/common";
 import { UsersCard, UsersFrom } from "../../../components/pages";
 import { USER_TYPE } from "../../../services/constants";
-
+import {jwtDecodeDetails} from '../../../services/utilities'
 import { getAllUser } from "../../../api/user";
 // import './models.scss'
 
@@ -21,7 +21,7 @@ export const Users = () => {
   const [usersList, setUsersList] = useState([]);
   const [isAdduserModal, setIsAdduserModal] = useState(false);
   const [editFormObj, setEditFormObj] = useState({});
-
+  const [currentUserData, setCurrentUserData] = useState(jwtDecodeDetails());
   const columnData = [
     {
       label: "S.no",
@@ -127,7 +127,7 @@ export const Users = () => {
           onChangePagination={(e, v) => console.log("---", v)}
           rowRender={() => {
             return usersList.map((data, i) => (
-              <tr>
+              <tr style={{height: '56px'}}>
                 <td>{i + 1}</td>
                 <td>
                   {" "}
@@ -141,12 +141,13 @@ export const Users = () => {
                 <td>{data.status}</td>
 
                 <td>
-                  <IconButton
+                  {(currentUserData?.userObj?.user_type === 1 || (currentUserData?.userObj?.user_type === 2 &&  currentUserData?.userObj?.userId===data?.userId) ) &&  <IconButton
                     color="success"
                     onClick={() => onGetEditData(data)}
                   >
                     <CreateIcon />
-                  </IconButton>
+                  </IconButton>}
+                 
                   {/* <IconButton
                     color="error"
                     onClick={() => handleOpenDeleteAlert(data)}

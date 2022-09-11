@@ -96,14 +96,14 @@ export const Header = ({ isAuth = false }) => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
-            <li className="nav-item">
+            <li className="nav-item ms-0">
               <FormControlLabel
                 control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked={THEME_MODE === 'dark'} onChange={handleCreateThemeMode} />}
               // label="MUI switch"
               />
             </li>
            {isAuth &&<li className="nav-item">
-              <AccountMenu isAuth={isAuth} userName={`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`}/>
+              <AccountMenu isAuth={isAuth} userEmail={userData?.userObj?.emailid} userName={`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`}/>
             </li>}
             {/* {isAuth ? <li className="nav-item">
               <a className="nav-link profile-icon" href="#"> </a>

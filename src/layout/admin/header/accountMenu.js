@@ -16,7 +16,7 @@ import { history } from '../../../helpers'
 import { EXIST_LOCAL_STORAGE } from '../../../services/constants'
 import { Toast } from '../../../services/toast'
 
-export default function AccountMenu({ userName = '' }) {
+export default function AccountMenu({ userName = '' ,userEmail=''}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -44,7 +44,7 @@ const handleLogout=()=>{
                     <IconButton
                         onClick={handleClick}
                         size="small"
-                        sx={{ ml: 2 }}
+                        // sx={{ ml: 2 }}
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
@@ -94,7 +94,7 @@ const handleLogout=()=>{
                 <MenuItem className='profile-menu'>
                     <img className="profiltImage-header me-3" src={letterAvatar(userName)} />  {userName}
                     <br />
-                    <span className='profile-email'>kb.anvesh1996@gmail.com</span>
+                    <span className='profile-email'>{userEmail}</span>
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => history?.push('/user')}>
