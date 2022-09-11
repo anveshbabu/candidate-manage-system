@@ -28,29 +28,41 @@ export const MENU = [
             {
                 icon: 'fa-solid fa-chart-line',
                 text: 'Dashboard',
-                url:"/dashboard"
+                url: "/dashboard",
+                userType:[1,2]
             },
             {
                 icon: 'fa-solid fa-users',
                 text: 'candidate',
-                url:"/candidate"
+                url: "/candidate",
+                userType:[1,2]
             },
             {
                 icon: 'fa-solid fa-book-open-reader',
                 text: 'courses',
-                url:"/course"
+                url: "/course",
+                userType:[1,2]
             },
             {
                 icon: 'fa-solid fa-chalkboard-user',
                 text: 'Batches',
-                url:"/batche"
+                url: "/batche",
+                userType:[1,2]
             },
             {
                 icon: 'fa-solid fa-user',
                 text: 'User',
-                url:"/user"
+                url: "/user",
+                userType:[1,2]
+                
+            },
+            {
+                icon: 'fa-solid fa-file-invoice-dollar',
+                text: 'Accounts',
+                url: "/accounts",
+                userType:[1]
             }
-           
+
         ]
 
     },

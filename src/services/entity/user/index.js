@@ -7,7 +7,7 @@ export const userObj = {
     emailid: "",
     mobile: "",
     user_type: null,
-    status: STATUS.ACTIVE,
+    status: STATUS?.ACTIVE,
     createdBy: {
         userId: '',
         date: new Date().toISOString(),

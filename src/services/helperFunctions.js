@@ -94,7 +94,7 @@ export const letterAvatar = (name, size, colour) => {
 
 
 export const isEmpty = (obj) => {
-  return Object.keys(obj).length === 0;
+  return  Object.keys(obj).length === 0;
 }
 
 export const getBase64FromUrl = async (url) => {

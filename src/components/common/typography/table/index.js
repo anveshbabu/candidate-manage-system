@@ -38,7 +38,7 @@ export const NormalTable = (props) => {
                     )}
 
 
-                    {rowRender()}
+                    {rowRender(rowData)}
                 </tbody>
             </table>
             {/* <div className='d-flex'>

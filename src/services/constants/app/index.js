@@ -1,3 +1,5 @@
+
+
 export const EXIST_LOCAL_STORAGE = {
     AUTHTOKEN: 'AuthToken',
     USER_ID: 'userId',
@@ -88,7 +90,8 @@ export const INSTITUTE_BRANCH = [
 export const DB_NAME = {
     BATCH: 'batch',
     USER: 'user',
-    ATTENDANCE: "attendance"
+    ATTENDANCE: "attendance",
+    ACCOUNT: "account"
 }
 
 export const USER_TYPE = [

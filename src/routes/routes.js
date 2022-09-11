@@ -74,6 +74,30 @@ const routers = [
     ]
   },
 
+
+  {
+    component: "Adminlayout",
+    path: "/accounts",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Account",
+        path: "/",
+        auth: false,
+        exact: true
+      },
+      {
+        component: "AccountDetail",
+        path: "/detail/:accountId",
+        auth: false,
+        exact: true
+      }
+
+    ]
+  },
+
+
   {
     component: "Adminlayout",
     path: "/batche",
