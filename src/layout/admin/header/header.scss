@@ -1,7 +1,9 @@
 @import "../../../assets/scss/abstracts/abstracts-dir.scss";
+
 .custom-header {
     height: fontSize(64px);
     background-color: var(--primary-bg);
+
     .navbar-nav {
         .nav-item {
             .nav-link {
@@ -9,11 +11,13 @@
             }
         }
     }
-    .navbar-brand{
-        img{
+
+    .navbar-brand {
+        img {
             width: 100%;
         }
     }
+
     .profile-icon {
         position: relative;
         display: block;
@@ -22,10 +26,18 @@
         font-weight: 400 !important;
         cursor: pointer;
         text-decoration: unset;
-        img {
+
+        .profiltImage {
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
         }
     }
+
+    .profiltImage {
+        width: fontSize(42px);
+        height: fontSize(42px);
+        border-radius: 50%;
+    }
 }
+

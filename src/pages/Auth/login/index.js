@@ -58,7 +58,7 @@ export class Login extends React.Component {
     if (this.validator.allValid()) {
       this.setState({isFormLoder:true})
       // setTimeout(()=>    { 
-      //   Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
+      //   
       //   history.push('/dashboard')
       //   this.setState({isFormLoder:true})
       // }, 3000);
@@ -77,7 +77,10 @@ export class Login extends React.Component {
           //   localStorage.setItem(EXIST_LOCAL_STORAGE.IS_KEEP_ME, 0);
           //   localStorage.setItem(EXIST_LOCAL_STORAGE.KEEP_ME_OBJ, JSON.stringify(keepMeObj));
           // }
-          history.push('/dashboard')
+          Toast({ type: 'success', message: 'You have been sucessfully logged into MY 360', title: 'Success!' })
+          setTimeout(()=>{
+            history.push('/dashboard');
+          },1200)
         }
       }).catch((error) => {
         if(error==='auth/wrong-password'){

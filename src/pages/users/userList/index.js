@@ -10,6 +10,7 @@ import {
   NormalModal,
 } from "../../../components/common";
 import { UsersCard, UsersFrom } from "../../../components/pages";
+import { USER_TYPE } from "../../../services/constants";
 
 import { getAllUser } from "../../../api/user";
 // import './models.scss'
@@ -19,6 +20,7 @@ export const Users = () => {
   const [isFormLoader, setIsFormLoader] = useState(false);
   const [usersList, setUsersList] = useState([]);
   const [isAdduserModal, setIsAdduserModal] = useState(false);
+  const [editFormObj, setEditFormObj] = useState({});
 
   const columnData = [
     {
@@ -82,11 +84,20 @@ export const Users = () => {
     setIsAdduserModal(true);
   };
 
-  const handleUserModuleClose = () => {
+  const handleUserModuleClose = (isSuccess) => {
     setIsAdduserModal(false);
+    if(isSuccess){
+      handleUserList();
+    }
   };
 
-  const onGetEditData = () => {};
+  const onGetEditData = (data) => {
+    setIsAdduserModal(true);
+    setEditFormObj({...data})
+
+
+
+  };
 
   const handleOpenDeleteAlert = () => {};
 
@@ -126,7 +137,7 @@ export const Users = () => {
                 </td>
                 <td>{data.emailid}</td>
                 <td>{data.mobile}</td>
-                <td>{data.user_type}</td>
+                <td>{USER_TYPE?.find(({value})=>value === data.user_type)?.label}</td>
                 <td>{data.status}</td>
 
                 <td>
@@ -136,12 +147,12 @@ export const Users = () => {
                   >
                     <CreateIcon />
                   </IconButton>
-                  <IconButton
+                  {/* <IconButton
                     color="error"
                     onClick={() => handleOpenDeleteAlert(data)}
                   >
                     <DeleteIcon />
-                  </IconButton>
+                  </IconButton> */}
                 </td>
               </tr>
             ));
@@ -155,7 +166,7 @@ export const Users = () => {
         className="modal-dialog-right modal-right modal-xl"
         isShow={isAdduserModal}
       >
-        <UsersFrom toggle={handleUserModuleClose} />
+        <UsersFrom toggle={handleUserModuleClose} editFormObj={editFormObj} />
       </NormalModal>
     </div>
   );

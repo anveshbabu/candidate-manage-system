@@ -29,7 +29,7 @@ export const isAuthenticated = (req, res, next) => {
     } else {
       localStorage.clear();
      localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE,themeMode);
-      Toast({ type: 'danger', message: 'Your Session has expired dsdsd', title: 'Error' })
+      Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
       console.error('session expired');
       history.push('/')
       return false
@@ -38,7 +38,7 @@ export const isAuthenticated = (req, res, next) => {
   } else {
     localStorage.clear();
     localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE,themeMode);
-    Toast({ type: 'danger', message: 'Your Session has expired tttt', title: 'Error' })
+    Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
     console.error('session expired');
     history.push('/')
   }

@@ -1,14 +1,15 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,updatePassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword,updateEmail } from "firebase/auth";
+import { collection, addDoc, setDoc, updateDoc, query, doc, where, getDocs, deleteDoc, orderBy, startAt, getFirestore } from "firebase/firestore";
 import { EXIST_LOCAL_STORAGE } from '../../services/constants'
 import { createUser, getUserDetail } from '../user';
 import { Toast } from '../../services/toast';
-import { isAuthenticated } from '../../services/utilities';
-
+import { isAuthenticated,jwtDecodeDetails } from '../../services/utilities';
+// import { isAuthenticated, jwtDecodeDetails } from '../../services/utilities';
 
 
 export const createAuthentication = (body) => {
     return new Promise((resolve, reject) => {
-        let { emailid,password } = body;
+        let { emailid, password } = body;
         const auth = getAuth();
         if (isAuthenticated()) {
             createUserWithEmailAndPassword(auth, emailid, password)
@@ -43,7 +44,7 @@ export const userSignin = ({ username, password }) => {
     return new Promise((resolve, reject) => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, username, password).then(({ user: { accessToken, uid } }) => {
-            console.log('uid----------->',uid)
+            console.log('uid----------->', uid)
             // Signed in 
             localStorage.setItem(EXIST_LOCAL_STORAGE.AUTHTOKEN, accessToken);
             resolve(accessToken)
@@ -57,7 +58,7 @@ export const userSignin = ({ username, password }) => {
 
 
 
-           
+
             // ...
         }).catch((error) => {
 
@@ -79,7 +80,7 @@ export const userSignin = ({ username, password }) => {
     })
 }
 
-export const passwordUpdate  = (body) => {
+export const passwordUpdate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
@@ -87,11 +88,11 @@ export const passwordUpdate  = (body) => {
                 const user = auth.currentUser;
                 updatePassword(user, body).then((data) => {
                     resolve(data)
-                  }).catch((error) => {
+                }).catch((error) => {
                     Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
                     // An error ocurred
                     // ...
-                  });
+                });
             } else {
 
             }
@@ -101,5 +102,41 @@ export const passwordUpdate  = (body) => {
             reject(e)
             console.error("Error adding document: ", e);
         }
+    })
+}
+
+
+export const updateUser = (body, id) => {
+
+    return new Promise(async (resolve, reject) => {
+        delete body.id;
+        try {
+            if (isAuthenticated()) {
+                const auth = getAuth();
+                console.log('auth.currentUser------------>',auth.currentUser)
+               updateEmail(auth.currentUser, body?.emailid).then( async () => {
+                    let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
+                    body.updatedBy.name = fName + " " + lName;
+                    body.updatedBy.date = new Date().toISOString();
+                    body.updatedBy.userId = user_id;
+                    const docRef = await updateDoc(doc(getFirestore(), "user", id), body);
+                    resolve(docRef)
+                  }).catch((error) => {
+                    // An error occurred
+                    // ...
+                  });
+
+               
+            } else {
+
+            }
+
+        } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            console.error("Error adding document: ", e);
+            reject(e)
+
+        }
+
     })
 }

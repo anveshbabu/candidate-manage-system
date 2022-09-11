@@ -71,3 +71,16 @@ html {
   }
 
 }
+.profile-menu {
+  
+  font-size: .9rem;
+  .profiltImage-header {
+    width: fontSize(42px);
+    height: fontSize(42px);
+    border-radius: 50%;
+  }
+  .profile-email {
+      font-size: .75rem;
+      display: contents;
+  }
+}

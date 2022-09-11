@@ -1,4 +1,4 @@
-import React,{useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import './header.scss'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -7,12 +7,20 @@ import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
 import { jwtDecodeDetails } from '../../../services/utilities';
 import { letterAvatar } from '../../../services/helperFunctions';
 import { history } from '../../../helpers';
-import {ThemeMode,NormalButton} from '../../../components/common';
+import { ThemeMode, NormalButton } from '../../../components/common';
+import AccountMenu from './accountMenu'
 
-export const Header = ({isAuth=false}) => {
-  
+export const Header = ({ isAuth = false }) => {
+
   const themeMode = useContext(ThemeMode);
-  const [userData,setUserDate]=useState(jwtDecodeDetails())
+  const [userData, setUserDate] = useState(jwtDecodeDetails());
+
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const [lastClicked, setLastClicked] = useState(null);
+
 
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -79,7 +87,7 @@ export const Header = ({isAuth=false}) => {
 
         {/* <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button> */}
         <a className="navbar-brand ms-2 mb-2" href="#">
-          <img src={require(`../../../assets/images/logo.png`)} alt="My 360" title="My 360" width="50" height='50'/> 
+          <img src={require(`../../../assets/images/logo.png`)} alt="My 360" title="My 360" width="50" height='50' />
           {/* {" "}My 360 */}
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,19 +98,19 @@ export const Header = ({isAuth=false}) => {
           <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
             <li className="nav-item">
               <FormControlLabel
-                control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked={THEME_MODE ==='dark'} onChange={handleCreateThemeMode} />}
-                // label="MUI switch"
+                control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked={THEME_MODE === 'dark'} onChange={handleCreateThemeMode} />}
+              // label="MUI switch"
               />
             </li>
-            {/* <li className="nav-item">
-              <a className="nav-link" href="#"><i className="fa-solid fa-bell mt-2" /></a>
-            </li> */}
-          {isAuth ?  <li className="nav-item">
-              <a className="nav-link profile-icon" href="#">{userData?.userObj?.first_name} {userData?.userObj?.last_name} <img className="ms-2" src={letterAvatar(`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`)}/></a>
-            </li>:''}
+           {isAuth &&<li className="nav-item">
+              <AccountMenu isAuth={isAuth} userName={`${userData?.userObj?.first_name} ${userData?.userObj?.last_name}`}/>
+            </li>}
+            {/* {isAuth ? <li className="nav-item">
+              <a className="nav-link profile-icon" href="#"> </a>
+            </li> : ''} */}
 
           </ul>
-          {!isAuth && <NormalButton  onClick={()=>history.push('/login')} label={'Login'}   variant="outlined"/>}
+          {!isAuth && <NormalButton onClick={() => history.push('/login')} label={'Login'} variant="outlined" />}
         </div>
       </div>
     </nav>
