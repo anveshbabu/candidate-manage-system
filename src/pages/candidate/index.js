@@ -20,6 +20,7 @@ export const Candidate = () => {
   const [candidateFilterList, setCandidateFilterList] = useState([]);
   const [attendanceReqList, setAttendanceReqList] = useState([])
   const [isAttendanceApiLoader, setIsAttendanceApiLoader] = useState(false)
+  const [isMultyUpdateIndex, setMultyUpdateIndex] = useState([])
   const [candidateFilter, setCandidateFilter] = useState({
     searchText: "",
     classType: ""
@@ -151,6 +152,33 @@ export const Candidate = () => {
     };
     candidateList[candIndex].attObj = attendanceObj;
     setCandidateList([...candidateList])
+  };
+
+
+  const handleToggleComplited = (isComp, candIndex) => {
+    delete candidateList[candIndex].attObj;
+    const courseIndex = candidateList[candIndex]?.joinedCourses?.findIndex(({ classTime }) => params?.batchId);
+    if (courseIndex !== -1) {
+      candidateList[candIndex].joinedCourses[courseIndex].status = isComp ? 'Completed' : 'Processing';
+    };
+    candidateList[candIndex].status = candidateList[candIndex]?.joinedCourses?.map(({ status }) => status);
+    isMultyUpdateIndex.push(candIndex);
+    setMultyUpdateIndex([...isMultyUpdateIndex])
+    updateCandidate({ ...candidateList[candIndex] }, candidateList[candIndex].id).then((data) => {
+      const updateIndex = isMultyUpdateIndex?.findIndex((loaderIndex) => loaderIndex === candIndex);
+      if (updateIndex !== -1) { // only splice array when item is found
+        isMultyUpdateIndex.splice(updateIndex, 1); // 2nd parameter means remove one item only
+        setMultyUpdateIndex([...isMultyUpdateIndex])
+      }
+
+    }).catch((error) => {
+      const updateIndex = isMultyUpdateIndex?.findIndex((loaderIndex) => loaderIndex === candIndex);
+      if (updateIndex !== -1) { // only splice array when item is found
+        isMultyUpdateIndex.splice(updateIndex, 1); // 2nd parameter means remove one item only
+        setMultyUpdateIndex([...isMultyUpdateIndex])
+      }
+    });
+
   }
 
 
@@ -222,7 +250,7 @@ export const Candidate = () => {
 
         <div className="col-md-12 col-sm-12 mb-5 ">
           {!params?.batchId && <Normaltabs data={tabData} onChange={handleTabChange} />}
-          <CandidateList isFromBatch={params?.batchId} handleToggleAttendance={handleToggleAttendance} selectedTab={selectedTab} candidateList={candidateList} onGetEditData={handleEditCandidate} candidateDelete={handleCandidateDelete} />
+          <CandidateList isMultyUpdateIndex={isMultyUpdateIndex} isFromBatch={params?.batchId} handleToggleAttendance={handleToggleAttendance} handleToggleComplited={handleToggleComplited} selectedTab={selectedTab} candidateList={candidateList} onGetEditData={handleEditCandidate} candidateDelete={handleCandidateDelete} />
         </div>
       </div>
 

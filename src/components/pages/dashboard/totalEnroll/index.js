@@ -10,7 +10,7 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
     const [series, setseries] = useState(
         [
             {
-                name: "Earn",
+                name: "Enrol",
                 data: []
             }
         ]
@@ -74,7 +74,7 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
         setBranch(value)
         let currentYear = moment().set({ 'month': 0 });
         let lineDate = {
-            name: "Earn",
+            name: "Enrol",
             data: []
         };
         for (let i = 0; i < 12; i++) {

@@ -4,15 +4,15 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import moment from 'moment';
-import {history} from '../../../../helpers'
+import { history } from '../../../../helpers'
 import { NormalTable, NormalToggleSwitch, NormalAlert } from '../../../common';
 import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
-import { ATTENDANCE,EXIST_LOCAL_STORAGE } from '../../../../services/constants'
+import { ATTENDANCE, EXIST_LOCAL_STORAGE } from '../../../../services/constants'
 import { setStorage } from '../../../../services/helperFunctions'
 import './candidateList.scss'
 
-export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', handleToggleAttendance }) => {
+export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', isMultyUpdateIndex = [], handleToggleAttendance, handleToggleComplited }) => {
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
     const [deleteObj, setDeleteObj] = useState({});
@@ -65,6 +65,11 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
         label: !isFromBatch ? "Action" : "Attendance",
         key: !isFromBatch ? "Action" : "atd",
+    },
+    isFromBatch && {
+
+        label: "Complited",
+        key: "complited"
     }
     ];
 
@@ -75,7 +80,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     const handleDeleteCandidate = (value) => {
 
         if (value) {
-            console.log('deleteObj?.id-------->',deleteObj?.id)
+            console.log('deleteObj?.id-------->', deleteObj?.id)
             deleteCandidate(deleteObj?.id).then((data) => {
                 let index = candidateList.findIndex(({ id }) => id === deleteObj?.id);
                 if (index !== -1) {
@@ -108,12 +113,12 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     }
 
 
-const handleRouteAttendance=(data)=>{
-    setStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE,JSON.stringify(data));
-    history.push(`/batche/${isFromBatch}/candidate/attendance`)
-}
+    const handleRouteAttendance = (data) => {
+        setStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE, JSON.stringify(data));
+        history.push(`/batche/${isFromBatch}/candidate/attendance`)
+    }
 
-// console.log('candidateList----------------->',candidateList)
+    // console.log('candidateList----------------->',candidateList)
 
 
     return (
@@ -131,19 +136,12 @@ const handleRouteAttendance=(data)=>{
                         return candidateList.map((data, i) =>
                             <tr>
                                 <td>{i + 1}</td>
-                                <td> <a className='link-primary' onClick={()=>handleRouteAttendance(data)}>{data.name}</a></td>
+                                <td> <a className='link-primary' onClick={() => handleRouteAttendance(data)}>{data.name}</a></td>
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>
                                 <td>{data.instituteBranch}</td>
                                 <td>{data.status}</td>
-
-                                {/* <td>{data.course}</td>
-                              
-                                <td>{data.type}</td>
-                                <td>{data.fees}</td>
-                                <td>{data.pendingFees}</td>
-                                <td>{data.settlementStatus}</td> */}
                                 {!isFromBatch ? <td>
                                     <IconButton color="success" onClick={() => onGetEditData(data)}>
                                         <CreateIcon />
@@ -153,11 +151,20 @@ const handleRouteAttendance=(data)=>{
                                     </IconButton>
 
                                 </td> : <td>
-                                
-                                    <NormalToggleSwitch disabled={data.status != 'Processing' } checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
+
+                                    <NormalToggleSwitch disabled={data.status != 'Processing'} checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
                                 </td>}
 
+                                {isFromBatch &&
+                                    <td>
 
+                                        <NormalToggleSwitch disabled={!!isMultyUpdateIndex?.find((index) => index == i)?.toString()} checked={data?.status == 'Completed'} onChange={(e) => handleToggleComplited(e, i)} />
+
+                                        {!!isMultyUpdateIndex?.find((index) => index == i)?.toString() && <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>}
+                                    </td>
+                                }
 
 
                             </tr>

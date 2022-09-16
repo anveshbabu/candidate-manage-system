@@ -11,7 +11,6 @@ export const Adminlayout = ({ children }) => {
     const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
-        console.log('Adminlayout---------->',getStorage(CURRENT_USER))
         const pathname = window.location.hash;
         if (!!getStorage(CURRENT_USER)) {
             let isAuth = !isEmpty(JSON.parse(getStorage(CURRENT_USER)));
