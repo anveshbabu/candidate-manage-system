@@ -7,6 +7,7 @@ export const EXIST_LOCAL_STORAGE = {
     THEME_MODE: 'themeMode',
     BATCH_CANDIDATE_LIST: 'batchCandidateList',
     ATTENDANCE_CANDIDATE: 'attendanceCandidate',
+    ACCOUNT_DETAIL: 'accountDetail',
 
 }
 

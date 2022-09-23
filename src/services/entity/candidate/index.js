@@ -10,6 +10,7 @@ export const joinedCoursesObj = {
     pendingFees: null,
     trainer:'Anvesh babu',
     instituteBranch:"",
+    billMonth: moment().format('YYYY-MM'),
     classDays:[1,2,3,4,5]
 }
 

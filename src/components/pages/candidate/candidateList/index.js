@@ -27,7 +27,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         label: "Name",
         key: "name"
     }, {
-        label: "Eamil",
+        label: "Email",
         key: "email"
     }, {
         label: "Phone",
@@ -41,6 +41,10 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     {
         label: "Branch",
         key: "instituteBranch"
+    },
+    {
+        label: "Billing Month",
+        key: "billingMonth"
     },
 
     {
@@ -66,11 +70,17 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         label: !isFromBatch ? "Action" : "Attendance",
         key: !isFromBatch ? "Action" : "atd",
     },
+   
     isFromBatch && {
 
         label: "Complited",
         key: "complited"
-    }
+    },
+    {
+
+        label: "Action",
+        key: "Action",
+    },
     ];
 
 
@@ -141,16 +151,11 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>
                                 <td>{data.instituteBranch}</td>
+                                <td>{data.billMonth}</td>
                                 <td>{data.status}</td>
-                                {!isFromBatch ? <td>
-                                    <IconButton color="success" onClick={() => onGetEditData(data)}>
-                                        <CreateIcon />
-                                    </IconButton>
-                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(data)}>
-                                        <DeleteIcon />
-                                    </IconButton>
 
-                                </td> : <td>
+
+                                {isFromBatch && <td>
 
                                     <NormalToggleSwitch disabled={data.status != 'Processing'} checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
                                 </td>}
@@ -165,7 +170,15 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                         </div>}
                                     </td>
                                 }
+                                <td>
+                                    <IconButton color="success" onClick={() => onGetEditData(data)}>
+                                        <CreateIcon />
+                                    </IconButton>
+                                    <IconButton color="error" onClick={() => handleOpenDeleteAlert(data)}>
+                                        <DeleteIcon />
+                                    </IconButton>
 
+                                </td>
 
                             </tr>
 

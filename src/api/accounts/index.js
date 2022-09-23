@@ -80,4 +80,35 @@ export const getAllAccounts = (body) => {
             console.error("Error adding document: ", e);
         }
     })
+};
+
+
+
+export const getBillingWiseCandidate = (body) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (isAuthenticated()) {
+
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where("billMonths", "array-contains", body)));
+                // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
+
+                let data = []
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    let avilStatus = doc.data().joinedCourses.find(({ billMonth }) => billMonth == body);
+                    console.log(avilStatus,doc.data().name)
+
+                    data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch,fees:avilStatus?.fees,billMonth:avilStatus?.billMonth });
+                });
+                resolve(data)
+            } else {
+
+            }
+
+        } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            reject(e)
+            console.error("Error adding document: ", e);
+        }
+    })
 }

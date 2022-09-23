@@ -16,12 +16,12 @@ export const NormalBreadcrumb = (props) => {
   return (
     <nav className={`app-breadcrumb ${className}`} >
       <div className='row'>
-        <div className='col-sm-12 col-md-6'>
+        <div className='col-sm-12 col-md-10'>
           <ol className={`breadcrumb `}>
             <li className="breadcrumb-item active" aria-current="page">{label}</li>
           </ol>
         </div>
-        <div className='col-sm-12 col-md-6 text-end '>
+        <div className='col-sm-12 col-md-2 text-end '>
        {rightSideBtn &&  <NormalButton  isLoader={btnIsLoader} onClick={onBtnClick} label={buttonLabel} className='add-new-btn' size="small"  variant="outlined"/> }
        {rightSideChild && rightSideChild }
         </div>

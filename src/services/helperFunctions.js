@@ -94,7 +94,7 @@ export const letterAvatar = (name, size, colour) => {
 
 
 export const isEmpty = (obj) => {
-  return  Object.keys(obj).length === 0;
+  return Object.keys(obj).length === 0;
 }
 
 export const getBase64FromUrl = async (url) => {
@@ -116,7 +116,7 @@ export const setStorage = (name, data) => {
   localStorage.setItem(name, data);
 }
 
-export const  getStorage = (name) => {
+export const getStorage = (name) => {
   return localStorage.getItem(name);
 }
 
@@ -156,3 +156,10 @@ const timelineLabels = (desiredStartTime, interval, period) => {
 
   return timeLabels;
 };
+
+export const formatter = Intl.NumberFormat('en-IN');
+
+
+export const currencyFormat = (number,symbol='₹') => {
+ return `${symbol} ${formatter?.format(number)}`
+}

@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { NormalTable } from '../../../common'
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
+import CreateIcon from '@mui/icons-material/Create';
 import { history } from '../../../../helpers'
+import { setStorage,currencyFormat } from '../../../../services/helperFunctions'
+import { EXIST_LOCAL_STORAGE } from '../../../../services/constants'
 import moment from "moment";
 export function AccountList({ handleFormToggle, accountsList = [] }) {
 
@@ -73,6 +75,14 @@ export function AccountList({ handleFormToggle, accountsList = [] }) {
         return pendingAmo > 0 ? pendingAmo : `+${Math.abs(pendingAmo)}`
 
 
+    };
+
+    const handleAccountDetail=(i)=>{
+        console.log('data---------->',accountsList[i])
+        setStorage(EXIST_LOCAL_STORAGE.ACCOUNT_DETAIL,JSON.stringify(accountsList[i]))
+        history.push(`/accounts/detail/${accountsList[i]?.id}`);
+
+        // if(a ==)
     }
 
     return (
@@ -95,14 +105,18 @@ export function AccountList({ handleFormToggle, accountsList = [] }) {
                                 <tr key={i} >
                                     <td>{i+1}</td>
                                     <td>{ moment(month,'YYYY-MM').format('MMM YYYY') }</td>
-                                    <td>{tIncome}</td>
-                                    <td>{rAmo}</td>
-                                    <td>{handleGetPendingCall(data[i])}</td>
-                                    <td>{handleGetExpenceCall(data[i])}</td>
-                                    <td className={handleGetProfitLossCall('Profit',data[i])  > 0 && 'text-success fw-bold'}>{handleGetProfitLossCall('Profit',data[i])}</td>
-                                    <td className={handleGetProfitLossCall('Profit',data[i]) ===0 && 'text-danger fw-bold'}>{handleGetProfitLossCall('Loss',data[i])}</td>
+                                    <td>{currencyFormat(tIncome)}</td>
+                                    <td>{currencyFormat(rAmo)}</td>
+                                    <td>{currencyFormat(handleGetPendingCall(data[i]))}</td>
+                                    <td>{currencyFormat(handleGetExpenceCall(data[i]))}</td>
+                                    <td className={handleGetProfitLossCall('Profit',data[i])  > 0 && 'text-success fw-bold'}>{currencyFormat(handleGetProfitLossCall('Profit',data[i]))}</td>
+                                    <td className={handleGetProfitLossCall('Profit',data[i]) ===0 && 'text-danger fw-bold'}>{currencyFormat(handleGetProfitLossCall('Loss',data[i]))}</td>
                                     <td>
-                                        <IconButton title="View" color="primary" onClick={()=>handleFormToggle(i)}>
+                                        <IconButton title="View" color="success" onClick={()=>handleFormToggle(i)}>
+                                            <CreateIcon />
+                                        </IconButton>
+                                        
+                                        <IconButton title="View" color="primary" onClick={()=>handleAccountDetail(i)}>
                                             <VisibilityIcon />
                                         </IconButton>
                                     </td>

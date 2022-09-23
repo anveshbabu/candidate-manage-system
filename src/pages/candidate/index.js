@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import moment from "moment"
 
 
-import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect } from '../../components/common';
+import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect,NormalButton, CustomDateRangePicker } from '../../components/common';
 import { CandidateList, CandidateFrom } from '../../components/pages';
 import { CANDIDATE_COURSE_STATUS, ATTENDANCE, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, EXIST_LOCAL_STORAGE } from '../../services/constants'
 import { candidateFormObj, attendanceFormObject } from '../../services/entity'
@@ -195,23 +195,38 @@ export const Candidate = () => {
       // setFormLoader(false);
 
     });
+  };
+
+  const handleDateRangeFilter=({ start, end })=>{
+
+   let result= candidateFilterList.filter(({ name, phone, joinedCourses }) =>  joinedCourses?.find(({ joinDate}) => moment(joinDate, 'YYYY-MM-DD').isBetween(start, end)));
+   setCandidateList(result)
+
   }
+
 
 
   return (
     <div className='Candidate-page'>
 
-      <NormalBreadcrumb className="mb-0" label={'Candidate'} rightSideBtn={true}
-        buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
-        btnIsLoader={isAttendanceApiLoader}
-        onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()}
+      <NormalBreadcrumb className="mb-0" label={'Candidate'} 
+        // buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
+        // btnIsLoader={isAttendanceApiLoader}
+        // onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()}
+        rightSideChild={<CustomDateRangePicker  onChange={handleDateRangeFilter}/>}
       />
 
       <div className="row mt-4">
         <div className="col-md-6 col-sm-12">
           <h4 className="sub-page-titel mb-4">{candidateFilterList.length} Total</h4>
+          
+
         </div>
-      </div>
+        <div className="col-md-6 text-end col-sm-12">
+          <NormalButton className='add-new-btn' size="small"  variant="outlined"  label={!params?.batchId ? "Add New" : "Update Attendance"}  isLoader={isAttendanceApiLoader} onClick= {() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()} / >
+
+        </div>
+      </div >
 
       {!params?.batchId && <div className="row mt-4">
         <div className="col-md-4 col-sm-12 mb-4">
@@ -258,7 +273,7 @@ export const Candidate = () => {
       <NormalModal className='modal-right' toggle={handleCandidateFormClose} title="Add Candidate" isShow={isCandidateModal}>
         <CandidateFrom onClose={handleCandidateFormClose} sucessSaved={handleCandidateFormClose} candidateEditObj={candidateObj} />
       </NormalModal>
-    </div>
+    </div >
   );
 
 

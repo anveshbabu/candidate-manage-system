@@ -36,7 +36,7 @@ export const updateCandidate = (body, id) => {
     delete body.statusCount
     delete body?.course;
     delete body?.instituteBranch;
-    console.log('body-------------->',body)
+    delete body?.billMonth;
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
@@ -89,9 +89,9 @@ export const getCandidate = (body,isBatch=false) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     let avilStatus = doc.data().joinedCourses.find(({ status }) => status == body);
-                    // console.log(avilStatus)
+                    console.log(avilStatus?.joinDate)
 
-                    data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch });
+                    data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch,billMonth:avilStatus?.billMonth,joinDate: avilStatus?.joinDate});
                 });
                 resolve(data)
             } else {

@@ -66,7 +66,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
     useEffect(() => {
         console.log('candidateEditObj--------------->', candidateEditObj)
         if (!isEmpty(candidateEditObj)) {
-            SetCandidateObj({...candidateFormObj,...candidateEditObj})
+            SetCandidateObj({ ...candidateFormObj, ...candidateEditObj })
         }
     }, [candidateEditObj]);
 
@@ -81,6 +81,13 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
             reqBody.status = candidateObj?.joinedCourses?.map(({ status }) => status);
             reqBody.trainerIDs = candidateObj?.joinedCourses?.map(({ trainer }) => trainer);
             reqBody.classTimeIDs = candidateObj?.joinedCourses?.map(({ classTime }) => classTime);
+
+            reqBody.billMonths = candidateObj?.joinedCourses?.map(({ billMonth },i) => { 
+                reqBody.joinedCourses[i].billMonth=billMonth?billMonth:"";
+                return billMonth
+            }).filter(Boolean);
+            console.log('reqBody--------->',JSON.stringify(reqBody))
+           
             let apiCall = candidateObj.hasOwnProperty("id") ? updateCandidate(reqBody, candidateObj.id) : createCandidate(reqBody)
             apiCall.then((data) => {
                 setFormLoader(false);
@@ -258,6 +265,15 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         name='pendingFees'
                                         errorMessage={simpleValidator.current.message('Pending Fees', joinedCourses.pendingFees, 'required|numeric')} />
                                 </div>
+                                {joinedCourses.status === 'Completed' &&
+                                    <div className='col-md-6 col-sm-12'>
+                                        <NormalInput label='Billing Month'
+                                            onChange={(e) => handleInputJoinedCoursesChange(e, i)}
+                                            value={joinedCourses.billMonth}
+                                            name='billMonth'
+                                            type='month'
+                                            errorMessage={simpleValidator.current.message('Billing Month', joinedCourses.billMonth, 'required')} />
+                                    </div>}
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Settlement Status'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
