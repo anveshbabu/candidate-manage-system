@@ -12,6 +12,7 @@ export const Adminlayout = ({ children }) => {
 
     useEffect(() => {
         const pathname = window.location.hash;
+        console.log(pathname)
         if (!!getStorage(CURRENT_USER)) {
             let isAuth = !isEmpty(JSON.parse(getStorage(CURRENT_USER)));
             setIsAuth(isAuth)
@@ -19,7 +20,10 @@ export const Adminlayout = ({ children }) => {
                 history.push('/dashboard')
             }
         }else{
-            history.push('/')
+            if(!pathname.includes('course')){
+                history.push('/')
+            }
+            
         }
 
     })
