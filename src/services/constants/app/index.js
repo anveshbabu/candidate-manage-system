@@ -98,7 +98,14 @@ export const DB_NAME = {
 export const USER_TYPE = [
     { value: 1, label: 'Admin' },
     { value: 2, label: 'User' },
+    { value: 3, label: 'Branch Incharge' },
 ];
+
+export const USER_ROLE={
+    TRAINER:[1,2],
+    ADMIN:[1],
+    BRANCH_INCHARGE:[3]
+}
 
 export const ATTENDANCE = {
     PRESENT: "P",

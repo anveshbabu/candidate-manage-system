@@ -3,13 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 
 import { NormalButton, NormalInput, Normalselect, NormalCheckbox } from '../../../common';
 import { candidateFormObj, joinedCoursesObj } from '../../../../services/entity'
-import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, WEEK_LIST } from '../../../../services/constants'
+import { CANDIDATE_COURSE_STATUS, COURSE_LIST, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, WEEK_LIST,USER_ROLE } from '../../../../services/constants'
 import SimpleReactValidator from 'simple-react-validator';
 import { createCandidate, updateCandidate } from '../../../../api/candidate';
 import { getBatchList } from '../../../../api/masters';
 import { getAllUser } from '../../../../api/user';
 
-import { isEmpty } from '../../../../services/helperFunctions'
+import { isEmpty,userGetByRole } from '../../../../services/helperFunctions'
 import './candidateFrom.scss'
 import { Label } from 'reactstrap';
 
@@ -49,7 +49,6 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
         } else {
             value = Number(value)
             let index = candidateObj.joinedCourses[i][name].findIndex((data) => data === value);
-            console.log('candidateObj------------>', index)
             if (index == -1) {
                 candidateObj.joinedCourses[i][name].push(value);
             } else {
@@ -64,7 +63,6 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
 
 
     useEffect(() => {
-        console.log('candidateEditObj--------------->', candidateEditObj)
         if (!isEmpty(candidateEditObj)) {
             SetCandidateObj({ ...candidateFormObj, ...candidateEditObj })
         }
@@ -81,6 +79,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
             reqBody.status = candidateObj?.joinedCourses?.map(({ status }) => status);
             reqBody.trainerIDs = candidateObj?.joinedCourses?.map(({ trainer }) => trainer);
             reqBody.classTimeIDs = candidateObj?.joinedCourses?.map(({ classTime }) => classTime);
+            reqBody.branchIncharges = candidateObj?.joinedCourses?.map(({ branchIncharge }) => branchIncharge);
 
             reqBody.billMonths = candidateObj?.joinedCourses?.map(({ billMonth },i) => { 
                 reqBody.joinedCourses[i].billMonth=billMonth?billMonth:"";
@@ -147,8 +146,8 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
             getAllUser().then((data) => {
 
 
-                let userList = data.map(({ first_name, last_name, userId }) => ({ label: `${first_name} ${last_name}`, value: userId }))
-                console.log('data------------>',)
+                let userList = data.map(({ first_name, last_name, userId,user_type }) => ({ label: `${first_name} ${last_name}`, value: userId ,user_type}))
+                console.log('data------------>',userGetByRole(userList,[1,2]))
 
                 setCurseTrainerList(userList);
             }).catch((error) => {
@@ -160,6 +159,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
 
         }
     }
+
 
 
     return (
@@ -229,7 +229,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                     <Normalselect label='Trainer'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
                                         value={joinedCourses?.trainer}
-                                        options={curseTrainerList}
+                                        options={userGetByRole(curseTrainerList,USER_ROLE.TRAINER) }
                                         name='trainer'
                                         disabled={!joinedCourses.classTime}
                                         errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
@@ -282,6 +282,16 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         options={YES_NO}
                                         errorMessage={simpleValidator.current.message('Settlement Status', joinedCourses.settlementStatus, 'required')} />
                                 </div>
+                                <div className='col-md-6 col-sm-12'>
+                                    {/* {joinedCourses.trainer} */}
+                                    <Normalselect label='Branch Incharge'
+                                        onChange={(e) => handleInputJoinedCoursesChange(e, i)}
+                                        value={joinedCourses?.branchIncharge}
+                                        options={userGetByRole(curseTrainerList,USER_ROLE.BRANCH_INCHARGE) }
+                                        name='branchIncharge'
+                                        errorMessage={simpleValidator.current.message('Branch Incharge', joinedCourses.branchIncharge, 'required')} />
+                                </div>
+
                                 <div className='col-md-12 col-sm-12'>
                                     <div class="mb-3">
                                         <label className="form-label d-flex">Class Days</label>

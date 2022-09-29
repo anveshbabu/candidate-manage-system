@@ -8,6 +8,7 @@ import { history } from '../../../../helpers'
 import { NormalTable, NormalToggleSwitch, NormalAlert } from '../../../common';
 import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
+import { getAllUser } from '../../../../api/user';
 import { ATTENDANCE, EXIST_LOCAL_STORAGE } from '../../../../services/constants'
 import { setStorage } from '../../../../services/helperFunctions'
 import './candidateList.scss'
@@ -16,7 +17,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
     const [deleteObj, setDeleteObj] = useState({});
-
+    const [userList, setUserList] = useState([]);
 
 
 
@@ -46,6 +47,11 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         label: "Billing Month",
         key: "billingMonth"
     },
+    {
+
+        label: "Branch Incharge",
+        key: "branchIncharge"
+    },
 
     {
         label: "Status",
@@ -65,18 +71,15 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     //     label: "Settlement Status",
     //     key: "settlementStatus"
     // },
+ 
     {
 
         label: !isFromBatch ? "Action" : "Attendance",
         key: !isFromBatch ? "Action" : "atd",
     },
-   
-    isFromBatch && {
 
-        label: "Complited",
-        key: "complited"
-    },
-    {
+   
+    isFromBatch &&   {
 
         label: "Action",
         key: "Action",
@@ -85,6 +88,9 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
 
 
+    useEffect(()=>{
+        handleGetUserList()
+    },[])
 
 
     const handleDeleteCandidate = (value) => {
@@ -128,13 +134,48 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         history.push(`/batche/${isFromBatch}/candidate/attendance`)
     }
 
-    // console.log('candidateList----------------->',candidateList)
+
+    const handleGetUserList = () => {
+        try {
+          getAllUser().then((data) => {
+    
+    
+            let userList = data.map(({ first_name, last_name, userId, user_type }) => ({ label: `${first_name} ${last_name}`, value: userId, user_type }))
+    
+    
+            setUserList(userList);
+          }).catch((error) => {
+            // setFormLoader(false);
+    
+          });
+    
+        } catch (e) {
+    
+        }
+      }
+    
+    
+
+
+    const handleGetBranchInChargeName = (userId) => {
+        if (userList.length > 0) {
+          return userList.find(({ value }) => value == userId)?.label
+        }
+    
+      }
 
 
     return (
 
         <div className="row">
             <div className='col-md-12'>
+
+                {/* <div class="card my-4">
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+                </div> */}
+
                 <NormalTable
                     // className='table-sm'
                     columnData={columnData}
@@ -152,6 +193,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.course}</td>
                                 <td>{data.instituteBranch}</td>
                                 <td>{data.billMonth}</td>
+                                <td>{handleGetBranchInChargeName(data.branchIncharge)}</td>
                                 <td>{data.status}</td>
 
 
@@ -160,7 +202,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                     <NormalToggleSwitch disabled={data.status != 'Processing'} checked={data?.attObj?.atd === ATTENDANCE.PRESENT} onChange={(e) => handleToggleAttendance(e, i)} label={data?.attObj?.atd} />
                                 </td>}
 
-                                {isFromBatch &&
+                                {/* {isFromBatch &&
                                     <td>
 
                                         <NormalToggleSwitch disabled={!!isMultyUpdateIndex?.find((index) => index == i)?.toString()} checked={data?.status == 'Completed'} onChange={(e) => handleToggleComplited(e, i)} />
@@ -169,7 +211,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                             <span class="sr-only">Loading...</span>
                                         </div>}
                                     </td>
-                                }
+                                } */}
                                 <td>
                                     <IconButton color="success" onClick={() => onGetEditData(data)}>
                                         <CreateIcon />

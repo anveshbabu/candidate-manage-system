@@ -5,13 +5,14 @@ import { useParams } from "react-router-dom";
 import moment from "moment"
 
 
-import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect,NormalButton, CustomDateRangePicker } from '../../components/common';
+import { NormalBreadcrumb, NormalModal, Normaltabs, NormalSearch, Normalselect, NormalButton, CustomDateRangePicker } from '../../components/common';
 import { CandidateList, CandidateFrom } from '../../components/pages';
 import { CANDIDATE_COURSE_STATUS, ATTENDANCE, CLASS_TYPE, YES_NO, INSTITUTE_BRANCH, EXIST_LOCAL_STORAGE } from '../../services/constants'
 import { candidateFormObj, attendanceFormObject } from '../../services/entity'
-import { getStorage, isEmpty } from '../../services/helperFunctions'
-import { getCandidate, searchCandidate, updateCandidate } from '../../api/candidate'
-import { updateAtendance, getAttendance } from '../../api'
+import { getStorage, userGetByRole } from '../../services/helperFunctions'
+import { getCandidate, updateCandidate } from '../../api/candidate'
+import { updateAtendance } from '../../api'
+
 export const Candidate = () => {
   const [isCandidateModal, setIsCandidateModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Processing');
@@ -20,7 +21,7 @@ export const Candidate = () => {
   const [candidateFilterList, setCandidateFilterList] = useState([]);
   const [attendanceReqList, setAttendanceReqList] = useState([])
   const [isAttendanceApiLoader, setIsAttendanceApiLoader] = useState(false)
-  const [isMultyUpdateIndex, setMultyUpdateIndex] = useState([])
+  const [isMultyUpdateIndex, setMultyUpdateIndex] = useState([]);
   const [candidateFilter, setCandidateFilter] = useState({
     searchText: "",
     classType: ""
@@ -63,6 +64,9 @@ export const Candidate = () => {
       handleGetAttendanceList();
     }
   }, [selectedTab]);
+
+
+
 
 
 
@@ -197,10 +201,10 @@ export const Candidate = () => {
     });
   };
 
-  const handleDateRangeFilter=({ start, end })=>{
+  const handleDateRangeFilter = ({ start, end }) => {
 
-   let result= candidateFilterList.filter(({ name, phone, joinedCourses }) =>  joinedCourses?.find(({ joinDate}) => moment(joinDate, 'YYYY-MM-DD').isBetween(start, end)));
-   setCandidateList(result)
+    let result = candidateFilterList.filter(({ name, phone, joinedCourses }) => joinedCourses?.find(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(start, end)));
+    setCandidateList(result)
 
   }
 
@@ -209,21 +213,21 @@ export const Candidate = () => {
   return (
     <div className='Candidate-page'>
 
-      <NormalBreadcrumb className="mb-0" label={'Candidate'} 
+      <NormalBreadcrumb className="mb-0" label={'Candidate'}
         // buttonLabel={!params?.batchId ? "Add New" : "Update Attendance"}
         // btnIsLoader={isAttendanceApiLoader}
         // onBtnClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()}
-        rightSideChild={<CustomDateRangePicker  onChange={handleDateRangeFilter}/>}
+        rightSideChild={<CustomDateRangePicker onChange={handleDateRangeFilter} />}
       />
 
       <div className="row mt-4">
         <div className="col-md-6 col-sm-12">
           <h4 className="sub-page-titel mb-4">{candidateFilterList.length} Total</h4>
-          
+
 
         </div>
         <div className="col-md-6 text-end col-sm-12">
-          <NormalButton className='add-new-btn' size="small"  variant="outlined"  label={!params?.batchId ? "Add New" : "Update Attendance"}  isLoader={isAttendanceApiLoader} onClick= {() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()} / >
+          <NormalButton className='add-new-btn' size="small" variant="outlined" label={!params?.batchId ? "Add New" : "Update Attendance"} isLoader={isAttendanceApiLoader} onClick={() => !params?.batchId ? setIsCandidateModal(true) : handleAttendance()} />
 
         </div>
       </div >

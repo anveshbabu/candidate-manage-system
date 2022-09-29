@@ -26,7 +26,7 @@ export const Normalselect = (props) => {
                         <MenuItem value={value} key={i}>{label}</MenuItem>
                     )}
                 </ReactMatSelect>
-                {!errorMessage && <div className="form-text text-danger">{errorMessage}</div>}
+                {!!errorMessage && <div className="form-text text-danger">{errorMessage}</div>}
             </FormControl>
 
             : <div className={`mb-3 ${className}`}>

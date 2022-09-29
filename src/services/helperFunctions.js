@@ -163,3 +163,12 @@ export const formatter = Intl.NumberFormat('en-IN');
 export const currencyFormat = (number,symbol='₹') => {
  return `${symbol} ${formatter?.format(number)}`
 }
+
+export const userGetByRole = (userList,role) => {
+
+  return userList.map((data)=>{
+    if(role.includes(data?.user_type)){
+      return data;
+    }
+  }).filter(Boolean)
+ }
