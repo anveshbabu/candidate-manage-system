@@ -17,9 +17,9 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
     useEffect(() => {
         let candData = JSON.parse(getStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE));
         setCandidateDetail(candData)
-        var joinDate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
+        var courseStartDate = moment(candData?.joinedCourses[0]?.courseStartDate, "YYYY-MM-DD");
         var current = moment();
-        var diff = current.diff(joinDate, 'days');
+        var diff = current.diff(courseStartDate, 'days');
         console.log('diff--------->',diff)
         setCourseExtendDays(diff)
 
@@ -72,8 +72,8 @@ export const CandidateAttendanceSummary = ({ attendanceList }) => {
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <label> Joining Date</label>
-                    <span className="float-end text-center">{!!candidateDetail && moment(candidateDetail?.joinedCourses[0]?.joinDate, "YYYY-MM-DD").format('DD')}
-                        <small className="d-flex">{!!candidateDetail && moment(candidateDetail?.joinedCourses[0]?.joinDate, "YYYY-MM-DD").format('MMM YYYY')}</small>
+                    <span className="float-end text-center">{!!candidateDetail && moment(candidateDetail?.joinedCourses[0]?.courseStartDate, "YYYY-MM-DD").format('DD')}
+                        <small className="d-flex">{!!candidateDetail && moment(candidateDetail?.joinedCourses[0]?.courseStartDate, "YYYY-MM-DD").format('MMM YYYY')}</small>
                     </span>
                 </li>
                 <li class="list-group-item">

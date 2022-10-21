@@ -82,7 +82,7 @@ export const TotalEarn = ({ branchCandList }) => {
             const endOfMonth = moment(currentYear).endOf('month');
 
             let candidateList = branchCandList?.find(({ branch }) => branch == value);
-            let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+            let selectedMonthCandList = candidateList?.data?.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
             let selectedMonthFeesTotal = 0
             if (Array.isArray(selectedMonthCandList)) {
                 selectedMonthCandList.map(({ fees }) => {

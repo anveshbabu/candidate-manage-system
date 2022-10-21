@@ -10,7 +10,7 @@ import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
 import { getAllUser } from '../../../../api/user';
 import { ATTENDANCE, EXIST_LOCAL_STORAGE } from '../../../../services/constants'
-import { setStorage } from '../../../../services/helperFunctions'
+import { setStorage,candidateComplitPer ,letterAvatar} from '../../../../services/helperFunctions'
 import './candidateList.scss'
 
 export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', isMultyUpdateIndex = [], handleToggleAttendance, handleToggleComplited }) => {
@@ -43,15 +43,15 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
         label: "Branch",
         key: "instituteBranch"
     },
-    {
-        label: "Billing Month",
-        key: "billingMonth"
-    },
-    {
+    // {
+    //     label: "Billing Month",
+    //     key: "billingMonth"
+    // },
+    // {
 
-        label: "Branch Incharge",
-        key: "branchIncharge"
-    },
+    //     label: "Branch Incharge",
+    //     key: "branchIncharge"
+    // },
 
     {
         label: "Status",
@@ -71,26 +71,26 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     //     label: "Settlement Status",
     //     key: "settlementStatus"
     // },
- 
+
     {
 
         label: !isFromBatch ? "Action" : "Attendance",
         key: !isFromBatch ? "Action" : "atd",
     },
 
-   
-    isFromBatch &&   {
+
+    isFromBatch && {
 
         label: "Action",
         key: "Action",
     },
     ];
 
+    // 100*100/100
 
-
-    useEffect(()=>{
+    useEffect(() => {
         handleGetUserList()
-    },[])
+    }, [])
 
 
     const handleDeleteCandidate = (value) => {
@@ -137,44 +137,115 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
     const handleGetUserList = () => {
         try {
-          getAllUser().then((data) => {
-    
-    
-            let userList = data.map(({ first_name, last_name, userId, user_type }) => ({ label: `${first_name} ${last_name}`, value: userId, user_type }))
-    
-    
-            setUserList(userList);
-          }).catch((error) => {
-            // setFormLoader(false);
-    
-          });
-    
+            getAllUser().then((data) => {
+
+
+                let userList = data.map(({ first_name, last_name, userId, user_type }) => ({ label: `${first_name} ${last_name}`, value: userId, user_type }))
+
+
+                setUserList(userList);
+            }).catch((error) => {
+                // setFormLoader(false);
+
+            });
+
         } catch (e) {
-    
+
         }
-      }
-    
-    
+    }
+
+
 
 
     const handleGetBranchInChargeName = (userId) => {
         if (userList.length > 0) {
-          return userList.find(({ value }) => value == userId)?.label
+            return userList.find(({ value }) => value == userId)?.label
         }
-    
-      }
+
+    }
 
 
     return (
 
         <div className="row">
-            <div className='col-md-12'>
+            {!isFromBatch && candidateList.map((data, i) =>
+                <div className='col-md-3' key={i}>
+                    <div  className="card candidate-card shadow border-0 my-4">
+                        <div  className="card-body">
+                            <div className='row'>
+                                <div className='col-md-12 col-sm-12 mb-3'>
+                                    <div  className="d-flex">
+                                        <div  className="flex-shrink-0">
+                                            <img className='user-img rounded-circle mb-2' src={letterAvatar(data.name,42)} alt="..." />
+                                        </div>
+                                        <div  className="flex-grow-1 ms-2">
+                                            {/* <div  className="badge bg-info float-end">started</div> */}
+                                            <div  className="float-end edit-delte-btn">
+                                                <IconButton color="success" onClick={() => onGetEditData(data)}>
+                                                    <CreateIcon />
+                                                </IconButton>
+                                                <IconButton color="error" onClick={() => handleOpenDeleteAlert(data)}>
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </div>
+                                            <h6 className='mb-0'>{data.name}</h6>
+                                            <small className='text-primary'>{data.phone}</small>
 
-                {/* <div class="card my-4">
-                    <div class="card-body">
-                        This is some text within a card body.
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                {data?.status == 'Processing' &&
+                                <div className='col-md-12 col-sm-12'>
+                                    <div  className="progress mb-3" title={`${candidateComplitPer(data?.courseStartDate,data.course)}%`}>
+                                        <div  className={`progress-bar  ${candidateComplitPer(data?.courseStartDate,data.course) > 100 && 'bg-danger'}`}  role="progressbar" aria-label="Basic example" style={{ width:`${candidateComplitPer(data?.courseStartDate,data.course)}%` }}>{candidateComplitPer(data?.courseStartDate,data.course)}%</div>
+                                    </div>
+                                </div>}
+
+
+                                <div className='col-md-12 col-sm-12'>
+                                    <table  className="table candidate-detail">
+
+                                        <tbody>
+                                            <tr>
+
+                                                <td><strong>Course</strong></td>
+                                                <td>{data.course}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Join Date</strong></td>
+                                                <td>{data?.courseStartDate?data?.courseStartDate:"node ell"}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Trainer</strong></td>
+                                                <td>{handleGetBranchInChargeName(data.trainer)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Branch</strong></td>
+                                                <td>{data.instituteBranch}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Branch Incharge</strong></td>
+                                                <td>{handleGetBranchInChargeName(data.branchIncharge)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Billing Month</strong></td>
+                                                <td>{data.billMonth?data.billMonth:"-"}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div> */}
+                </div>
+            )}
+
+            {isFromBatch && <div className='col-md-12'>
+
+
 
                 <NormalTable
                     // className='table-sm'
@@ -192,8 +263,8 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>
                                 <td>{data.instituteBranch}</td>
-                                <td>{data.billMonth}</td>
-                                <td>{handleGetBranchInChargeName(data.branchIncharge)}</td>
+                                {/* <td>{data.billMonth}</td> */}
+                                {/* <td>{handleGetBranchInChargeName(data.branchIncharge)}</td> */}
                                 <td>{data.status}</td>
 
 
@@ -207,8 +278,8 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
                                         <NormalToggleSwitch disabled={!!isMultyUpdateIndex?.find((index) => index == i)?.toString()} checked={data?.status == 'Completed'} onChange={(e) => handleToggleComplited(e, i)} />
 
-                                        {!!isMultyUpdateIndex?.find((index) => index == i)?.toString() && <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                            <span class="sr-only">Loading...</span>
+                                        {!!isMultyUpdateIndex?.find((index) => index == i)?.toString() && <div  className="spinner-border text-primary spinner-border-sm" role="status">
+                                            <span  className="sr-only">Loading...</span>
                                         </div>}
                                     </td>
                                 } */}
@@ -232,7 +303,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
 
                 />
 
-            </div>
+            </div>}
             <NormalAlert isShow={isDeleteAlert} title='Are You sure want to delete the candidate' toggle={handleClearDeleteData} onClick={handleDeleteCandidate} />
         </div>
     )

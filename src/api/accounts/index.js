@@ -98,7 +98,13 @@ export const getBillingWiseCandidate = (body) => {
                     let avilStatus = doc.data().joinedCourses.find(({ billMonth }) => billMonth == body);
                     console.log(avilStatus,doc.data().name)
 
-                    data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch,fees:avilStatus?.fees,billMonth:avilStatus?.billMonth });
+                    data.push({
+                        ...doc.data(), id: doc.id, course: avilStatus?.course,
+                        instituteBranch: avilStatus?.instituteBranch,
+                        billMonth: avilStatus?.billMonth,
+                        courseStartDate: avilStatus?.courseStartDate, branchIncharge: avilStatus?.branchIncharge,
+                        trainer:avilStatus?.trainer
+                    });
                 });
                 resolve(data)
             } else {

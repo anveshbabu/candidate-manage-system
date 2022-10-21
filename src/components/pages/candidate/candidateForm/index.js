@@ -147,9 +147,9 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
 
 
                 let userList = data.map(({ first_name, last_name, userId,user_type }) => ({ label: `${first_name} ${last_name}`, value: userId ,user_type}))
-                console.log('data------------>',userGetByRole(userList,[1,2]))
 
-                setCurseTrainerList(userList);
+
+                setCurseTrainerList([...userList,{ label:'not assigned'}]);
             }).catch((error) => {
                 // setFormLoader(false);
 
@@ -186,6 +186,13 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                     name='phone'
                     errorMessage={simpleValidator.current.message('Phone', candidateObj.phone, 'required|phone')} />
             </div>
+            <div className='col-md-12 col-sm-12'>
+                <NormalInput label='Phone'
+                    onChange={handleInputChange}
+                    value={candidateObj.phone}
+                    name='phone'
+                    errorMessage={simpleValidator.current.message('Phone', candidateObj.phone, 'required|phone')} />
+            </div>
 
             <div className='col-md-12 col-sm-12 '>
                 {candidateObj?.joinedCourses?.map((joinedCourses, i) =>
@@ -203,10 +210,10 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                 <div className='col-md-6 col-sm-12'>
                                     <NormalInput label='Join Date'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                        value={joinedCourses.joinDate}
+                                        value={joinedCourses.courseStartDate}
                                         type="date"
-                                        name='joinDate'
-                                        errorMessage={simpleValidator.current.message('Phone', joinedCourses.joinDate, 'required')} />
+                                        name='courseStartDate'
+                                        errorMessage={simpleValidator.current.message('Phone', joinedCourses.courseStartDate, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Status'
@@ -222,7 +229,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         value={joinedCourses.classTime}
                                         options={batchTimingList}
                                         name='classTime'
-                                        errorMessage={simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} />
+                                        errorMessage={joinedCourses.status !== 'Yet to start' &&   simpleValidator.current.message('Class Time', joinedCourses.classTime, 'required')} />
                                 </div>
                                 <div className='col-md-6 col-sm-12'>
                                     {/* {joinedCourses.trainer} */}
@@ -232,7 +239,7 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         options={userGetByRole(curseTrainerList,USER_ROLE.TRAINER) }
                                         name='trainer'
                                         disabled={!joinedCourses.classTime}
-                                        errorMessage={simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
+                                        errorMessage={joinedCourses.status !== 'Yet to start' &&   simpleValidator.current.message('Trainer', joinedCourses.trainer, 'required')} />
                                 </div>
 
                                 <div className='col-md-6 col-sm-12'>
@@ -265,15 +272,15 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                                         name='pendingFees'
                                         errorMessage={simpleValidator.current.message('Pending Fees', joinedCourses.pendingFees, 'required|numeric')} />
                                 </div>
-                                {joinedCourses.status === 'Completed' &&
+                                {/* {joinedCourses.status === 'Completed' && */}
                                     <div className='col-md-6 col-sm-12'>
                                         <NormalInput label='Billing Month'
                                             onChange={(e) => handleInputJoinedCoursesChange(e, i)}
                                             value={joinedCourses.billMonth}
                                             name='billMonth'
                                             type='month'
-                                            errorMessage={simpleValidator.current.message('Billing Month', joinedCourses.billMonth, 'required')} />
-                                    </div>}
+                                            errorMessage={(joinedCourses.status === 'Completed' || joinedCourses.settlementStatus === 'Yes' ) && simpleValidator.current.message('Billing Month', joinedCourses.billMonth, 'required')} />
+                                    </div>
                                 <div className='col-md-6 col-sm-12'>
                                     <Normalselect label='Settlement Status'
                                         onChange={(e) => handleInputJoinedCoursesChange(e, i)}

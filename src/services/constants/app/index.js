@@ -30,6 +30,7 @@ export const CANDIDATE_COURSE_STATUS = [
     { value: 'Hold', label: 'Hold' },
     { value: 'Processing', label: 'Processing' },
     { value: 'Discontinued', label: 'Discontinued' },
+    { value: 'Yet to start', label: 'yet to start' },
 ];
 
 

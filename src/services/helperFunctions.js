@@ -1,5 +1,6 @@
 import moment from "moment";
 export var apiProgressBar = ''
+const { COURSE_LIST } = require('./constants')
 export const setapiProgressBar = per => {
   apiProgressBar = per
   console.log(apiProgressBar)
@@ -160,15 +161,23 @@ const timelineLabels = (desiredStartTime, interval, period) => {
 export const formatter = Intl.NumberFormat('en-IN');
 
 
-export const currencyFormat = (number,symbol='₹') => {
- return `${symbol} ${formatter?.format(number)}`
+export const currencyFormat = (number, symbol = '₹') => {
+  return `${symbol} ${formatter?.format(number)}`
 }
 
-export const userGetByRole = (userList,role) => {
+export const userGetByRole = (userList, role) => {
 
-  return userList.map((data)=>{
-    if(role.includes(data?.user_type)){
+  return userList.map((data) => {
+    if (role.includes(data?.user_type)) {
       return data;
     }
   }).filter(Boolean)
- }
+}
+
+export const candidateComplitPer = (courseStartDate, course) => {
+  var date = moment(courseStartDate, "YYYY-MM-DD");
+  var current = moment();
+  var diff = current.diff(date, 'days');
+  let courseDuration = COURSE_LIST.find(({ value }) => value === course)?.courseDuration;
+  return  Math.round( ((diff * 100) / courseDuration));
+}

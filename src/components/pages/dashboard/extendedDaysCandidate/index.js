@@ -41,12 +41,12 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                                 </tr>
                             </thead>
                             <tbody>
-                                {extendedDayCandList?.map(({ name, phone, course, joinDate, trainer, extendDays, joinedCourses = [] }, i) =>
+                                {extendedDayCandList?.map(({ name, phone, course, courseStartDate, trainer, extendDays, joinedCourses = [] }, i) =>
                                     <tr>
                                         <th scope="row">{i + 1}</th>
                                         <td>{name}</td>
                                         <td>{phone}</td>
-                                        <td>{joinDate}</td>
+                                        <td>{courseStartDate}</td>
                                         <td>{course}</td>
                                         <td>{handleGetUserName(trainer)}</td>
                                         <td>{extendDays}</td>

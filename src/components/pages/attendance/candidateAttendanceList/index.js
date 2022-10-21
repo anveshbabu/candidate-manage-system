@@ -15,20 +15,20 @@ export const CandidateAttendanceList = ({ getAttendanceList }) => {
     const [candidateDetail, setCandidateDetail] = useState('')
     useEffect(() => {
         let candData = JSON.parse(getStorage(EXIST_LOCAL_STORAGE?.ATTENDANCE_CANDIDATE));
-        var joinDate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
+        var courseStartDate = moment(candData?.joinedCourses[0]?.courseStartDate, "YYYY-MM-DD");
         var current = moment()
         setCandidateDetail(candData);
-        var diff = current.diff(joinDate, 'days');
-        let setJoindate = moment(candData?.joinedCourses[0]?.joinDate, "YYYY-MM-DD");
+        var diff = current.diff(courseStartDate, 'days');
+        let setCourseStartDate = moment(candData?.joinedCourses[0]?.courseStartDate, "YYYY-MM-DD");
         let attendanceLis = []
         for (let i = 0; i < diff + 1; i++) {
             let obj = {
                 ...attendanceFormObject,
                 atd: "",
-                atdDate: setJoindate.format('DD/MM/YYYY'),
+                atdDate: setCourseStartDate.format('DD/MM/YYYY'),
             };
             attendanceLis.push({ ...obj })
-            setJoindate.add(1, 'd');
+            setCourseStartDate.add(1, 'd');
         };
         setAttendanceInitList([...attendanceLis])
 

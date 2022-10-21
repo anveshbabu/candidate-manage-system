@@ -82,7 +82,7 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
             const endOfMonth = moment(currentYear).endOf('month');
 
             let candidateList = branchCandList?.find(({ branch }) => branch == value);
-            let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+            let selectedMonthCandList = candidateList?.data?.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
 
             lineDate.data.push(Array.isArray(selectedMonthCandList) ? selectedMonthCandList?.length : 0);
 

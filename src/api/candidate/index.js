@@ -1,4 +1,4 @@
-import { collection, addDoc, setDoc, updateDoc, query, doc, where, getDocs, deleteDoc, orderBy, startAt, endAt } from "firebase/firestore";
+import { collection, addDoc, setDoc, updateDoc, query, doc, where, getDocs, deleteDoc, orderBy, startAfter, endAt, limit } from "firebase/firestore";
 // import { getDatabase, ref,  orderByChild ,equalTo,get} from "firebase/database";
 import { getAuth, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -37,7 +37,8 @@ export const updateCandidate = (body, id) => {
     delete body?.course;
     delete body?.instituteBranch;
     delete body?.billMonth;
-    delete body?.branchIncharge
+    delete body?.branchIncharge;
+    delete body?.trainer;
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
@@ -78,25 +79,28 @@ export const createCandidateByCandidate = (body) => {
     })
 }
 
-export const getCandidate = (body,isBatch=false) => {
+export const getCandidate = (body, isBatch = false) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), where(!isBatch?"status":"classTimeIDs", "array-contains", body)));
+                // startAfter(30),limit(30),
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), orderBy("name"), where(!isBatch ? "status" : "classTimeIDs", "array-contains", body)));
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
 
                 let data = []
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     let avilStatus = doc.data().joinedCourses.find(({ status }) => status == body);
-                    console.log(avilStatus?.branchIncharge)
-
-                    data.push({ ...doc.data(), id: doc.id, course: avilStatus?.course, 
+                    // console.log('data------>',avilStatus)
+                    data.push({
+                        ...doc.data(), id: doc.id, course: avilStatus?.course,
                         instituteBranch: avilStatus?.instituteBranch,
-                        billMonth:avilStatus?.billMonth,
-                        joinDate: avilStatus?.joinDate,branchIncharge:avilStatus?.branchIncharge});
+                        billMonth: avilStatus?.billMonth,
+                        courseStartDate: avilStatus?.courseStartDate, branchIncharge: avilStatus?.branchIncharge,
+                        trainer:avilStatus?.trainer
+                    });
                 });
+           
                 resolve(data)
             } else {
 

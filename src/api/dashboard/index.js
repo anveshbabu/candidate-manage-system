@@ -27,9 +27,9 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     const startOfMonth = moment().startOf('month');
                     const endOfMonth = moment().endOf('month');
                     const lastThreeStartOfMonth = moment().subtract(2, 'months').startOf('month');
-                    let isWeekSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd));
-                    let isMonthSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
-                    let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
+                    let isWeekSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd));
+                    let isMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+                    let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
 
                     if (!isEmpty(isWeekSummary)) {
                         weekCount++
@@ -45,13 +45,13 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     let avilStatus = doc.data().joinedCourses.find(({ status }) => status == 'Processing');
 
                     if (!!avilStatus) {
-                        var date = moment(avilStatus?.joinDate, "YYYY-MM-DD");
+                        var date = moment(avilStatus?.courseStartDate, "YYYY-MM-DD");
                         var current = moment();
                         var diff = current.diff(date, 'days');
                         let courseDuration = COURSE_LIST.find(({ value }) => value === avilStatus?.course)?.courseDuration;
                         let extendDays=(diff - getCandidateWeekOff(date, diff, [avilStatus]) - courseDuration);
                         if ( extendDays> 0) {
-                            extendedDayCandList.push({ ...doc.data(), extendDays,id: doc.id, trainer: avilStatus?.trainer, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, joinDate: avilStatus?.joinDate })
+                            extendedDayCandList.push({ ...doc.data(), extendDays,id: doc.id, trainer: avilStatus?.trainer, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, courseStartDate: avilStatus?.courseStartDate })
 
                         } else {
                             return 0;

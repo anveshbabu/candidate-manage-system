@@ -126,10 +126,10 @@ export const CandidateIndividualForm = ({ sucessSaved = '', onClose = '' }) => {
                                     <div className='col-md-6 col-sm-12'>
                                         <NormalInput label='Join Date'
                                             onChange={(e) => handleInputJoinedCoursesChange(e, i)}
-                                            value={joinedCourses.joinDate}
+                                            value={joinedCourses.courseStartDate}
                                             type="date"
-                                            name='joinDate'
-                                            errorMessage={simpleValidator.current.message('Phone', joinedCourses.joinDate, 'required')} />
+                                            name='courseStartDate'
+                                            errorMessage={simpleValidator.current.message('Phone', joinedCourses.courseStartDate, 'required')} />
                                     </div>
                                     <div className='col-md-6 col-sm-12'>
                                         <Normalselect label='Status'

@@ -1,3 +1,42 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
 .link-primary{
     cursor: pointer;
+}
+.candidate-card{
+    border-radius: fontSize(12px) ;
+
+        .user-img{
+            width: 42px;
+        }
+        small{
+            font-size: 80%;
+            font-weight: 400;
+        }
+        &:hover{
+           
+            .edit-delte-btn{
+                visibility: visible;
+            }
+        }
+        .edit-delte-btn{
+            visibility: hidden;
+        }
+
+        .progress{
+            height: .5rem;
+            font-size: .5rem;
+        }
+  .candidate-detail{
+    tbody{
+        tr{
+            td{
+                font-size: .8rem;
+            &:first-child{
+                color: var(--text-gray);
+              
+            }
+        }
+    }
+}
+  }
 }

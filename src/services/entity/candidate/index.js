@@ -2,7 +2,7 @@ import moment from "moment"
 export const joinedCoursesObj = {
     course: '',
     status: '',
-    joinDate: moment().format('YYYY-MM-DD'),
+    courseStartDate: moment().format('YYYY-MM-DD'),
     classTime: moment().format('HH:MM'),
     settlementStatus: 'No',
     classType: '',
@@ -19,6 +19,7 @@ export const candidateFormObj = {
     name: "",
     email: '',
     phone: null,
+    joinDate: moment().format('YYYY-MM-DD'),
     joinedCourses: [
         {...joinedCoursesObj}
     ],

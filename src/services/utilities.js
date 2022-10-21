@@ -57,17 +57,17 @@ export const jwtDecodeDetails = (req, res, next) => {
 
 }
 
-export const getCandidateWeekOff = (setJoindate, diff, joinedCourses = []) => {
+export const getCandidateWeekOff = (setCourseStartDate, diff, joinedCourses = []) => {
 
   let count = 0
   for (let i = 0; i < diff + 1; i++) {
-      const weekDay = setJoindate.format('e')
+      const weekDay = setCourseStartDate.format('e')
       joinedCourses?.map(({ classDays }) => {
           if (Array.isArray(joinedCourses) && !classDays?.includes(Number(weekDay))) {
               count++
           }
       })
-      setJoindate.add(1, 'd');
+      setCourseStartDate.add(1, 'd');
   };
   return count
 
