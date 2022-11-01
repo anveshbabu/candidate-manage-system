@@ -1,6 +1,6 @@
 
 import './extendedDaysCandidate.scss'
-export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = [] }) => {
+export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = [],componentType='extendedDayCandList' }) => {
 
 
 
@@ -23,7 +23,7 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
     return (
         <div className={`card dashboard-card`}>
             <div className="card-header">
-                <h5 className='card-title mb-0'>Extended Days Candidate</h5>
+                <h5 className='card-title mb-0'>{componentType==='extendedDayCandList'?'Extended Days':"Hold | Pending | Yet To Start"} Candidate</h5>
             </div>
             <div className="card-body pt-0 ">
               {extendedDayCandList?.length>0 ? <div className="row ">
@@ -36,20 +36,22 @@ export const ExtendedDaysCandidate = ({ extendedDayCandList = [], usersList = []
                                     <th scope="col">Phone</th>
                                     <th scope="col">join Date</th>
                                     <th scope="col">Course</th>
+                                    {componentType ==="yetToStartList" &&   <th scope="col">Status</th>}
                                     <th scope="col">Trainer</th>
-                                    <th scope="col">Extended Days</th>
+                                    {componentType==='extendedDayCandList' &&  <th scope="col">Extended Days</th>}
                                 </tr>
                             </thead>
                             <tbody>
-                                {extendedDayCandList?.map(({ name, phone, course, courseStartDate, trainer, extendDays, joinedCourses = [] }, i) =>
+                                {extendedDayCandList?.map(({ name, phone,status, course,joinDate, courseStartDate, trainer, extendDays, joinedCourses = [] }, i) =>
                                     <tr>
                                         <th scope="row">{i + 1}</th>
                                         <td>{name}</td>
                                         <td>{phone}</td>
-                                        <td>{courseStartDate}</td>
+                                        <td>{componentType==='extendedDayCandList'? courseStartDate:joinDate}</td>
                                         <td>{course}</td>
+                                        {componentType === "yetToStartList" &&   <td>{status}</td>}
                                         <td>{handleGetUserName(trainer)}</td>
-                                        <td>{extendDays}</td>
+                                        {componentType==='extendedDayCandList'&&   <td>{extendDays}</td>}
                                     </tr>
                                 )}
 

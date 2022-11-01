@@ -18,7 +18,7 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
 
-                let summaryCounts = {}, data = [], extendedDayCandList = [];
+                let summaryCounts = {}, data = [], extendedDayCandList = [],yetToStartList=[];
                 let weekCount = 0, monthSummary = 0, lastThreeMonthSUmmary = 0;
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
@@ -43,21 +43,44 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     data.push({ ...doc.data(), id: doc.id, });
                     summaryCounts = { weekCount, monthSummary, lastThreeMonthSUmmary, overAllSummary: querySnapshot?.size };
                     let avilStatus = doc.data().joinedCourses.find(({ status }) => status == 'Processing');
-
+                    // console.log('avilStatus----------->', avilStatus)
                     if (!!avilStatus) {
                         var date = moment(avilStatus?.courseStartDate, "YYYY-MM-DD");
                         var current = moment();
                         var diff = current.diff(date, 'days');
                         let courseDuration = COURSE_LIST.find(({ value }) => value === avilStatus?.course)?.courseDuration;
-                        let extendDays=(diff - getCandidateWeekOff(date, diff, [avilStatus]) - courseDuration);
-                        if ( extendDays> 0) {
-                            extendedDayCandList.push({ ...doc.data(), extendDays,id: doc.id, trainer: avilStatus?.trainer, course: avilStatus?.course, instituteBranch: avilStatus?.instituteBranch, courseStartDate: avilStatus?.courseStartDate })
+                        let extendDays = (diff - getCandidateWeekOff(date, diff, [avilStatus]) - courseDuration);
+                        if (extendDays > 0) {
+                            extendedDayCandList.push({
+                                ...doc.data(),
+                                extendDays, id: doc.id,
+                                ...avilStatus,
+                                trainer: avilStatus?.trainer,
+                                course: avilStatus?.course,
+                                instituteBranch: avilStatus?.instituteBranch
+                                , courseStartDate: avilStatus?.courseStartDate,
+                                //    billMonth:
+                            })
 
                         } else {
                             return 0;
                         }
 
 
+                    };
+
+                    let yetToStart = doc.data().joinedCourses.find(({ status }) => ['Yet to start', 'Pending', 'Hold', 'Discontinued',].includes(status));
+                    if(!!yetToStart){
+                        yetToStartList.push({
+                            ...doc.data(),
+                            id: doc.id,
+                            ...yetToStart,
+                            // trainer: avilStatus?.trainer,
+                            // course: avilStatus?.course,
+                            // instituteBranch: avilStatus?.instituteBranch
+                            // , courseStartDate: avilStatus?.courseStartDate,
+                            //    billMonth:
+                        })
                     }
 
                 });
@@ -69,8 +92,8 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                         branch: value
                     }
                 });
-
-                resolve({ summaryCounts, branchCandidateList: branchList, extendedDayCandList })
+console.log('yetToStartList------------>',yetToStartList)
+                resolve({ summaryCounts,yetToStartList, branchCandidateList: branchList, extendedDayCandList ,overAllCandidateList:data})
             } else {
 
             }

@@ -12,6 +12,10 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
             {
                 name: "Enrol",
                 data: []
+            },
+            {
+                name: "Completed",
+                data: [50,100,500,600]
             }
         ]
     );
@@ -77,16 +81,21 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
             name: "Enrol",
             data: []
         };
+     let completedCount=   {
+            name: "Completed",
+            data: []
+        }
         for (let i = 0; i < 12; i++) {
             const startOfMonth = moment(currentYear).startOf('month');
             const endOfMonth = moment(currentYear).endOf('month');
 
             let candidateList = branchCandList?.find(({ branch }) => branch == value);
             let selectedMonthCandList = candidateList?.data?.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
-
+            let selectedMonthCompliList = candidateList?.data?.filter(({ billMonth }) => !!billMonth && moment(billMonth, 'YYYY-MM').isSame(currentYear,'M'));
             lineDate.data.push(Array.isArray(selectedMonthCandList) ? selectedMonthCandList?.length : 0);
+            completedCount.data.push(Array.isArray(selectedMonthCompliList) ? selectedMonthCompliList?.length : 0);
 
-            setseries([...[lineDate]])
+            setseries([...[lineDate,completedCount]])
             currentYear = moment().set({ 'month': i + 1 });
         }
     }
