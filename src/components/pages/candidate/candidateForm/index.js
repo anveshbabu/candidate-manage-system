@@ -187,11 +187,12 @@ export const CandidateFrom = ({ sucessSaved = '', onClose = '', candidateEditObj
                     errorMessage={simpleValidator.current.message('Phone', candidateObj.phone, 'required|phone')} />
             </div>
             <div className='col-md-12 col-sm-12'>
-                <NormalInput label='Phone'
+                <NormalInput label='joinDate'
                     onChange={handleInputChange}
-                    value={candidateObj.phone}
-                    name='phone'
-                    errorMessage={simpleValidator.current.message('Phone', candidateObj.phone, 'required|phone')} />
+                    value={candidateObj.joinDate}
+                    name='joinDate'
+                    type="date"
+                    errorMessage={simpleValidator.current.message('joinDate', candidateObj.joinDate, 'required')} />
             </div>
 
             <div className='col-md-12 col-sm-12 '>

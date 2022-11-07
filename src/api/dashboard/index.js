@@ -35,6 +35,7 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                         weekCount++
                     };
                     if (!isEmpty(isMonthSummary)) {
+                        console.log('isMonthSummary------------>',isMonthSummary)
                         monthSummary++
                     };
                     if (!isEmpty(lastThreeMonthSummary)) {

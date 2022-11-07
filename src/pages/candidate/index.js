@@ -203,7 +203,7 @@ export const Candidate = () => {
 
   const handleDateRangeFilter = ({ start, end }) => {
 
-    let result = candidateFilterList.filter(({ name, phone, joinedCourses }) => joinedCourses?.find(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(start, end)));
+    let result = candidateFilterList.filter(({ name, phone, joinDate,joinedCourses }) =>  moment(joinDate, 'YYYY-MM-DD').isBetween(start, end));
     setCandidateList(result)
 
   }

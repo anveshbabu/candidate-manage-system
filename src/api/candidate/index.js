@@ -1,4 +1,4 @@
-import { collection, addDoc, setDoc, updateDoc, query, doc, where, getDocs, deleteDoc, orderBy, startAfter, endAt, limit } from "firebase/firestore";
+import { collection, addDoc, getDoc, updateDoc, query, doc, where, getDocs, deleteDoc, orderBy, startAfter, endAt, limit } from "firebase/firestore";
 // import { getDatabase, ref,  orderByChild ,equalTo,get} from "firebase/database";
 import { getAuth, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -12,13 +12,20 @@ export const createCandidate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
-                body['createdBy']['name'] = first_name + " " + last_name;
-                body['createdBy']['userId'] = user_id;
-                body['createdBy']['date'] = new Date().toISOString();
-                const docRef = await addDoc(collection(getFirestore(), "candidate"), body);
-                resolve(docRef)
+                const isExists = await getDocs(query(collection(getFirestore(), "candidate"), where("phone", "==", body?.phone)));
+                    if (isExists.empty) {
+                    let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
+                    body['createdBy']['name'] = first_name + " " + last_name;
+                    body['createdBy']['userId'] = user_id;
+                    body['createdBy']['date'] = new Date().toISOString();
+                    const docRef = await addDoc(collection(getFirestore(), "candidate"), body);
+                    resolve(docRef)
                 Toast({ type: 'success', message: 'candidate saved successfully', title: 'success' })
+                }else{
+                    resolve('')
+                    Toast({ type: 'warning', message: 'candidate is alredy exist', title: 'warning' })
+                }
+                
             } else {
 
             }
@@ -64,11 +71,14 @@ export const updateCandidate = (body, id) => {
 export const createCandidateByCandidate = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
-
-
-            const docRef = await addDoc(collection(getFirestore(), "candidate"), body);
-            resolve(docRef)
-            Toast({ type: 'success', message: 'candidate saved successfully', title: 'success' })
+          
+     
+            const isExists = await getDoc(query(collection(getFirestore(), "candidate"), where("phone", body)));
+            console.log('docSnap.exists()--------------->',isExists.exists())
+            if (isExists.exists()) {}
+            // const docRef = await addDoc(collection(getFirestore(), "candidate"), body);
+            // resolve(docRef)
+            // Toast({ type: 'success', message: 'candidate saved successfully', title: 'success' })
 
 
         } catch (e) {
