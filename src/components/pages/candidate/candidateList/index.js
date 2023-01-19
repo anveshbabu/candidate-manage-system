@@ -10,10 +10,10 @@ import { CandidateFrom } from '../candidateForm'
 import { getCandidate, deleteCandidate } from '../../../../api/candidate'
 import { getAllUser } from '../../../../api/user';
 import { ATTENDANCE, EXIST_LOCAL_STORAGE } from '../../../../services/constants'
-import { setStorage,candidateComplitPer ,letterAvatar} from '../../../../services/helperFunctions'
+import { setStorage, candidateComplitPer, letterAvatar } from '../../../../services/helperFunctions'
 import './candidateList.scss'
 
-export const CandidateList = ({ candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', isMultyUpdateIndex = [], handleToggleAttendance, handleToggleComplited }) => {
+export const CandidateList = ({ isCandidateShowList = false, candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', isMultyUpdateIndex = [], handleToggleAttendance, handleToggleComplited }) => {
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
     const [deleteObj, setDeleteObj] = useState({});
@@ -38,6 +38,10 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     {
         label: "Course",
         key: "course"
+    },
+    {
+        label: "Trainer",
+        key: "triner"
     },
     {
         label: "Branch",
@@ -168,19 +172,19 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
     return (
 
         <div className="row">
-            {!isFromBatch && candidateList.map((data, i) =>
+            {!isCandidateShowList && !isFromBatch && candidateList.map((data, i) =>
                 <div className='col-md-3' key={i}>
-                    <div  className="card candidate-card shadow border-0 my-4">
-                        <div  className="card-body">
+                    <div className="card candidate-card shadow border-0 my-4">
+                        <div className="card-body">
                             <div className='row'>
                                 <div className='col-md-12 col-sm-12 mb-3'>
-                                    <div  className="d-flex">
-                                        <div  className="flex-shrink-0">
-                                            <img className='user-img rounded-circle mb-2' src={letterAvatar(data.name,42)} alt="..." />
+                                    <div className="d-flex">
+                                        <div className="flex-shrink-0">
+                                            <img className='user-img rounded-circle mb-2' src={letterAvatar(data.name, 42)} alt="..." />
                                         </div>
-                                        <div  className="flex-grow-1 ms-2">
+                                        <div className="flex-grow-1 ms-2">
                                             {/* <div  className="badge bg-info float-end">started</div> */}
-                                            <div  className="float-end edit-delte-btn">
+                                            <div className="float-end edit-delte-btn">
                                                 <IconButton color="success" onClick={() => onGetEditData(data)}>
                                                     <CreateIcon />
                                                 </IconButton>
@@ -198,15 +202,15 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 </div>
 
                                 {data?.status == 'Processing' &&
-                                <div className='col-md-12 col-sm-12'>
-                                    <div  className="progress mb-3" title={`${candidateComplitPer(data?.courseStartDate,data.course)}%`}>
-                                        <div  className={`progress-bar  ${candidateComplitPer(data?.courseStartDate,data.course) > 100 && 'bg-danger'}`}  role="progressbar" aria-label="Basic example" style={{ width:`${candidateComplitPer(data?.courseStartDate,data.course)}%` }}>{candidateComplitPer(data?.courseStartDate,data.course)}%</div>
-                                    </div>
-                                </div>}
+                                    <div className='col-md-12 col-sm-12'>
+                                        <div className="progress mb-3" title={`${candidateComplitPer(data?.courseStartDate, data.course)}%`}>
+                                            <div className={`progress-bar  ${candidateComplitPer(data?.courseStartDate, data.course) > 100 && 'bg-danger'}`} role="progressbar" aria-label="Basic example" style={{ width: `${candidateComplitPer(data?.courseStartDate, data.course)}%` }}>{candidateComplitPer(data?.courseStartDate, data.course)}%</div>
+                                        </div>
+                                    </div>}
 
 
                                 <div className='col-md-12 col-sm-12'>
-                                    <table  className="table candidate-detail">
+                                    <table className="table candidate-detail">
 
                                         <tbody>
                                             <tr>
@@ -216,7 +220,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                             </tr>
                                             <tr>
                                                 <td><strong>Join Date</strong></td>
-                                                <td>{data?.courseStartDate?data?.courseStartDate:"node ell"}</td>
+                                                <td>{data?.courseStartDate ? data?.courseStartDate : "node ell"}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Trainer</strong></td>
@@ -232,7 +236,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                             </tr>
                                             <tr>
                                                 <td><strong>Billing Month</strong></td>
-                                                <td>{data.billMonth?data.billMonth:"-"}</td>
+                                                <td>{data.billMonth ? data.billMonth : "-"}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -243,7 +247,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                 </div>
             )}
 
-            {isFromBatch && <div className='col-md-12'>
+            {(isFromBatch || isCandidateShowList) && <div className='col-md-12'>
 
 
 
@@ -262,6 +266,7 @@ export const CandidateList = ({ candidateList = [], onGetEditData = '', candidat
                                 <td>{data.email}</td>
                                 <td>{data.phone}</td>
                                 <td>{data.course}</td>
+                                <td>{handleGetBranchInChargeName(data.trainer)}</td>
                                 <td>{data.instituteBranch}</td>
                                 {/* <td>{data.billMonth}</td> */}
                                 {/* <td>{handleGetBranchInChargeName(data.branchIncharge)}</td> */}

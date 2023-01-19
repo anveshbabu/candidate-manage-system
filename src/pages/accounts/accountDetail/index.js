@@ -4,8 +4,8 @@ import { CandidateList, OverAllCountCard } from '../../../components/pages'
 
 import { getBillingWiseCandidate } from '../../../api/accounts';
 import { getAllUser } from '../../../api/user';
-import { EXIST_LOCAL_STORAGE, CURRENT_USER, WEEK_LIST, INSTITUTE_BRANCH } from '../../../services/constants'
-import { getStorage, currencyFormat } from '../../../services/helperFunctions'
+import { EXIST_LOCAL_STORAGE, CURRENT_USER, USER_ROLE, INSTITUTE_BRANCH } from '../../../services/constants'
+import { getStorage, currencyFormat,userGetByRole } from '../../../services/helperFunctions'
 import moment from "moment";
 
 
@@ -16,9 +16,11 @@ export function AccountDetail() {
     const [candidateFilter, setCandidateFilter] = useState({
         searchText: "",
         classType: "",
-        InstituteBranch: ""
+        InstituteBranch: "",
+        trainer:""
 
-    })
+    });
+    const [userList, setUserList] = useState([]);
 
 
 
@@ -28,7 +30,8 @@ export function AccountDetail() {
         let accountDetail = JSON.parse(getStorage(EXIST_LOCAL_STORAGE.ACCOUNT_DETAIL));
         console.log('accountDetail------------>', accountDetail)
         setAcountDetail(accountDetail)
-        handleGetCandidate()
+        handleGetCandidate();
+        handleGetUserList()
 
     }, [])
 
@@ -75,14 +78,16 @@ export function AccountDetail() {
             [name]: value
         });
 
+
         let filterValue = value.toLowerCase();
         let result = filterValue.length > 0 ? candidateFilterList.filter(({ name, phone, joinedCourses }) => name?.toLowerCase().includes(filterValue)
             || phone?.toLowerCase().includes(filterValue)
-            || !!joinedCourses?.find(({ classType, settlementStatus, instituteBranch }) => classType?.toLowerCase().includes(filterValue)
-                || settlementStatus?.toLowerCase().includes(filterValue) || instituteBranch?.toLowerCase().includes(filterValue))
+            || !!joinedCourses?.find(({ classType, settlementStatus, instituteBranch,trainer }) => classType?.toLowerCase().includes(filterValue)
+                || settlementStatus?.toLowerCase().includes(filterValue) || instituteBranch?.toLowerCase().includes(filterValue) || trainer ===value )
 
 
         ) : candidateFilterList;
+        console.log('candidateFilterList--------------->',result)
         setCandidateList(result)
 
     };
@@ -95,6 +100,25 @@ export function AccountDetail() {
 
     }
 
+
+    const handleGetUserList = () => {
+        try {
+            getAllUser().then((data) => {
+
+
+                let userList = data.map(({ first_name, last_name, userId, user_type }) => ({ label: `${first_name} ${last_name}`, value: userId, user_type }))
+
+
+                setUserList(userList);
+            }).catch((error) => {
+                // setFormLoader(false);
+
+            });
+
+        } catch (e) {
+
+        }
+    }
 
     return (
         <div>
@@ -132,13 +156,22 @@ export function AccountDetail() {
                         onChange={handleCandidateFilter}
                     />
                 </div>
+                <div className="col-md-3 col-sm-12 mb-4">
+                    <Normalselect label='Trainer'
+                        value={candidateFilter.trainer}
+                        options={userGetByRole(userList,USER_ROLE.TRAINER) }
+                        name='trainer'
+                        size="small"
+                        onChange={handleCandidateFilter}
+                    />
+                </div>
             </div>
 
             <div className="row mt-3">
                 <div className="col-md-12">
 
 
-                    <CandidateList candidateList={candidateList} />
+                    <CandidateList candidateList={candidateList} isCandidateShowList={true} />
 
 
 

@@ -15,12 +15,12 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
             },
             {
                 name: "Completed",
-                data: [50,100,500,600]
+                data: [50, 100, 500, 600]
             }
         ]
     );
     const [selectedBranch, setBranch] = useState('Perumbakam')
-
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     // const series = [];
     const options = {
@@ -71,45 +71,59 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
 
 
     useEffect(() => {
+        // console.log('branchCandList------------->',JSON.stringify(branchCandList))
+
         getEarnMoney()
     }, [branchCandList])
 
-    const getEarnMoney = (value = 'Perumbakam') => {
-        setBranch(value)
-        let currentYear = moment().set({ 'month': 0 });
-        let lineDate = {
-            name: "Enrol",
-            data: []
-        };
-     let completedCount=   {
-            name: "Completed",
-            data: []
-        }
-        for (let i = 0; i < 12; i++) {
-            const startOfMonth = moment(currentYear).startOf('month');
-            const endOfMonth = moment(currentYear).endOf('month');
+    const getEarnMoney = (value = 'Perumbakam', sYear = new Date().getFullYear()) => {
+        try {
+            console.log('--------', sYear)
+            setBranch(value);
+            setSelectedYear(sYear);
+            let currentYear = moment().set({ 'month': 0, year: sYear });
 
-            let candidateList = branchCandList?.find(({ branch }) => branch == value);
-            let selectedMonthCandList = candidateList?.data?.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
-            let selectedMonthCompliList = candidateList?.data?.filter(({ billMonth }) => !!billMonth && moment(billMonth, 'YYYY-MM').isSame(currentYear,'M'));
-            lineDate.data.push(Array.isArray(selectedMonthCandList) ? selectedMonthCandList?.length : 0);
-            completedCount.data.push(Array.isArray(selectedMonthCompliList) ? selectedMonthCompliList?.length : 0);
+            let lineDate = {
+                name: "Enrol",
+                data: []
+            };
+            let completedCount = {
+                name: "Completed",
+                data: []
+            }
+            for (let i = 0; i < 12; i++) {
+                const startOfMonth = moment(currentYear).startOf('month');
+                const endOfMonth = moment(currentYear).endOf('month');
 
-            setseries([...[lineDate,completedCount]])
-            currentYear = moment().set({ 'month': i + 1 });
+                let candidateList = branchCandList?.find(({ branch }) => branch == value);
+                let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+                let selectedMonthCompliList = candidateList?.data?.filter(({ billMonth }) => !!billMonth && moment(billMonth, 'YYYY-MM').isSame(currentYear, 'M'));
+                // selectedMonthCandList
+                console.log('selectedMonthCandList------------->', JSON.stringify(selectedMonthCandList));
+                lineDate.data.push(Array.isArray(selectedMonthCandList) ? selectedMonthCandList?.length : 0);
+                completedCount.data.push(Array.isArray(selectedMonthCompliList) ? selectedMonthCompliList?.length : 0);
+
+                setseries([...[lineDate, completedCount]])
+                currentYear = moment().set({ 'month': i + 1, year: sYear });
+            }
+        } catch (e) {
+            console.log('err or ------------->', JSON.stringify(e));
         }
     }
 
 
-
+    const YearsList = [{ label: 2022, value: 2022 }, { label: 2023, value: 2023 }]
     return (
         <div className={`card dashboard-card `} >
             <div className="card-header">
 
 
                 <div className='row'>
-                    <div className='col-md-9'>
+                    <div className='col-md-6'>
                         <h5 className='card-title mb-0'>Month Wise Enroll</h5>
+                    </div>
+                    <div className='col-md-3'>
+                        <Normalselect label='Year' value={selectedYear} onChange={(e) => getEarnMoney(selectedBranch, e?.target?.value)} options={YearsList} size="small" />
                     </div>
                     <div className='col-md-3'>
                         <Normalselect label='Branch' value={selectedBranch} onChange={(e) => getEarnMoney(e?.target?.value)} options={branchCandList?.map(({ branch }) => ({ label: branch, value: branch }))} size="small" />

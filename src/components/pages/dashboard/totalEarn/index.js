@@ -15,7 +15,8 @@ export const TotalEarn = ({ branchCandList }) => {
             }
         ]
     );
-    const [selectedBranch,setBranch]=useState('Perumbakam')
+    const [selectedBranch, setBranch] = useState('Perumbakam')
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
 
     // const series = [];
@@ -70,9 +71,11 @@ export const TotalEarn = ({ branchCandList }) => {
         getEarnMoney()
     }, [branchCandList])
 
-    const getEarnMoney = (value='Perumbakam') => {
-        setBranch(value)
-        let currentYear = moment().set({ 'month': 0 });
+    const getEarnMoney = (value = 'Perumbakam', sYear = new Date().getFullYear()) => {
+        console.log('--------', sYear)
+        setBranch(value);
+        setSelectedYear(sYear);
+        let currentYear = moment().set({ 'month': 0, year: sYear });
         let lineDate = {
             name: "Earn",
             data: []
@@ -82,10 +85,12 @@ export const TotalEarn = ({ branchCandList }) => {
             const endOfMonth = moment(currentYear).endOf('month');
 
             let candidateList = branchCandList?.find(({ branch }) => branch == value);
-            let selectedMonthCandList = candidateList?.data?.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+            let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+
             let selectedMonthFeesTotal = 0
             if (Array.isArray(selectedMonthCandList)) {
-                selectedMonthCandList.map(({ fees }) => {
+                selectedMonthCandList.map(({ fees = 0, }) => {
+
                     selectedMonthFeesTotal = selectedMonthFeesTotal + Number(fees)
                 });
                 lineDate.data.push(selectedMonthFeesTotal);
@@ -93,11 +98,11 @@ export const TotalEarn = ({ branchCandList }) => {
             }
 
             setseries([...[lineDate]])
-            currentYear = moment().set({ 'month': i + 1 });
+            currentYear = moment().set({ 'month': i + 1, year: sYear });
         }
     }
 
-
+    const YearsList = [{ label: 2022, value: 2022 }, { label: 2023, value: 2023 }]
 
     return (
         <div className={`card dashboard-card `} >
@@ -105,11 +110,14 @@ export const TotalEarn = ({ branchCandList }) => {
 
 
                 <div className='row'>
-                    <div className='col-md-9'>
+                    <div className='col-md-6'>
                         <h5 className='card-title mb-0'>Month Wise Revenue</h5>
                     </div>
                     <div className='col-md-3'>
-                        <Normalselect label='Branch' value={selectedBranch} onChange={(e)=>getEarnMoney(e?.target?.value)} options={branchCandList?.map(({branch})=>({label:branch,value:branch}))}   size="small"/>
+                        <Normalselect label='Year' value={selectedYear} onChange={(e) => getEarnMoney(selectedBranch, e?.target?.value)} options={YearsList} size="small" />
+                    </div>
+                    <div className='col-md-3'>
+                        <Normalselect label='Branch' value={selectedBranch} onChange={(e) => getEarnMoney(e?.target?.value)} options={branchCandList?.map(({ branch }) => ({ label: branch, value: branch }))} size="small" />
                     </div>
 
                 </div>

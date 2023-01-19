@@ -4,9 +4,10 @@ import { BatchCard } from '../../../components/pages'
 
 import { getBatchListWithCandidate } from '../../../api/masters';
 import { getAllUser } from '../../../api/user';
-import { ALL_BG_PLACEHOLDERS, CURRENT_USER, WEEK_LIST } from '../../../services/constants'
+import { ALL_BG_PLACEHOLDERS, CURRENT_USER, WEEK_LIST,USER_ROLE } from '../../../services/constants'
 
 
+import { isEmpty,userGetByRole } from '../../../services/helperFunctions'
 export function Batche() {
     const [selectedTab, setSelectedTab] = useState('Active Batch (0)');
     const [usersList, setUsersList] = useState([]);
@@ -46,7 +47,7 @@ export function Batche() {
             getAllUser().then((data) => {
                 setIsFormLoader(false);
                 if (data?.length > 0) {
-                    let users = data.map(({ first_name, last_name, id }) => ({ label: `${first_name} ${last_name}`, value: id }))
+                    let users = data.map(({ first_name, last_name, id,user_type }) => ({ label: `${first_name} ${last_name}`, value: id ,user_type}))
                     setUsersList(users);
                 }
             })
@@ -107,7 +108,7 @@ export function Batche() {
                     <Normalselect size="small" label='Class Day' value={filterObj?.classDay} name='classDay' options={WEEK_LIST} onChange={handleUserChange} />
                 </div>
                 {isAdmin && <div className="col-md-3">
-                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} name='userId' value={filterObj?.userId} options={usersList} onChange={handleUserChange} />
+                    <Normalselect size="small" label='users' disabled={usersList?.length === 0} name='userId' value={filterObj?.userId}  options={userGetByRole(usersList,USER_ROLE.TRAINER) } onChange={handleUserChange} />
                 </div>}
                 <div className="col-md-12">
                     <Normaltabs data={tabData} onChange={handleTabChange} />

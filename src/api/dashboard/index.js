@@ -18,7 +18,7 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
                 // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
 
-                let summaryCounts = {}, data = [], extendedDayCandList = [],yetToStartList=[];
+                let summaryCounts = {}, data = [], extendedDayCandList = [], yetToStartList = [];
                 let weekCount = 0, monthSummary = 0, lastThreeMonthSUmmary = 0;
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
@@ -27,18 +27,21 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                     const startOfMonth = moment().startOf('month');
                     const endOfMonth = moment().endOf('month');
                     const lastThreeStartOfMonth = moment().subtract(2, 'months').startOf('month');
-                    let isWeekSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd));
-                    let isMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
-                    let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
+                    // let isWeekSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd));
+                    // let isMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+                    // let lastThreeMonthSummary = doc.data().joinedCourses.filter(({ courseStartDate }) => moment(courseStartDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth));
+                    let isWeekSummary = doc.data().joinDate ? moment(doc.data().joinDate, 'YYYY-MM-DD').isBetween(weekStart, weekEnd) : "";
+                    let isMonthSummary = doc.data().joinDate ? moment(doc.data().joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth) : "";
+                    let lastThreeMonthSummary = doc.data().joinDate ? moment(doc.data().joinDate, 'YYYY-MM-DD').isBetween(lastThreeStartOfMonth, endOfMonth) : "";
 
-                    if (!isEmpty(isWeekSummary)) {
+                    if (isWeekSummary) {
                         weekCount++
                     };
-                    if (!isEmpty(isMonthSummary)) {
-                        console.log('isMonthSummary------------>',isMonthSummary)
+                    if (isMonthSummary) {
+                        console.log('isMonthSummary------------>', isMonthSummary)
                         monthSummary++
                     };
-                    if (!isEmpty(lastThreeMonthSummary)) {
+                    if (lastThreeMonthSummary) {
                         lastThreeMonthSUmmary++
                     }
                     data.push({ ...doc.data(), id: doc.id, });
@@ -70,8 +73,9 @@ export const getSummaryCandidate = (body, isBatch = false) => {
 
                     };
 
-                    let yetToStart = doc.data().joinedCourses.find(({ status }) => ['Yet to start', 'Pending', 'Hold', 'Discontinued',].includes(status));
-                    if(!!yetToStart){
+                    // let yetToStart = doc.data().joinedCourses.find(({ status }) => ['Yet to start', 'Pending', 'Hold', 'Discontinued',].includes(status));
+                    let yetToStart = doc.data().joinedCourses.find(({ status }) => ['Yet to start'].includes(status));
+                    if (!!yetToStart) {
                         yetToStartList.push({
                             ...doc.data(),
                             id: doc.id,
@@ -87,14 +91,12 @@ export const getSummaryCandidate = (body, isBatch = false) => {
                 });
 
                 let branchList = INSTITUTE_BRANCH.map(({ value }) => {
-
                     return {
-                        data: data.map(({ joinedCourses }) => joinedCourses?.find(({ instituteBranch }) => instituteBranch === value)).filter(Boolean),
+                        data: data.map((canDat) => ({ ...canDat, ...canDat?.joinedCourses?.find(({ instituteBranch }) => instituteBranch === value) })).filter(Boolean),
                         branch: value
                     }
                 });
-console.log('yetToStartList------------>',yetToStartList)
-                resolve({ summaryCounts,yetToStartList, branchCandidateList: branchList, extendedDayCandList ,overAllCandidateList:data})
+                resolve({ summaryCounts, yetToStartList, branchCandidateList: branchList, extendedDayCandList, overAllCandidateList: data })
             } else {
 
             }

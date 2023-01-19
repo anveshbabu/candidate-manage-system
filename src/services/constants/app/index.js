@@ -52,6 +52,8 @@ export const WEEK_LIST = [
 
 export const COURSE_LIST = [
     { value: 'Full stack', label: 'Full stack', courseDuration: 75 },
+    { value: 'Full stack (Java)', label: 'Full stack (Java)', courseDuration: 75 },
+    { value: 'Full stack (Python)', label: 'Full stack (Python)', courseDuration: 75 },
     { value: 'Front end', label: 'Front end', courseDuration: 45 },
     { value: 'React JS', label: 'React JS', courseDuration: 30 },
     { value: 'Java Script', label: 'Java Script', courseDuration: 20 },
