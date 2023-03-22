@@ -15,7 +15,7 @@ import { updateAtendance } from '../../api'
 
 export const Candidate = () => {
   const [isCandidateModal, setIsCandidateModal] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Processing');
+  const [selectedTab, setSelectedTab] = useState('All');
   const [candidateObj, setCandidateObj] = useState({ ...candidateFormObj });
   const [candidateList, setCandidateList] = useState([])
   const [candidateFilterList, setCandidateFilterList] = useState([]);
@@ -31,7 +31,7 @@ export const Candidate = () => {
 
   const params = useParams();
 
-  const tabData = ['Processing','Yet to start', 'Completed', 'Pending', 'Hold', 'Discontinued',]
+  const tabData = ['All','Processing','Yet to start', 'Completed', 'Pending', 'Hold', 'Discontinued',]
 
 
   useEffect(() => {

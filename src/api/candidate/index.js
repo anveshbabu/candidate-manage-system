@@ -94,13 +94,19 @@ export const getCandidate = (body, isBatch = false) => {
         try {
             if (isAuthenticated()) {
                 // startAfter(30),limit(30),
-                const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), orderBy("name"), where(!isBatch ? "status" : "classTimeIDs", "array-contains", body)));
-                // const querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
+                var querySnapshot;
+                if (body === 'All') {
+                    querySnapshot = await getDocs(query(collection(getFirestore(), "candidate")));
+                } else {
+                    querySnapshot = await getDocs(query(collection(getFirestore(), "candidate"), orderBy("name"), where(!isBatch ? "status" : "classTimeIDs", "array-contains", body)));
+                }
+
+                // 
 
                 let data = []
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
-                    let avilStatus = doc.data().joinedCourses.find(({ status }) => status == body);
+                    let avilStatus = body === 'All'?doc.data().joinedCourses[0]:doc.data().joinedCourses.find(({ status }) => status == body);
                     // console.log('data------>',avilStatus)
                     data.push({
                         ...doc.data(), id: doc.id, course: avilStatus?.course,
