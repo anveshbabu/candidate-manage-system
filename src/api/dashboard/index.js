@@ -92,7 +92,16 @@ export const getSummaryCandidate = (body, isBatch = false) => {
 
                 let branchList = INSTITUTE_BRANCH.map(({ value }) => {
                     return {
-                        data: data.map((canDat) => ({ ...canDat, ...canDat?.joinedCourses?.find(({ instituteBranch }) => instituteBranch === value) })).filter(Boolean),
+                        data: data.map((canDat) => {
+                            let data = canDat?.joinedCourses?.find(({ instituteBranch }) => instituteBranch === value);
+                            if (data) {
+                                return { ...canDat, ...data }
+                            } else {
+                                return null
+                            }
+
+
+                        }).filter(Boolean),
                         branch: value
                     }
                 });

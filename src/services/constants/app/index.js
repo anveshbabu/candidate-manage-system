@@ -62,6 +62,7 @@ export const COURSE_LIST = [
     { value: 'Android', label: 'Android' },
     { value: 'Ios', label: 'Ios' },
     { value: 'React Native', label: 'React Native', courseDuration: 30 },
+    { value: 'python & django', label: 'python & django', courseDuration: 45 },
 ]
 
 export const CLASS_TYPE = [

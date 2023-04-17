@@ -94,16 +94,16 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
             for (let i = 0; i < 12; i++) {
                 const startOfMonth = moment(currentYear).startOf('month');
                 const endOfMonth = moment(currentYear).endOf('month');
-
-                let candidateList = branchCandList?.find(({ branch }) => branch == value);
-                let selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
-                let selectedMonthCompliList = candidateList?.data?.filter(({ billMonth }) => !!billMonth && moment(billMonth, 'YYYY-MM').isSame(currentYear, 'M'));
+                let selectedMonthCandList=[]; let selectedMonthCompliList=[];
+                let candidateList = branchCandList?.find(({ branch }) => branch === value);
+                selectedMonthCandList = candidateList?.data?.filter(({ joinDate }) => moment(joinDate, 'YYYY-MM-DD').isBetween(startOfMonth, endOfMonth));
+                selectedMonthCompliList = candidateList?.data?.filter(({ billMonth }) => !!billMonth && moment(billMonth, 'YYYY-MM').isSame(currentYear, 'M'));
                 // selectedMonthCandList
-                console.log('selectedMonthCandList------------->', JSON.stringify(selectedMonthCandList));
+                console.log('selectedMonthCandList------------->',value, JSON.stringify(candidateList));
                 lineDate.data.push(Array.isArray(selectedMonthCandList) ? selectedMonthCandList?.length : 0);
                 completedCount.data.push(Array.isArray(selectedMonthCompliList) ? selectedMonthCompliList?.length : 0);
 
-                setseries([...[lineDate, completedCount]])
+                setseries([lineDate, completedCount])
                 currentYear = moment().set({ 'month': i + 1, year: sYear });
             }
         } catch (e) {
@@ -126,7 +126,7 @@ export const TotalEnroll = ({ branchCandList, isCandidateCount = false }) => {
                         <Normalselect label='Year' value={selectedYear} onChange={(e) => getEarnMoney(selectedBranch, e?.target?.value)} options={YearsList} size="small" />
                     </div>
                     <div className='col-md-3'>
-                        <Normalselect label='Branch' value={selectedBranch} onChange={(e) => getEarnMoney(e?.target?.value)} options={branchCandList?.map(({ branch }) => ({ label: branch, value: branch }))} size="small" />
+                        <Normalselect label='Branch' value={selectedBranch} onChange={(e) => getEarnMoney(e?.target?.value,selectedYear)} options={branchCandList?.map(({ branch }) => ({ label: branch, value: branch }))} size="small" />
                     </div>
 
                 </div>
