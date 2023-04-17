@@ -41,13 +41,13 @@ export const COURSE_TRAINER = [
 ];
 
 export const WEEK_LIST = [
-    { value: 0, label: 'Sun'},
-    { value: 1, label: 'Mon'},
-    { value: 2, label: 'Tue'},
-    { value: 3, label: 'Wed'},
-    { value: 4, label: 'Thu'},
-    { value: 5, label: 'Fri'},
-    { value: 6, label: 'Sat'},
+    { value: 0, label: 'Sun' },
+    { value: 1, label: 'Mon' },
+    { value: 2, label: 'Tue' },
+    { value: 3, label: 'Wed' },
+    { value: 4, label: 'Thu' },
+    { value: 5, label: 'Fri' },
+    { value: 6, label: 'Sat' },
 ]
 
 export const COURSE_LIST = [
@@ -72,12 +72,12 @@ export const CLASS_TYPE = [
 export const YES_NO = [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' },
-]                                                                                                                                                                                                                                                                                                                                                                                      
+]
 
 export const INSTITUTE_BRANCH = [
     { value: 'Perumbakam', label: 'Perumbakam' },
     { value: 'Mugelavakam', label: 'Mugelavakam' },
-    // { value: 'Tambaram', label: 'Tambaram' },
+    { value: 'Vadapalani', label: 'Vadapalani' },
     // { value: 'Tambaram', label: 'Tambaram' },
     { value: 'Adyar', label: 'Adyar' },
     { value: 'Thoraipakkam', label: 'Thoraipakkam' },
@@ -104,10 +104,10 @@ export const USER_TYPE = [
     { value: 3, label: 'Branch Incharge' },
 ];
 
-export const USER_ROLE={
-    TRAINER:[1,2],
-    ADMIN:[1],
-    BRANCH_INCHARGE:[3]
+export const USER_ROLE = {
+    TRAINER: [1, 2],
+    ADMIN: [1],
+    BRANCH_INCHARGE: [3]
 }
 
 export const ATTENDANCE = {
