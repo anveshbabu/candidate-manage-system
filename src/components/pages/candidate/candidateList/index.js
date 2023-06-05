@@ -268,7 +268,7 @@ export const CandidateList = ({ isCandidateShowList = false, candidateList = [],
                                 <td>{data.course}</td>
                                 <td>{handleGetBranchInChargeName(data.trainer)}</td>
                                 <td>{data.instituteBranch}</td>
-                                {/* <td>{data.billMonth}</td> */}
+                             <td>{data.fees}</td> 
                                 {/* <td>{handleGetBranchInChargeName(data.branchIncharge)}</td> */}
                                 <td>{data.status}</td>
 

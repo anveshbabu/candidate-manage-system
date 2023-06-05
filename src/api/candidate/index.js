@@ -107,13 +107,14 @@ export const getCandidate = (body, isBatch = false) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     let avilStatus = body === 'All'?doc.data().joinedCourses[0]:doc.data().joinedCourses.find(({ status }) => status == body);
-                    // console.log('data------>',avilStatus)
+                     console.log('data------>',avilStatus)
                     data.push({
                         ...doc.data(), id: doc.id, course: avilStatus?.course,
                         instituteBranch: avilStatus?.instituteBranch,
                         billMonth: avilStatus?.billMonth,
                         courseStartDate: avilStatus?.courseStartDate, branchIncharge: avilStatus?.branchIncharge,
-                        trainer:avilStatus?.trainer
+                        trainer:avilStatus?.trainer,
+                        fees:avilStatus?.fees
                     });
                 });
            

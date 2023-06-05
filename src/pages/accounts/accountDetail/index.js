@@ -94,7 +94,10 @@ export function AccountDetail() {
 
     const handleExpectedAmount=()=>{
         if(candidateList?.length>0){
-          let overAllMaount=  candidateList?.reduce((sum, { fees}) => sum + (Number(fees)), 0);
+            let overAllMaount= 0;
+           candidateList.forEach(({joinedCourses})=>{
+            overAllMaount = overAllMaount+joinedCourses?.reduce((sum, { fees}) => sum + (Number(fees)), 0)
+            })
           return ((overAllMaount/100) *41)
         }
 

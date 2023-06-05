@@ -103,7 +103,8 @@ export const getBillingWiseCandidate = (body) => {
                         instituteBranch: avilStatus?.instituteBranch,
                         billMonth: avilStatus?.billMonth,
                         courseStartDate: avilStatus?.courseStartDate, branchIncharge: avilStatus?.branchIncharge,
-                        trainer:avilStatus?.trainer
+                        trainer:avilStatus?.trainer,
+                        fees:avilStatus?.fees
                     });
                 });
                 resolve(data)
