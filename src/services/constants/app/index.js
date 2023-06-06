@@ -80,6 +80,7 @@ export const INSTITUTE_BRANCH = [
     { value: 'Mugelavakam', label: 'Mugelavakam' },
     { value: 'Vadapalani', label: 'Vadapalani' },
     { value: 'Avadi', label: 'Avadi' },
+    { value: 'tiruchirappalli', label: 'tiruchi' },
     { value: 'Adyar', label: 'Adyar' },
     { value: 'Thoraipakkam', label: 'Thoraipakkam' },
     { value: 'Tambaram', label: 'Tambaram' },
