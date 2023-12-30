@@ -12,7 +12,7 @@ import { getAllUser } from '../../../../api/user';
 import { ATTENDANCE, EXIST_LOCAL_STORAGE } from '../../../../services/constants'
 import { setStorage, candidateComplitPer, letterAvatar } from '../../../../services/helperFunctions'
 import './candidateList.scss'
-
+import { JsonToExcel } from "react-json-to-excel";
 export const CandidateList = ({ isCandidateShowList = false, candidateList = [], onGetEditData = '', candidateDelete, isFromBatch = '', isMultyUpdateIndex = [], handleToggleAttendance, handleToggleComplited }) => {
 
     const [isDeleteAlert, setIsDeleteAlert] = useState(false)
@@ -201,12 +201,12 @@ export const CandidateList = ({ isCandidateShowList = false, candidateList = [],
 
                                 </div>
 
-                                {data?.status == 'Processing' &&
+                                {/* {data?.status == 'Processing' &&
                                     <div className='col-md-12 col-sm-12'>
                                         <div className="progress mb-3" title={`${candidateComplitPer(data?.courseStartDate, data.course)}%`}>
                                             <div className={`progress-bar  ${candidateComplitPer(data?.courseStartDate, data.course) > 100 && 'bg-danger'}`} role="progressbar" aria-label="Basic example" style={{ width: `${candidateComplitPer(data?.courseStartDate, data.course)}%` }}>{candidateComplitPer(data?.courseStartDate, data.course)}%</div>
                                         </div>
-                                    </div>}
+                                    </div>} */}
 
 
                                 <div className='col-md-12 col-sm-12'>
@@ -246,7 +246,12 @@ export const CandidateList = ({ isCandidateShowList = false, candidateList = [],
                     </div>
                 </div>
             )}
-
+{/* <JsonToExcel
+        title="Download as Excel"
+        data={candidateList}
+        fileName="sample-file"
+        btnClassName="custom-classname"
+      /> */}
             {(isFromBatch || isCandidateShowList) && <div className='col-md-12'>
 
 

@@ -78,12 +78,12 @@ export class Dashboard extends React.Component {
         </div>
 
         <div className="row mb-4">
-          <div className="col-md-6 col-sm-12">
+          <div className="col-md-12 col-sm-12">
             <InstituteWiseEnrollCountCard branchCandList={branchCandList} />
           </div>
-          <div className="col-md-6 col-sm-12">
+          {/* <div className="col-md-6 col-sm-12">
             <ExtendedDaysCandidate extendedDayCandList={extendedDayCandList} componentType='extendedDayCandList' usersList={usersList} />
-          </div>
+          </div> */}
         </div>
 
         <div className="row mb-4">

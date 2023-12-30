@@ -40,10 +40,16 @@ export function AccountForm({ accountFormToggle, editFormObj = {} }) {
         try {
             getAllUser().then((data) => {
                 let salaryList = isEdit?[...editFormObj?.salaryList]:[...accountFormObj?.salaryList]
-                data?.map(({ userId }, i) => {
+               
+                data?.map(({ userId ,user_type}, i) => {
+                    salaryList=   salaryList.map((slData)=>{
+                        if(slData?.userId === userId){
+                            return {...slData ,user_type} 
+                        }else{
+                            return {...slData} 
+                        }
+                    })
                     let isAvilable = salaryList?.find((data) => data?.userId === userId);
-
-console.log('isAvilable------------>',isAvilable,accountFormObj)
                     if (!isAvilable) {
                         let { first_name, last_name, userId } = data[i];
                         let per = {
@@ -52,14 +58,18 @@ console.log('isAvilable------------>',isAvilable,accountFormObj)
                             userId,
                             salary: 0,
                             salaryAdv: 0,
+                            user_type
                         };
                         salaryList.push({ ...per })
-                        setAccountFormObj({
-                            ...!isEmpty(editFormObj) ? editFormObj : accountFormObj,
-                            salaryList
-                        })
+                       
+
+                    }else{
 
                     }
+                    setAccountFormObj({
+                        ...!isEmpty(editFormObj) ? editFormObj : accountFormObj,
+                        salaryList
+                    })
 
 
                 })
@@ -185,7 +195,7 @@ console.log('isAvilable------------>',isAvilable,accountFormObj)
                     <NormalInput label='Loss' value={handleGetProfitLossCall('loss')} disabled type='number' />
                 </div>
             </div>
-            {accountFormObj?.salaryList?.map(({ first_name, last_name, userId }, i) =>
+            {accountFormObj?.salaryList?.map(({ first_name, last_name, userId,user_type }, i) => (user_type === 1 || user_type === 2) &&
                 <div className="row mt-4" key={i}>
                     <div className="col-md-12">
                         <div class="card">

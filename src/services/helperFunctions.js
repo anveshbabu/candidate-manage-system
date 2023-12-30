@@ -168,6 +168,7 @@ export const currencyFormat = (number, symbol = '₹') => {
 export const userGetByRole = (userList, role) => {
 
   return userList.map((data) => {
+  
     if (role.includes(data?.user_type)) {
       return data;
     }
