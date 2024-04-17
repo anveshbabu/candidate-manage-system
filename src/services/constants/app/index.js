@@ -90,6 +90,7 @@ export const INSTITUTE_BRANCH = [
     { value: 'Perumbakkam', label: 'Perumbakkam' },
     { value: 'Anna Nagar', label: 'Anna Nagar' },
     { value: 'West Tambaram', label: 'West Tambaramr' },
+    { value: 'T.Nager', label: 'T.Nager' },
 ];
 
 
