@@ -15,7 +15,7 @@ export const createUser = (body) => {
                 console.log('password----------------->', jwtDecodeDetails())
                 let { user_id, userObj: { first_name, last_name } } = jwtDecodeDetails();
                 body['createdBy']['name'] = first_name + " " + last_name;
-                body['createdBy']['userId'] = user_id;
+                body['createdBy']['userId'] = userId;
 
                 const docRef = await setDoc(doc(getFirestore(), DB_NAME?.USER, body.userId), body);
                 Toast({ type: 'success', message: 'user created successfully', title: 'Error' })
